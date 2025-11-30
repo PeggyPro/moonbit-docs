@@ -174,9 +174,9 @@ test "derive hash struct" {
   let hs = @hashset.new()
   hs.add(DeriveHash::{ x: 123, y: None })
   hs.add(DeriveHash::{ x: 123, y: None })
-  assert_eq(hs.size(), 1)
+  assert_eq(hs.length(), 1)
   hs.add(DeriveHash::{ x: 123, y: Some("456") })
-  assert_eq(hs.size(), 2)
+  assert_eq(hs.length(), 2)
 }
 ```
 
@@ -241,12 +241,7 @@ struct JsonTest3 {
 enum JsonTest4 {
   A(x~ : Int)
   B(x~ : Int, y~ : Int)
-} derive (
-  FromJson(style="flat"),
-  ToJson(style="flat"),
-  Eq,
-  Show,
-)
+} derive(FromJson, ToJson, Eq, Show)
 
 test "json args" {
   let input = JsonTest3::{ x: 123, y: 456 }
@@ -254,7 +249,7 @@ test "json args" {
   assert_eq(input.to_json(), expected)
   assert_eq(@json.from_json(expected), input)
   let input = JsonTest4::A(x=123)
-  let expected : Json = [ "A", { "x": 123 } ]
+  let expected : Json = ["A", { "x": 123 }]
   assert_eq(input.to_json(), expected)
   assert_eq(@json.from_json(expected), input)
 }
