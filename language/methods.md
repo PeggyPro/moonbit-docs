@@ -277,7 +277,7 @@ pub impl MyShow for MyType with to_string(self) {
   ...
 }
 
-struct MyContainer[T] {}
+struct MyContainer[_] {}
 
 // trait implementation with type parameters.
 // `[X : Show]` means the type parameter `X` must implement `Show`,
@@ -373,7 +373,7 @@ fn[X : Eq] contains(xs : Array[X], elem : X) -> Bool {
     if x == elem {
       return true
     }
-  } else {
+  } nobreak {
     false
   }
 }
@@ -434,19 +434,6 @@ fn f() -> Unit {
   let _ = x.to_string()
 
 }
-```
-
-### Trait alias
-
-MoonBit allows using traits with alternative names via trait alias.
-
-#### WARNING
-This feature may be removed in the future.
-
-Trait alias can be declared as follows:
-
-```moonbit
-traitalias @builtin.Compare as CanCompare
 ```
 
 ## Trait objects
@@ -527,7 +514,7 @@ pub impl[A : CanLog, B : CanLog] CanLog for (A, B) with log(self, logger) {
   ..write_object(a)
   ..write_string(", ")
   ..write_object(b)
-  ..write_string(")")
+  .write_string(")")
 }
 ```
 

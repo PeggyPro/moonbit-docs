@@ -29,7 +29,7 @@ For Wasm backends, all functions interacting with outside world relies on the ho
 
 ### Wasm GC
 
-By Wasm GC we refer to WebAssembly with Garbage Colleciton proposal, meaning that data structures will be represented with reference types such as `struct` `array` and the linear memory would not be used by default. It also supports other post-MVP proposals including:
+By Wasm GC we refer to WebAssembly with Garbage Collection proposal, meaning that data structures will be represented with reference types such as `struct` `array` and the linear memory would not be used by default. It also supports other post-MVP proposals including:
 
 - multi-value
 - JS string builtins
@@ -53,7 +53,7 @@ LLVM backend will generate an object file. The backend is experimental and does 
 
 ## Declare Foreign Type
 
-You can declare a foreign type using the `#extern` attribute like this:
+You can declare a foreign type using the `#external` attribute like this:
 
 ```moonbit
 #external
@@ -78,6 +78,9 @@ To interact with the outside world, you can declare foreign functions.
 
 #### NOTE
 MoonBit does not support polymorphic foreign functions.
+
+#### IMPORTANT
+When declaring functions, you need to make sure that the signature corresponds to the actual foreign function. **When a function returns nothing (e.g. `void`), omit the return type annotation in the function declaration.**
 
 ### Wasm & Wasm GC
 
@@ -156,8 +159,6 @@ You would probably like to `#include "moonbit.h"`, which contains type definitio
 
 ### Types
 
-When declaring functions, you need to make sure that the signature corresponds to the actual foreign function.
-When a function returns nothing (e.g. `void`), ignore the return type annotation in the function declaration.
 The table below shows the underlying representation of some MoonBit types:
 
 ### Wasm
@@ -239,7 +240,7 @@ Sometimes, we want to pass a MoonBit function to the foreign interface as callba
 
 > A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives a function access to its outer scope. In JavaScript, closures are created every time a function is created, at function creation time.
 
-In some cases, we would like to pass the callback function which doesn't capture any free variables. For this purpose, MoonBit provides a special type `FuncRef[T]`, which represents [closed](https://en.wikipedia.org/wiki/Lambda_calculus#Free_and_bound_variables) function of type `T`. Values of type `FuncRef[T]` must be closed function of type `T`, otherwise [a type error](error_codes/E4151.md) would occur.
+In some cases, we would like to pass the callback function which doesn't capture any local free variables. For this purpose, MoonBit provides a special type `FuncRef[T]`, which represents closed function of type `T`. Values of type `FuncRef[T]` must be closed function of type `T`, otherwise [a type error](error_codes/E4151.md) would occur.
 
 In other cases, a MoonBit function parameter would be represented as a function and an object containing the surrounding state.
 
@@ -285,6 +286,8 @@ fn register_callback(callback : () -> Unit) -> Unit {
   )
 }
 ```
+
+Values of type `FuncRef[_]` can be called directly from MoonBit too. This is useful for dynamic loading functions via symbol name or implementing JIT in native backend.
 
 ### Customize integer value of constant enum
 

@@ -123,7 +123,7 @@ Additionally, some predefined coreF programs are required.
 
 ```moonbit
 let prelude_defs : List[ScDef[String]] = {
-  let args : (FixedArray[String]) -> List[String] = @list.from_array(_)
+  let args : (FixedArray[String]) -> List[String] = x => @list.from_array(x)
   let id = ScDef::new("I", args(["x"]), Var("x")) // id x = x
   let k = ScDef::new("K", args(["x", "y"]), Var("x")) // K x y = x
   let k1 = ScDef::new("K1", args(["x", "y"]), Var("y")) // K1 x y = y
@@ -450,7 +450,7 @@ The `PushGlobal` instruction retrieves the address of the specified super combin
 ```moonbit
 fn GState::push_global(self : GState, name : String) -> Unit {
   guard self.globals.get(name) is Some(addr) else {
-    abort("push_global(): cant find supercombinator \{name}")
+    abort("push_global(): can't find supercombinator \{name}")
   }
   self.put_stack(addr)
 }
