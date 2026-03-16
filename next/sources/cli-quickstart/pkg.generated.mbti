@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbit-community/cli-quickstart-doc"
+
+import {
+  "moonbitlang/core/argparse",
+}
+
+// Values
+pub fn command() -> @argparse.Command
+
+pub fn parse_config(Array[String]) -> Config raise
+
+pub async fn run(Config) -> Unit
+
+// Errors
+
+// Types and methods
+pub struct Config {
+  url : String
+  output : String?
+}
+pub impl Eq for Config
+pub impl Show for Config
+
+// Type aliases
+
+// Traits
+
