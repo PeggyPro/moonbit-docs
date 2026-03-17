@@ -15,9 +15,9 @@ A package is identified by the relative path to the source root defined by the [
 
 When using things from another package, the dependency between modules should first be declared inside the `moon.mod.json` by the [`deps`](/toolchain/moon/module.md#dependency-management) field.
 The dependency between packages should then be declared in the package file (`moon.pkg.json` or `moon.pkg`) by the [`import`](/toolchain/moon/package.md#import) field.
-This also applies to core packages: if you use `@json`, `@test`, or other core
-aliases, add the corresponding `moonbitlang/core/...` package to `import` to
-avoid `core_package_not_imported` warnings.
+Most core packages follow the same rule: if you use `@json`, `@test`, or other
+ordinary core aliases, add the corresponding `moonbitlang/core/...` package to
+`import` to avoid `core_package_not_imported` warnings.
 
 (default-alias)=
 The **default alias** of a package is the last part of the identifier split by `/`.
@@ -39,6 +39,27 @@ In `moon.pkg`, a custom alias is written as:
 :language: moonbit
 :caption: pkgB/top.mbt
 ```
+
+### Prelude and builtin names
+
+If `@pkg.` is omitted, MoonBit resolves an unqualified name in the current
+package and the prelude. A local definition with the same name therefore
+shadows the prelude definition.
+
+```{literalinclude} /sources/language/src/packages/pkgPrelude/top.mbt
+:language: moonbit
+:start-after: start prelude and builtin names 1
+:end-before: end prelude and builtin names 1
+```
+
+`prelude` is a special package: it is available by default, and names exposed
+through it participate in normal unqualified name resolution without an
+explicit `import`.
+
+Compiler builtins are a separate category. Types such as `Int` are built into
+the language itself, not imported from any package, so there is no
+`@builtin.Int`. The same distinction applies to other compiler-known names such
+as `String`, `Bool`, and `Unit`.
 
 ### Internal Packages
 

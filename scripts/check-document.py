@@ -24,6 +24,19 @@ def main():
 
         # Run moon commands (no moon install here; assume deps are pre-resolved)
         try:
+            if dir_path.name == "single-file":
+                subprocess.run(
+                    ["moon", "check", "README.mbt.md"],
+                    cwd=dir_path,
+                    check=True,
+                )
+                subprocess.run(
+                    ["moon", "test", "README.mbt.md"],
+                    cwd=dir_path,
+                    check=True,
+                )
+                print(f"OK: {dir_path.name}")
+                continue
             subprocess.run(
                 ["moon", "check", "--deny-warn", "--target", targets],
                 cwd=dir_path,
