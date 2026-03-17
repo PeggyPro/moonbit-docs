@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the MoonBit package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-17 16:57+0800\n"
+"POT-Creation-Date: 2026-03-17 17:13+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -716,11 +715,10 @@ msgid "Build variables"
 msgstr "构建变量"
 
 #: ../../toolchain/moon/module.md:408
-#, fuzzy
 msgid ""
 "You may use the variables emitted in the `vars` fields in the native "
 "linking arguments in `moon.pkg` as `${build.<var_name>}`."
-msgstr "您可以在 `moon.pkg.json` 的本地链接参数中使用 `vars` 字段中发出的变量，格式为 `${build.<var_name>}`。"
+msgstr "您可以在 `moon.pkg` 的本地链接参数中使用 `vars` 字段中发出的变量，格式为 `${build.<var_name>}`。"
 
 #: ../../toolchain/moon/module.md:411
 msgid "For example, if your build script outputs:"
@@ -731,9 +729,12 @@ msgid "{ \"vars\": { \"CC\": \"gcc\" } }\n"
 msgstr ""
 
 #: ../../toolchain/moon/module.md:417
-#, fuzzy
 msgid "and your `moon.pkg` is structured like:"
-msgstr "并且您的 `moon.pkg.json` 结构如下："
+msgstr "并且您的 `moon.pkg` 结构如下："
+
+#: ../../toolchain/moon/module.md:419
+msgid "moon.pkg"
+msgstr "moon.pkg"
 
 #: ../../toolchain/moon/module.md:419
 msgid ""
@@ -746,11 +747,11 @@ msgid ""
 ")\n"
 msgstr ""
 
-#: ../../toolchain/moon/module.md:429
+#: ../../toolchain/moon/module.md:424
 msgid "It will be transformed into"
 msgstr "它会被转换为"
 
-#: ../../toolchain/moon/module.md:431
+#: ../../toolchain/moon/module.md:426
 msgid ""
 "{\n"
 "  \"link\": {\n"
@@ -770,4 +771,3 @@ msgstr ""
 #~ "  }\n"
 #~ "}\n"
 #~ msgstr ""
-

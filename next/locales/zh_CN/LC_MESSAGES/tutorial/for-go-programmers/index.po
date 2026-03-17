@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the MoonBit package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-17 16:57+0800\n"
+"POT-Creation-Date: 2026-03-17 17:13+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -1954,7 +1953,6 @@ msgid ""
 msgstr "这是模块配置文件，也注册了项目的基本信息，例如名称、版本和依赖项。"
 
 #: ../../tutorial/for-go-programmers/index.md:1053
-#, fuzzy
 msgid ""
 "Each directory under the source directory (`src` in this example) is a "
 "package with its own `moon.pkg` file containing package-specific "
@@ -1962,8 +1960,13 @@ msgid ""
 "main binary package. For example, `src/lib/moon.pkg` can be empty, while "
 "`src/main/moon.pkg` can be written as:"
 msgstr ""
-"源目录（本例中为 `src`）下的每个目录都是一个包，拥有自己的 `moon.pkg.pkg.json` "
-"文件，其中包含包特定的元数据，例如其导入以及是否应将其视为主要二进制包。例如，`src/lib/moon.pkg.json` 的最小定义如下："
+"源目录（本例中为 `src`）下的每个目录都是一个包，拥有自己的 `moon.pkg` "
+"文件，其中包含包特定的元数据，例如其导入以及是否应将其视为主二进制包。例如，`src/lib/moon.pkg` 可以为空，而 "
+"`src/main/moon.pkg` 可以写成："
+
+#: ../../tutorial/for-go-programmers/index.md:1058
+msgid "src/main/moon.pkg"
+msgstr "src/main/moon.pkg"
 
 #: ../../tutorial/for-go-programmers/index.md:1058
 msgid ""
@@ -1976,8 +1979,7 @@ msgid ""
 ")\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1068
-#, fuzzy
+#: ../../tutorial/for-go-programmers/index.md:1063
 msgid ""
 "Similarly to Go, MoonBit treats all `.mbt` files under a same package "
 "directory as a whole. When creating a new directory for more source "
@@ -1985,39 +1987,39 @@ msgid ""
 "directory."
 msgstr ""
 "与 Go 类似，MoonBit 将同一包目录下的所有 `.mbt` 文件视为一个整体。但是，当为更多源文件创建新目录时，该目录下需要相应的 "
-"`moon.pkg.json` 文件。"
+"`moon.pkg` 文件。"
 
-#: ../../tutorial/for-go-programmers/index.md:1072
+#: ../../tutorial/for-go-programmers/index.md:1067
 msgid "Running the Project"
 msgstr "运行项目"
 
-#: ../../tutorial/for-go-programmers/index.md:1074
+#: ../../tutorial/for-go-programmers/index.md:1069
 msgid "To run the aforementioned Go project, you would typically use:"
 msgstr "要运行上述 Go 项目，您通常会使用："
 
-#: ../../tutorial/for-go-programmers/index.md:1076
+#: ../../tutorial/for-go-programmers/index.md:1071
 msgid "$ go run main.go\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1080
+#: ../../tutorial/for-go-programmers/index.md:1075
 msgid "Running the previous MoonBit project with `moon run` is very similar:"
 msgstr "使用 `moon run` 运行之前的 MoonBit 项目非常相似："
 
-#: ../../tutorial/for-go-programmers/index.md:1082
+#: ../../tutorial/for-go-programmers/index.md:1077
 msgid "$ moon run src/main/main.mbt\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1086
+#: ../../tutorial/for-go-programmers/index.md:1081
 msgid "Adding Imports"
 msgstr "添加导入"
 
-#: ../../tutorial/for-go-programmers/index.md:1088
+#: ../../tutorial/for-go-programmers/index.md:1083
 msgid ""
 "In Go, you can add imports with the `import` clause followed by their "
 "module path:"
 msgstr "在 Go 中，您可以使用 `import` 子句后跟模块路径来添加导入："
 
-#: ../../tutorial/for-go-programmers/index.md:1090
+#: ../../tutorial/for-go-programmers/index.md:1085
 msgid ""
 "package main\n"
 "\n"
@@ -2026,35 +2028,34 @@ msgid ""
 ")\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1098
-#, fuzzy
+#: ../../tutorial/for-go-programmers/index.md:1093
 msgid ""
 "MoonBit uses a different approach with `moon.mod.json` for module "
 "configuration and `moon.pkg` for package configuration."
-msgstr "MoonBit 使用不同的方法，`moon.mod.json` 用于模块配置，`moon.pkg.json` 用于包配置。"
+msgstr "MoonBit 使用不同的方法，`moon.mod.json` 用于模块配置，`moon.pkg` 用于包配置。"
 
-#: ../../tutorial/for-go-programmers/index.md:1101
+#: ../../tutorial/for-go-programmers/index.md:1096
 msgid ""
 "First, declare dependencies in the `\"deps\"` section of your "
 "`moon.mod.json`. This is usually done with the `moon add <package>` "
 "command."
 msgstr "首先，在 `moon.mod.json` 的 `\"deps\"` 部分声明依赖项。这通常通过 `moon add <package>` 命令完成。"
 
-#: ../../tutorial/for-go-programmers/index.md:1104
+#: ../../tutorial/for-go-programmers/index.md:1099
 msgid "For example, to use `moonbitlang/x`, you would run:"
 msgstr "例如，要使用 `moonbitlang/x`，您可以运行："
 
-#: ../../tutorial/for-go-programmers/index.md:1106
+#: ../../tutorial/for-go-programmers/index.md:1101
 msgid "$ moon add moonbitlang/x\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1110
+#: ../../tutorial/for-go-programmers/index.md:1105
 msgid ""
 "... which would result in a `moon.mod.json` file like so (with irrelevant"
 " parts omitted):"
 msgstr "... 这将生成一个 `moon.mod.json` 文件，如下所示（省略了不相关的部分）："
 
-#: ../../tutorial/for-go-programmers/index.md:1112
+#: ../../tutorial/for-go-programmers/index.md:1107
 msgid ""
 "{\n"
 "  \"deps\": {\n"
@@ -2063,203 +2064,206 @@ msgid ""
 "}\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1120
-#, fuzzy
+#: ../../tutorial/for-go-programmers/index.md:1115
 msgid "Then, in your package's `moon.pkg`, specify which packages to import:"
-msgstr "然后，在您的包的 `moon.pkg.json` 中，在 `\"import\"` 部分指定要导入的包："
+msgstr "然后，在您的包的 `moon.pkg` 中，指定要导入哪些包："
 
-#: ../../tutorial/for-go-programmers/index.md:1122
+#: ../../tutorial/for-go-programmers/index.md:1117
+#: ../../tutorial/for-go-programmers/index.md:1155
+msgid "moon.pkg"
+msgstr "moon.pkg"
+
+#: ../../tutorial/for-go-programmers/index.md:1117
 msgid ""
 "import {\n"
 "  \"moonbitlang/x/sys\",\n"
 "}\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1128
+#: ../../tutorial/for-go-programmers/index.md:1122
 msgid "Now you should be ready to use the `sys` package in this MoonBit package."
 msgstr "现在您应该可以在此 MoonBit 包中使用 `sys` 包了。"
 
-#: ../../tutorial/for-go-programmers/index.md:1130
+#: ../../tutorial/for-go-programmers/index.md:1124
 msgid "Using Imported Packages"
 msgstr "使用导入的包"
 
-#: ../../tutorial/for-go-programmers/index.md:1132
+#: ../../tutorial/for-go-programmers/index.md:1126
 msgid ""
 "In Go, the above import allows you to access the `sys` package's APIs "
 "using the `<package-name>.` prefix (the actual API is hypothetical):"
 msgstr "在 Go 中，上述导入允许您使用 `<package-name>.` 前缀访问 `sys` 包的 API（实际 API 是假设的）："
 
-#: ../../tutorial/for-go-programmers/index.md:1135
+#: ../../tutorial/for-go-programmers/index.md:1129
 msgid ""
 "func main() {\n"
 "    sys.SetEnvVar(\"MOONBIT\", \"Hello\")\n"
 "}\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1141
+#: ../../tutorial/for-go-programmers/index.md:1135
 msgid "In MoonBit, you access imported APIs using the `@<package-name>.` prefix:"
 msgstr "在 MoonBit 中，您使用 `@<package-name>.` 前缀访问导入的 API："
 
-#: ../../tutorial/for-go-programmers/index.md:1143
+#: ../../tutorial/for-go-programmers/index.md:1137
 msgid ""
 "fn main {\n"
 "  @sys.set_env_var(\"MOONBIT\", \"Hello\")\n"
 "}\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1149
+#: ../../tutorial/for-go-programmers/index.md:1143
 msgid "Package Aliases"
 msgstr "包别名"
 
-#: ../../tutorial/for-go-programmers/index.md:1151
+#: ../../tutorial/for-go-programmers/index.md:1145
 msgid ""
 "In Go, you can create aliases for imported packages using the `import` "
 "statement:"
 msgstr "在 Go 中，您可以使用 `import` 语句为导入的包创建别名："
 
-#: ../../tutorial/for-go-programmers/index.md:1153
+#: ../../tutorial/for-go-programmers/index.md:1147
 msgid ""
 "import (\n"
 "    system \"github.com/user/repo/sys\"\n"
 ")\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1159
-#, fuzzy
+#: ../../tutorial/for-go-programmers/index.md:1153
 msgid "In MoonBit, you can create aliases for imported packages in `moon.pkg`:"
-msgstr "在 MoonBit 中，您可以在 `moon.pkg.json` 中使用 `alias` 字段为导入的包创建别名："
+msgstr "在 MoonBit 中，您可以在 `moon.pkg` 中为导入的包创建别名："
 
-#: ../../tutorial/for-go-programmers/index.md:1161
+#: ../../tutorial/for-go-programmers/index.md:1155
 msgid ""
 "import {\n"
 "  \"moonbitlang/x/sys\" @system,\n"
 "}\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1167
+#: ../../tutorial/for-go-programmers/index.md:1160
 msgid "Then you may use the alias like so:"
 msgstr "然后您可以使用别名，如下所示："
 
-#: ../../tutorial/for-go-programmers/index.md:1169
+#: ../../tutorial/for-go-programmers/index.md:1162
 msgid ""
 "fn main {\n"
 "  @system.set_env_var(\"MOONBIT\", \"Hello\")\n"
 "}\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1175
+#: ../../tutorial/for-go-programmers/index.md:1168
 msgid "Access Control"
 msgstr "访问控制"
 
-#: ../../tutorial/for-go-programmers/index.md:1177
+#: ../../tutorial/for-go-programmers/index.md:1170
 msgid ""
 "In Go, visibility is determined by the case of the first letter of an "
 "identifier (uppercase for public, lowercase for private)."
 msgstr "在 Go 中，可见性由标识符首字母的大小写决定（大写表示公共，小写表示私有）。"
 
-#: ../../tutorial/for-go-programmers/index.md:1180
+#: ../../tutorial/for-go-programmers/index.md:1173
 msgid ""
 "MoonBit has more granular access control than Go, providing the following"
 " visibility levels:"
 msgstr "MoonBit 比 Go 具有更细粒度的访问控制，提供以下可见性级别："
 
-#: ../../tutorial/for-go-programmers/index.md:1182
+#: ../../tutorial/for-go-programmers/index.md:1175
 msgid "`priv`: Completely private (like Go's lowercase identifiers)"
 msgstr "`priv`：完全私有（类似于 Go 的小写标识符）"
 
-#: ../../tutorial/for-go-programmers/index.md:1183
+#: ../../tutorial/for-go-programmers/index.md:1176
 msgid ""
 "Default (abstract): Only the type name is visible, implementation is "
 "hidden"
 msgstr "默认（抽象）：只有类型名称可见，实现隐藏"
 
-#: ../../tutorial/for-go-programmers/index.md:1184
+#: ../../tutorial/for-go-programmers/index.md:1177
 msgid "`pub`: Read-only access from outside the package"
 msgstr "`pub`：包外部只读访问"
 
-#: ../../tutorial/for-go-programmers/index.md:1185
+#: ../../tutorial/for-go-programmers/index.md:1178
 msgid "`pub(all)`: Full public access (like Go's uppercase identifiers)"
 msgstr "`pub(all)`：完全公共访问（类似于 Go 的大写标识符）"
 
-#: ../../tutorial/for-go-programmers/index.md:1187
+#: ../../tutorial/for-go-programmers/index.md:1180
 msgid ""
 "This gives you fine-grained control over what parts of your API are "
 "exposed and how they can be used."
 msgstr "这使您可以精细控制 API 的哪些部分暴露以及如何使用它们。"
 
-#: ../../tutorial/for-go-programmers/index.md:1189
+#: ../../tutorial/for-go-programmers/index.md:1182
 msgid "Runtime Support"
 msgstr "运行时支持"
 
-#: ../../tutorial/for-go-programmers/index.md:1191
+#: ../../tutorial/for-go-programmers/index.md:1184
 msgid ""
 "The same MoonBit code can target multiple runtimes with different code "
 "generation backends, allowing you to choose the best fit for your "
 "particular application:"
 msgstr "相同的 MoonBit 代码可以针对具有不同代码生成后端的多个运行时，从而允许您为特定应用程序选择最合适的后端："
 
-#: ../../tutorial/for-go-programmers/index.md:1194
+#: ../../tutorial/for-go-programmers/index.md:1187
 msgid "WebAssembly (for web and edge computing)"
 msgstr "WebAssembly（用于 Web 和边缘计算）"
 
-#: ../../tutorial/for-go-programmers/index.md:1195
+#: ../../tutorial/for-go-programmers/index.md:1188
 msgid "JavaScript (for Node.js integration)"
 msgstr "JavaScript（用于 Node.js 集成）"
 
-#: ../../tutorial/for-go-programmers/index.md:1196
+#: ../../tutorial/for-go-programmers/index.md:1189
 msgid "C (for native performance)"
 msgstr "C（用于原生性能）"
 
-#: ../../tutorial/for-go-programmers/index.md:1197
+#: ../../tutorial/for-go-programmers/index.md:1190
 msgid "LLVM (experimental)"
 msgstr "LLVM（实验性）"
 
-#: ../../tutorial/for-go-programmers/index.md:1199
+#: ../../tutorial/for-go-programmers/index.md:1192
 msgid "Memory Management"
 msgstr "内存管理"
 
-#: ../../tutorial/for-go-programmers/index.md:1201
+#: ../../tutorial/for-go-programmers/index.md:1194
 msgid ""
 "Go uses a garbage collector, while MoonBit uses different strategies "
 "depending on the code generation backend being used:"
 msgstr "Go 使用垃圾回收器，而 MoonBit 根据所使用的代码生成后端采用不同的策略："
 
-#: ../../tutorial/for-go-programmers/index.md:1204
+#: ../../tutorial/for-go-programmers/index.md:1197
 msgid "**Wasm/C backends**: Reference counting without cycle detection"
 msgstr "**Wasm/C 后端**：引用计数，不带循环检测"
 
-#: ../../tutorial/for-go-programmers/index.md:1205
+#: ../../tutorial/for-go-programmers/index.md:1198
 msgid "**Wasm GC/JavaScript backends**: Leverages the runtime's garbage collector"
 msgstr "**Wasm GC/JavaScript 后端**：利用运行时的垃圾回收器"
 
-#: ../../tutorial/for-go-programmers/index.md:1207
+#: ../../tutorial/for-go-programmers/index.md:1200
 msgid "Getting Started"
 msgstr "入门指南"
 
-#: ../../tutorial/for-go-programmers/index.md:1209
+#: ../../tutorial/for-go-programmers/index.md:1202
 msgid "Visit [the online playground](https://try.moonbitlang.com)."
 msgstr "访问 [在线演练场](https://try.moonbitlang.com)。"
 
-#: ../../tutorial/for-go-programmers/index.md:1211
+#: ../../tutorial/for-go-programmers/index.md:1204
 msgid "Check out our [installation guide](../tour.md#installation)."
 msgstr "查看我们的 [安装指南](../tour.md#installation)。"
 
-#: ../../tutorial/for-go-programmers/index.md:1213
+#: ../../tutorial/for-go-programmers/index.md:1206
 msgid "Create your first MoonBit project:"
 msgstr "创建你的第一个 MoonBit 项目："
 
-#: ../../tutorial/for-go-programmers/index.md:1214
+#: ../../tutorial/for-go-programmers/index.md:1207
 msgid ""
 "$ moon new hello-world\n"
 "$ cd hello-world\n"
 "$ moon run\n"
 msgstr ""
 
-#: ../../tutorial/for-go-programmers/index.md:1220
+#: ../../tutorial/for-go-programmers/index.md:1213
 msgid "When to Choose MoonBit"
 msgstr "何时选择 MoonBit"
 
-#: ../../tutorial/for-go-programmers/index.md:1222
+#: ../../tutorial/for-go-programmers/index.md:1215
 msgid ""
 "MoonBit offers a fresh take on systems programming with functional "
 "programming benefits and WebAssembly-first design. While different from "
@@ -2270,43 +2274,43 @@ msgstr ""
 "MoonBit 以函数式编程优势和 WebAssembly 优先设计为系统编程带来了新的视角。虽然与 Go "
 "的理念不同，但它提供了强大的工具来构建高效、安全和可维护的应用程序。因此，如果您重视以下几个方面，MoonBit 将是您构建项目的不二之选："
 
-#: ../../tutorial/for-go-programmers/index.md:1226
+#: ../../tutorial/for-go-programmers/index.md:1219
 msgid "**WebAssembly targets** with minimal size and maximum performance"
 msgstr "**WebAssembly 目标**，具有最小的体积和最大的性能"
 
-#: ../../tutorial/for-go-programmers/index.md:1227
+#: ../../tutorial/for-go-programmers/index.md:1220
 msgid ""
 "**Functional programming** features like pattern matching and algebraic "
 "data types"
 msgstr "**函数式编程**特性，如模式匹配和代数数据类型"
 
-#: ../../tutorial/for-go-programmers/index.md:1228
+#: ../../tutorial/for-go-programmers/index.md:1221
 msgid ""
 "**Mathematical/algorithmic code** that benefits from immutability by "
 "default"
 msgstr "**数学/算法代码**，得益于默认的不可变性"
 
-#: ../../tutorial/for-go-programmers/index.md:1229
+#: ../../tutorial/for-go-programmers/index.md:1222
 msgid "**Strong type safety** with comprehensive error handling"
 msgstr "**强类型安全**，以及全面的错误处理机制"
 
-#: ../../tutorial/for-go-programmers/index.md:1231
+#: ../../tutorial/for-go-programmers/index.md:1224
 msgid "Next Steps"
 msgstr "下一步"
 
-#: ../../tutorial/for-go-programmers/index.md:1233
+#: ../../tutorial/for-go-programmers/index.md:1226
 msgid "Explore the [Language Fundamentals](../../language/fundamentals.md)"
 msgstr "探索 [语言基础](../../language/fundamentals.md)"
 
-#: ../../tutorial/for-go-programmers/index.md:1234
+#: ../../tutorial/for-go-programmers/index.md:1227
 msgid "Learn about [Error Handling](../../language/error-handling.md)"
 msgstr "了解 [错误处理](../../language/error-handling.md)"
 
-#: ../../tutorial/for-go-programmers/index.md:1235
+#: ../../tutorial/for-go-programmers/index.md:1228
 msgid "Understand [Methods and Traits](../../language/methods.md)"
 msgstr "理解 [方法和特征](../../language/methods.md)"
 
-#: ../../tutorial/for-go-programmers/index.md:1236
+#: ../../tutorial/for-go-programmers/index.md:1229
 msgid "Check out [FFI capabilities](../../language/ffi.md) for interop"
 msgstr "查看 [FFI 功能](../../language/ffi.md) 以实现互操作"
 
@@ -2354,4 +2358,3 @@ msgstr "查看 [FFI 功能](../../language/ffi.md) 以实现互操作"
 #~ "  ]\n"
 #~ "}\n"
 #~ msgstr ""
-
