@@ -50,16 +50,11 @@
 
 `path` 应该是指向包含本地模块 `moon.mod.json` 文件的目录的相对路径。
 
-一旦声明了本地依赖，你就可以在 `moon.pkg.json` 中从本地模块导入包，就像使用其他任何模块一样：
+一旦声明了本地依赖，你就可以在 `moon.pkg` 中从本地模块导入包，就像使用其他任何模块一样：
 
-```json
-{
-  "import": [
-    {
-      "path": "foo/bar",
-      "alias": "bar"
-    }
-  ]
+```moonbit
+import {
+  "foo/bar" @bar,
 }
 ```
 

@@ -51,16 +51,11 @@ To add a local dependency, edit the `deps` field in your `moon.mod.json` file:
 
 The `path` should be a relative path to the directory containing the local module's `moon.mod.json` file.
 
-Once declared, you can import packages from the local module in your `moon.pkg.json`, just like any other module:
+Once declared, you can import packages from the local module in your `moon.pkg`, just like any other module:
 
-```json
-{
-  "import": [
-    {
-      "path": "foo/bar",
-      "alias": "bar"
-    }
-  ]
+```moonbit
+import {
+  "foo/bar" @bar,
 }
 ```
 

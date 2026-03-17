@@ -1031,10 +1031,10 @@ my-project
     ├── lib
     │   ├── hello.mbt
     │   ├── hello_test.mbt
-    │   └── moon.pkg.json
+    │   └── moon.pkg
     └── main
         ├── main.mbt
-        └── moon.pkg.json
+        └── moon.pkg
 ```
 
 This demonstrates a typical "binary-and-library" project structure in MoonBit,
@@ -1051,26 +1051,23 @@ This is the module configuration file that also registers the project's
 basic information such as its name, version, and dependencies.
 
 Each directory under the source directory (`src` in this example) is a package
-with its own `moon.pkg.json` file containing package-specific metadata,
+with its own `moon.pkg` file containing package-specific metadata,
 such as its imports, and whether it should be regarded as a main binary package.
-For example, `src/lib/moon.pkg.json` is minimally defined as follows:
+For example, `src/lib/moon.pkg` can be empty, while `src/main/moon.pkg` can be written as:
 
-```json
-{}
-```
-
-... and `src/main/moon.pkg.json` as follows:
-
-```json
-{
-  "is_main": true,
-  "import": ["username/hello/lib"]
+```moonbit
+import {
+  "username/hello/lib",
 }
+
+options(
+  "is-main": true,
+)
 ```
 
 Similarly to Go, MoonBit treats all `.mbt` files under a same package directory
 as a whole. When creating a new directory for more source files, however,
-a corresponding `moon.pkg.json` file is required under that directory.
+a corresponding `moon.pkg` file is required under that directory.
 
 ### Running the Project
 
@@ -1099,7 +1096,7 @@ import (
 ```
 
 MoonBit uses a different approach with `moon.mod.json` for module configuration and
-`moon.pkg.json` for package configuration.
+`moon.pkg` for package configuration.
 
 First, declare dependencies in the `"deps"` section of your `moon.mod.json`.
 This is usually done with the `moon add <package>` command.
@@ -1120,12 +1117,11 @@ $ moon add moonbitlang/x
 }
 ```
 
-Then, in your package's `moon.pkg.json`, specify which packages to import
-in the `"import"` section:
+Then, in your package's `moon.pkg`, specify which packages to import:
 
-```json
-{
-  "import": ["moonbitlang/x/sys"]
+```moonbit
+import {
+  "moonbitlang/x/sys",
 }
 ```
 
@@ -1160,16 +1156,11 @@ import (
 )
 ```
 
-In MoonBit, you can create aliases for imported packages in `moon.pkg.json` using the `alias` field:
+In MoonBit, you can create aliases for imported packages in `moon.pkg`:
 
-```json
-{
-  "import": [
-    {
-      "path": "moonbitlang/x/sys"
-      "alias": "system"
-    }
-  ]
+```moonbit
+import {
+  "moonbitlang/x/sys" @system,
 }
 ```
 

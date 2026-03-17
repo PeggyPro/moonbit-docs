@@ -149,11 +149,12 @@ The previous two code snippets will print the following at runtime:
 2
 ```
 
-Only packages that are `main` packages can define such `main` function. Check out [build system tutorial](/toolchain/moon/tutorial) for detail.
+Only packages that are `main` packages can define such `main` function. Check out [build system tutorial](/toolchain/moon/tutorial) for detail. In current projects, this is configured in `moon.pkg`:
 
-```{literalinclude} /sources/language/src/main/moon.pkg.json
-:language: json
-:caption: moon.pkg.json
+```moonbit title=moon.pkg
+options(
+  "is-main": true,
+)
 ```
 
 ### `test`
