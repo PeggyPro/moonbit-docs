@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-16 11:52+0800\n"
+"POT-Creation-Date: 2026-03-17 16:57+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -277,8 +277,8 @@ msgid ""
 "default target for commands. Use it to record the module's compatibility "
 "surface in metadata."
 msgstr ""
-"`supported-targets` 字段用于声明该模块打算支持哪些后端。与 `preferred-target` 不同，它不会为命令选择默认目标。"
-"它的作用是把模块的兼容后端范围记录在元数据中。"
+"`supported-targets` 字段用于声明该模块打算支持哪些后端。与 `preferred-target` "
+"不同，它不会为命令选择默认目标。它的作用是把模块的兼容后端范围记录在元数据中。"
 
 #: ../../toolchain/moon/module.md:148
 msgid "`supported-targets` uses a compact target-set syntax:"
@@ -341,8 +341,7 @@ msgid ""
 "When a package also defines `supported-targets`, the effective backend "
 "set is the intersection of the module-level and package-level "
 "declarations."
-msgstr ""
-"当某个包也定义了 `supported-targets` 时，实际生效的后端集合就是模块级声明与包级声明的交集。"
+msgstr "当某个包也定义了 `supported-targets` 时，实际生效的后端集合就是模块级声明与包级声明的交集。"
 
 #: ../../toolchain/moon/module.md:178
 msgid ""
@@ -352,28 +351,6 @@ msgid ""
 msgstr ""
 "如果你想在包内部按文件做条件编译，应改用 `moon.pkg` / `moon.pkg.json` 中的 "
 "[`targets`](package.md#conditional-compilation)。"
-
-#: ../../toolchain/moon/module.md:172
-msgid "`preferred-target` says which backend `moon` should use by default"
-msgstr ""
-
-#: ../../toolchain/moon/module.md:173
-msgid "`supported-targets` says which backends the module claims to support"
-msgstr ""
-
-#: ../../toolchain/moon/module.md:175
-msgid ""
-"When a package also defines `supported-targets`, the effective backend "
-"set is the intersection of the module-level and package-level "
-"declarations."
-msgstr ""
-
-#: ../../toolchain/moon/module.md:178
-msgid ""
-"For per-file conditional compilation inside a package, use "
-"[`targets`](package.md#conditional-compilation) in `moon.pkg` / "
-"`moon.pkg.json` instead."
-msgstr ""
 
 #: ../../toolchain/moon/module.md:181
 msgid "Source directory"
@@ -739,9 +716,10 @@ msgid "Build variables"
 msgstr "构建变量"
 
 #: ../../toolchain/moon/module.md:408
+#, fuzzy
 msgid ""
 "You may use the variables emitted in the `vars` fields in the native "
-"linking arguments in `moon.pkg.json` as `${build.<var_name>}`."
+"linking arguments in `moon.pkg` as `${build.<var_name>}`."
 msgstr "您可以在 `moon.pkg.json` 的本地链接参数中使用 `vars` 字段中发出的变量，格式为 `${build.<var_name>}`。"
 
 #: ../../toolchain/moon/module.md:411
@@ -753,18 +731,19 @@ msgid "{ \"vars\": { \"CC\": \"gcc\" } }\n"
 msgstr ""
 
 #: ../../toolchain/moon/module.md:417
-msgid "and your `moon.pkg.json` is structured like:"
+#, fuzzy
+msgid "and your `moon.pkg` is structured like:"
 msgstr "并且您的 `moon.pkg.json` 结构如下："
 
 #: ../../toolchain/moon/module.md:419
 msgid ""
-"{\n"
-"  \"link\": {\n"
+"options(\n"
+"  link: {\n"
 "    \"native\": {\n"
-"      \"cc\": \"${build.CC}\"\n"
-"    }\n"
-"  }\n"
-"}\n"
+"      \"cc\": \"${build.CC}\",\n"
+"    },\n"
+"  },\n"
+")\n"
 msgstr ""
 
 #: ../../toolchain/moon/module.md:429
@@ -781,3 +760,14 @@ msgid ""
 "  }\n"
 "}\n"
 msgstr ""
+
+#~ msgid ""
+#~ "{\n"
+#~ "  \"link\": {\n"
+#~ "    \"native\": {\n"
+#~ "      \"cc\": \"${build.CC}\"\n"
+#~ "    }\n"
+#~ "  }\n"
+#~ "}\n"
+#~ msgstr ""
+

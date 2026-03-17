@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-28 13:08+0800\n"
+"POT-Creation-Date: 2026-03-17 16:57+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -254,19 +254,21 @@ msgid ""
 msgstr "只能访问包中公开成员的测试称为黑盒测试。这样的测试需要在文件中定义，文件名以 `_test.mbt` 结尾。"
 
 #: ../../language/tests.md:87
+#, fuzzy
 msgid ""
 "The WhiteBox test files (`_wbtest.mbt`) imports the packages defined in "
 "the `import` and `wbtest-import` sections of the package configuration "
-"(`moon.pkg.json`)."
+"(`moon.pkg`, or legacy `moon.pkg.json`)."
 msgstr ""
 "白盒测试文件（`_wbtest.mbt`）导入包配置（`moon.pkg.json`）中的 `import` 和 `wbtest-import` "
 "部分定义的包。"
 
 #: ../../language/tests.md:89
+#, fuzzy
 msgid ""
 "The BlackBox test files (`_test.mbt`) imports the current package and the"
 " packages defined in the `import` and `test-import` sections of the "
-"package configuration (`moon.pkg.json`)."
+"package configuration (`moon.pkg`, or legacy `moon.pkg.json`)."
 msgstr ""
 "黑盒测试文件（`_test.mbt`）导入当前包和包配置（`moon.pkg.json`）中的 `import` 和 `test-import` "
 "部分定义的包。"

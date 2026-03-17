@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 16:26+0800\n"
+"POT-Creation-Date: 2026-03-11 16:40+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -27,8 +27,7 @@ msgid ""
 "The Moon build system lets you write script files in MoonBit without any "
 "module or package configuration files. Script files use the special "
 "`.mbtx` extension."
-msgstr ""
-"Moon 构建系统支持直接编写 MoonBit 脚本，无需模块或包配置文件。脚本文件使用 `.mbtx` 扩展名。"
+msgstr "Moon 构建系统支持直接编写 MoonBit 脚本，无需模块或包配置文件。脚本文件使用 `.mbtx` 扩展名。"
 
 #: ../../toolchain/moon/script-mode.md:6
 msgid "Run a `.mbtx` file"
@@ -67,7 +66,8 @@ msgid "Then run this script directly:"
 msgstr "然后直接运行该脚本："
 
 #: ../../toolchain/moon/script-mode.md:25
-msgid "moon run script.mbtx\n"
+#, fuzzy
+msgid "$ moon run script.mbtx\n"
 msgstr "moon run script.mbtx\n"
 
 #: ../../toolchain/moon/script-mode.md:29
@@ -75,9 +75,7 @@ msgid ""
 "In `.mbtx`, you can declare imports at the top of the file using the same"
 " syntax as package configuration. There is one difference: import paths "
 "can optionally include a version `@version` after the module name:"
-msgstr ""
-"在 `.mbtx` 中，你可以在文件顶部声明导入，语法与包配置相同。不同之处在于：导入路径可以在模块名后可选地"
-"包含版本 `@version`："
+msgstr "在 `.mbtx` 中，你可以在文件顶部声明导入，语法与包配置相同。不同之处在于：导入路径可以在模块名后可选地包含版本 `@version`："
 
 #: ../../toolchain/moon/script-mode.md:33
 msgid ""
@@ -122,7 +120,8 @@ msgid "Moon supports running a `.mbtx` script from stdin:"
 msgstr "Moon 支持从 stdin 运行 `.mbtx` 脚本："
 
 #: ../../toolchain/moon/script-mode.md:56
-msgid "cat script.mbtx | moon run -\n"
+#, fuzzy
+msgid "$ cat script.mbtx | moon run -\n"
 msgstr "cat script.mbtx | moon run -\n"
 
 #: ../../toolchain/moon/script-mode.md:60
@@ -130,8 +129,9 @@ msgid "You can also use a heredoc, a feature provided by the shell:"
 msgstr "你也可以使用 heredoc（由 shell 提供的一项功能）："
 
 #: ../../toolchain/moon/script-mode.md:62
+#, fuzzy
 msgid ""
-"moon run - <<EOF\n"
+"$ moon run - <<EOF\n"
 "fn main {\n"
 "  println(\"hello\")\n"
 "}\n"
@@ -142,3 +142,4 @@ msgstr ""
 "  println(\"hello\")\n"
 "}\n"
 "EOF\n"
+

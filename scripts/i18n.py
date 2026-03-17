@@ -26,7 +26,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
-    next_venv_python = args.next_dir / ".venv" / "bin" / "python"
+    next_venv_python = (args.next_dir / ".venv" / "bin" / "python").absolute()
 
     if args.cmd in ("gettext", "all"):
         env = os.environ.copy()
@@ -35,7 +35,7 @@ def main() -> None:
         run(["make", "gettext"], cwd=args.next_dir, dry_run=args.dry_run, env=env)
 
     if args.cmd in ("sync", "all"):
-        pot_dir = args.next_dir / "_build" / "gettext"
+        pot_dir = (args.next_dir / "_build" / "gettext").absolute()
         cmd = ["sphinx-intl"]
         if next_venv_python.exists():
             cmd = [str(next_venv_python), "-m", "sphinx_intl"]

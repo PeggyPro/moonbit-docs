@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-04 10:54+0800\n"
+"POT-Creation-Date: 2026-03-17 16:57+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -50,8 +50,8 @@ msgstr "表达式和语句"
 #: ../../language/introduction.md:12
 msgid ""
 "MoonBit distinguishes between statements and expressions. In a function "
-"body, only the last clause should be an expression, which serves as a return"
-" value. For example:"
+"body, only the last clause should be an expression, which serves as a "
+"return value. For example:"
 msgstr "MoonBit 区分语句和表达式。在函数体中，只有最后一个子句应该是一个表达式，它作为返回值。例如："
 
 #: ../../language/introduction.md:14
@@ -74,8 +74,8 @@ msgstr "表达式包括："
 
 #: ../../language/introduction.md:30
 msgid ""
-"Value literals (e.g. Boolean values, numbers, characters, strings, arrays, "
-"tuples, structs)"
+"Value literals (e.g. Boolean values, numbers, characters, strings, "
+"arrays, tuples, structs)"
 msgstr "值字面量（例如布尔值、数字、字符、字符串、数组、元组、结构体）"
 
 #: ../../language/introduction.md:31
@@ -84,8 +84,8 @@ msgstr "算术、逻辑或比较操作"
 
 #: ../../language/introduction.md:32
 msgid ""
-"Accesses to array elements (e.g. `a[0]`), struct fields (e.g `r.x`), tuple "
-"components (e.g. `t.0`), etc."
+"Accesses to array elements (e.g. `a[0]`), struct fields (e.g `r.x`), "
+"tuple components (e.g. `t.0`), etc."
 msgstr "访问数组元素（例如 `a[0]`），结构体字段（例如 `r.x`），元组组件（例如 `t.0`）等"
 
 #: ../../language/introduction.md:33
@@ -136,9 +136,9 @@ msgstr "变量绑定"
 
 #: ../../language/introduction.md:49
 msgid ""
-"A variable can be declared as mutable or immutable using `let mut` or `let`,"
-" respectively. A mutable variable can be reassigned to a new value, while an"
-" immutable one cannot."
+"A variable can be declared as mutable or immutable using `let mut` or "
+"`let`, respectively. A mutable variable can be reassigned to a new value,"
+" while an immutable one cannot."
 msgstr "变量可以使用 `let mut` 或 `let` 声明为可变或不可变。可变变量可以重新赋值为新值，而不可变变量则不能。"
 
 #: ../../language/introduction.md:51
@@ -165,8 +165,8 @@ msgstr "顶层变量绑定"
 
 #: ../../language/introduction.md:69
 msgid ""
-"requires **explicit** type annotation (unless defined using literals such as"
-" string, byte or numbers)"
+"requires **explicit** type annotation (unless defined using literals such"
+" as string, byte or numbers)"
 msgstr "需要 **显式** 类型注释（除非使用字符串、字节或数字等字面量定义）"
 
 #: ../../language/introduction.md:70
@@ -180,18 +180,20 @@ msgstr "命名约定"
 #: ../../language/introduction.md:76
 msgid ""
 "Variables, functions should start with lowercase letters `a-z` and can "
-"contain letters, numbers, underscore, and other non-ascii unicode chars. It "
-"is recommended to name them with snake_case."
-msgstr "变量、函数应以小写字母 `a-z` 开头，可以包含字母、数字、下划线和其他非 ASCII 的 Unicode 字符。建议使用 snake_case 命名。"
+"contain letters, numbers, underscore, and other non-ascii unicode chars. "
+"It is recommended to name them with snake_case."
+msgstr ""
+"变量、函数应以小写字母 `a-z` 开头，可以包含字母、数字、下划线和其他非 ASCII 的 Unicode 字符。建议使用 snake_case"
+" 命名。"
 
 #: ../../language/introduction.md:79
 msgid ""
-"Constants, types should start with uppercase letters `A-Z` and can contain "
-"letters, numbers, underscore, and other non-ascii unicode chars. It is "
-"recommended to name them with PascalCase or SCREAMING_SNAKE_CASE."
+"Constants, types should start with uppercase letters `A-Z` and can "
+"contain letters, numbers, underscore, and other non-ascii unicode chars. "
+"It is recommended to name them with PascalCase or SCREAMING_SNAKE_CASE."
 msgstr ""
-"常量、类型应以大写字母 `A-Z` 开头，可以包含字母、数字、下划线和其他非 ASCII 的 Unicode 字符。建议使用 PascalCase 或 "
-"SCREAMING_SNAKE_CASE 命名。"
+"常量、类型应以大写字母 `A-Z` 开头，可以包含字母、数字、下划线和其他非 ASCII 的 Unicode 字符。建议使用 PascalCase"
+" 或 SCREAMING_SNAKE_CASE 命名。"
 
 #: ../../language/introduction.md:82
 msgid "Keywords"
@@ -212,8 +214,8 @@ msgid ""
 "\"raise\", \"try\", \"catch\",\n"
 "  \"pub\", \"priv\", \"readonly\", \"true\", \"false\", \"_\", \"test\", "
 "\"loop\", \"for\", \"in\", \"impl\",\n"
-"  \"with\", \"guard\", \"async\", \"is\", \"suberror\", \"and\", \"letrec\","
-" \"enumview\", \"noraise\",\n"
+"  \"with\", \"guard\", \"async\", \"is\", \"suberror\", \"and\", "
+"\"letrec\", \"enumview\", \"noraise\",\n"
 "  \"defer\",\n"
 "]\n"
 msgstr ""
@@ -231,8 +233,8 @@ msgstr "以下是保留关键字。使用它们会引入警告。它们可能在
 #: ../../language/introduction.md:102
 msgid ""
 "[\n"
-"  \"module\", \"move\", \"ref\", \"static\", \"super\", \"unsafe\", \"use\","
-" \"where\", \"await\",\n"
+"  \"module\", \"move\", \"ref\", \"static\", \"super\", \"unsafe\", "
+"\"use\", \"where\", \"await\",\n"
 "  \"dyn\", \"abstract\", \"do\", \"final\", \"macro\", \"override\", "
 "\"typeof\", \"virtual\", \"yield\",\n"
 "  \"local\", \"method\", \"alias\", \"assert\", \"package\", \"recur\", "
@@ -241,8 +243,8 @@ msgid ""
 "\"namespace\", \"static\", \"upcast\",\n"
 "  \"use\", \"void\", \"lazy\", \"include\", \"mixin\", \"protected\", "
 "\"sealed\", \"constructor\",\n"
-"  \"atomic\", \"volatile\", \"anyframe\", \"anytype\", \"asm\", \"await\", "
-"\"comptime\", \"errdefer\",\n"
+"  \"atomic\", \"volatile\", \"anyframe\", \"anytype\", \"asm\", "
+"\"await\", \"comptime\", \"errdefer\",\n"
 "  \"export\", \"opaque\", \"orelse\", \"resume\", \"threadlocal\", "
 "\"unreachable\", \"dynclass\",\n"
 "  \"dynobj\", \"dynrec\", \"var\", \"finally\", \"noasync\",\n"
@@ -259,8 +261,8 @@ msgstr "`init` 和 `main`"
 
 #: ../../language/introduction.md:118
 msgid ""
-"There is a specialized function called `init` function. The `init` function "
-"is special:"
+"There is a specialized function called `init` function. The `init` "
+"function is special:"
 msgstr "有一个专门的函数称为 `init` 函数。`init` 函数是特殊的："
 
 #: ../../language/introduction.md:120
@@ -275,8 +277,8 @@ msgstr "同一个包中可以有多个 `init` 函数。"
 msgid ""
 "An `init` function can't be explicitly called or referred to by other "
 "functions.  Instead, all `init` functions will be implicitly called when "
-"initializing a package. Therefore, `init` functions should only consist of "
-"statements."
+"initializing a package. Therefore, `init` functions should only consist "
+"of statements."
 msgstr "`init` 函数不能被显式调用或被其他函数引用。相反，所有 `init` 函数将在初始化包时隐式调用。因此，`init` 函数应该只包含语句。"
 
 #: ../../language/introduction.md:125
@@ -290,8 +292,8 @@ msgstr ""
 #: ../../language/introduction.md:133
 msgid ""
 "There is another specialized function called `main` function. The `main` "
-"function is the main entrance of the program, and it will be executed after "
-"the initialization stage."
+"function is the main entrance of the program, and it will be executed "
+"after the initialization stage."
 msgstr "还有另一个专门的函数称为 `main` 函数。`main` 函数是程序的主入口，它将在初始化阶段之后执行。"
 
 #: ../../language/introduction.md:135
@@ -317,33 +319,31 @@ msgid ""
 msgstr ""
 
 #: ../../language/introduction.md:152
+#, fuzzy
 msgid ""
 "Only packages that are `main` packages can define such `main` function. "
-"Check out [build system tutorial](/toolchain/moon/tutorial) for detail."
+"Check out [build system tutorial](/toolchain/moon/tutorial) for detail. "
+"In current projects, this is configured in `moon.pkg`:"
 msgstr "只有 `main` 包的包才能定义这样的 `main` 函数。查看 [构建系统教程](/toolchain/moon/tutorial) 了解详情。"
 
 #: ../../language/introduction.md:154
-msgid "moon.pkg.json"
-msgstr ""
-
-#: ../../language/introduction.md:154
 msgid ""
-"{\n"
-"  \"is-main\": true\n"
-"}"
+"options(\n"
+"  \"is-main\": true,\n"
+")\n"
 msgstr ""
 
-#: ../../language/introduction.md:159
+#: ../../language/introduction.md:160
 msgid "`test`"
 msgstr ""
 
-#: ../../language/introduction.md:161
+#: ../../language/introduction.md:162
 msgid ""
 "There's also a top-level structure called `test` block. A `test` block "
 "defines inline tests, such as:"
 msgstr "还有一个称为 `test` 块的顶级结构。`test` 块定义内联测试，例如："
 
-#: ../../language/introduction.md:163
+#: ../../language/introduction.md:164
 msgid ""
 "test \"test_name\" {\n"
 "  assert_eq(1 + 1, 2)\n"
@@ -352,10 +352,19 @@ msgid ""
 "}\n"
 msgstr ""
 
-#: ../../language/introduction.md:169
+#: ../../language/introduction.md:170
 msgid ""
 "The following contents will use `test` block and `main` function to "
-"demonstrate the execution result, and we assume that all the `test` blocks "
-"pass unless stated otherwise."
+"demonstrate the execution result, and we assume that all the `test` "
+"blocks pass unless stated otherwise."
 msgstr "以下内容将使用 `test` 块和 `main` 函数来演示执行结果。我们假设所有 `test` 块都通过测试，除非另有说明。"
+
+#~ msgid "moon.pkg.json"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "{\n"
+#~ "  \"is-main\": true\n"
+#~ "}"
+#~ msgstr ""
 
