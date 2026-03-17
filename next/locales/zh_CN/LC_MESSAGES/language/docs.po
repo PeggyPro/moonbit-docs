@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-11 16:40+0800\n"
+"POT-Creation-Date: 2026-03-17 10:21+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -115,21 +115,12 @@ msgstr ""
 
 #: ../../language/docs.md:42
 msgid ""
-"Doc tests also apply to literate `.mbt.md` files. For a standalone file, "
-"run `moon check README.mbt.md` and `moon test README.mbt.md`. Inside a "
-"project, use the package-level `moon check` and `moon test` instead."
-msgstr ""
-"文档测试同样适用于 `.mbt.md` 这样的文学化文件。对于独立文件，可以运行 `moon check README.mbt.md` 和 "
-"`moon test README.mbt.md`。在项目内请使用包级别的 `moon check` 和 `moon test`。"
-
-#: ../../language/docs.md:46
-msgid ""
 "If you want to prevent a code snippet from being treated as a document "
 "test, mark it with a language id other than `mbt check` on the markdown "
 "code block:"
 msgstr "如果想要阻止一段代码被当作文档测试，只需要在它的 markdown 代码块上标记一个 `mbt check` 以外的语言名字："
 
-#: ../../language/docs.md:49
+#: ../../language/docs.md:45
 msgid ""
 "/// `c_incr(x)` is the same as the following C code:\n"
 "/// ```c\n"
@@ -151,7 +142,7 @@ msgstr ""
 "  old\n"
 "}\n"
 
-#: ../../language/docs.md:55
+#: ../../language/docs.md:51
 msgid ""
 "Currently, document tests are always [blackbox tests](/language/tests.md"
 "#blackbox-tests-and-whitebox-tests). So private definitions cannot have "
@@ -159,3 +150,149 @@ msgid ""
 msgstr ""
 "目前，文档测试都是 [黑盒测试](/language/tests.md#blackbox-tests-and-whitebox-"
 "tests)。所以私有定义目前不能有文档测试。"
+
+#: ../../language/docs.md:54
+msgid "Literate `.mbt.md` Files"
+msgstr "文学化 `.mbt.md` 文件"
+
+#: ../../language/docs.md:56
+msgid ""
+"MoonBit also supports literate Markdown files ending in `.mbt.md`. These "
+"files can live inside a package as checked documentation, or they can be "
+"used as standalone single-file inputs to `moon check` and `moon test`."
+msgstr ""
+"MoonBit 也支持以 `.mbt.md` 结尾的文学化 Markdown 文件。这些文件既可以作为包内的可检查文档，也可以作为 `moon "
+"check` 和 `moon test` 的独立单文件输入。"
+
+#: ../../language/docs.md:60
+msgid "For a standalone file, run:"
+msgstr "对于独立文件，运行："
+
+#: ../../language/docs.md:62
+msgid ""
+"moon check README.mbt.md\n"
+"moon test README.mbt.md\n"
+msgstr ""
+"moon check README.mbt.md\n"
+"moon test README.mbt.md\n"
+
+#: ../../language/docs.md:67
+msgid ""
+"Inside a project, keep using the package-level `moon check` and `moon "
+"test` commands instead."
+msgstr "在项目内部，请继续使用包级别的 `moon check` 和 `moon test` 命令。"
+
+#: ../../language/docs.md:70
+msgid "The code fence language controls how each block is handled:"
+msgstr "代码块的语言标记决定了每个代码块会如何处理："
+
+#: ../../language/docs.md:72
+msgid "`mbt`: MoonBit code that is compiled, but does not create a test entry."
+msgstr "`mbt`：会编译其中的 MoonBit 代码，但不会创建测试入口。"
+
+#: ../../language/docs.md:73
+msgid ""
+"`mbt check`: MoonBit document-test code. Use `test { .. }` or `async "
+"test` inside the block when you want assertions."
+msgstr "`mbt check`：MoonBit 文档测试代码。需要断言时，请在代码块内部使用 `test { .. }` 或 `async test`。"
+
+#: ../../language/docs.md:75
+msgid "`mbt nocheck`: Show MoonBit code without compiling or testing it."
+msgstr "`mbt nocheck`：展示 MoonBit 代码，但不编译也不测试。"
+
+#: ../../language/docs.md:76
+msgid ""
+"`moonbit`: Ordinary displayed code block for documentation; it is not "
+"compiled or tested."
+msgstr "`moonbit`：普通的文档展示代码块，不会被编译或测试。"
+
+#: ../../language/docs.md:79
+msgid "For example:"
+msgstr "例如："
+
+#: ../../language/docs.md:81
+msgid ""
+"```mbt\n"
+"///|\n"
+"fn helper() -> Int {\n"
+"  42\n"
+"}\n"
+"```\n"
+"\n"
+"```mbt check\n"
+"///|\n"
+"test \"helper\" {\n"
+"  inspect(helper(), content=\"42\")\n"
+"}\n"
+"```\n"
+"\n"
+"```mbt nocheck\n"
+"// Pseudocode or platform-specific code that should not be checked.\n"
+"```\n"
+msgstr ""
+"```mbt\n"
+"///|\n"
+"fn helper() -> Int {\n"
+"  42\n"
+"}\n"
+"```\n"
+"\n"
+"```mbt check\n"
+"///|\n"
+"test \"helper\" {\n"
+"  inspect(helper(), content=\"42\")\n"
+"}\n"
+"```\n"
+"\n"
+"```mbt nocheck\n"
+"// Pseudocode or platform-specific code that should not be checked.\n"
+"```\n"
+
+#: ../../language/docs.md:101
+msgid ""
+"Standalone `.mbt.md` files can also declare front matter to specify "
+"imports or the target backend:"
+msgstr "独立的 `.mbt.md` 文件也可以声明 front matter 来指定导入或目标后端："
+
+#: ../../language/docs.md:104
+msgid ""
+"---\n"
+"moonbit:\n"
+"  import:\n"
+"    - path: username/demo@0.1.0/util\n"
+"      alias: demo\n"
+"  backend: native\n"
+"---\n"
+msgstr ""
+"---\n"
+"moonbit:\n"
+"  import:\n"
+"    - path: username/demo@0.1.0/util\n"
+"      alias: demo\n"
+"  backend: native\n"
+"---\n"
+
+#: ../../language/docs.md:114
+msgid ""
+"Use `moonbit.import` when you want to name the packages the file can "
+"import directly. Use `moonbit.deps` when you only want to declare module "
+"dependencies and let Moon synthesize the imports automatically."
+msgstr ""
+"当你想显式指定该文件可以直接导入哪些包时，使用 `moonbit.import`。当你只想声明模块依赖并让 Moon 自动合成导入时，使用 "
+"`moonbit.deps`。"
+
+#~ msgid ""
+#~ "Doc tests also apply to literate "
+#~ "`.mbt.md` files. For a standalone file,"
+#~ " run `moon check README.mbt.md` and "
+#~ "`moon test README.mbt.md`. Inside a "
+#~ "project, use the package-level `moon "
+#~ "check` and `moon test` instead."
+#~ msgstr ""
+#~ "文档测试同样适用于 `.mbt.md` 这样的文学化文件。对于独立文件，可以运行 `moon "
+#~ "check README.mbt.md` 和 `moon test "
+#~ "README.mbt.md`。在项目内请使用包级别的 `moon check` 和 "
+#~ "`moon test`。"
+
+#~ msgid "`mbt test`: Treat the whole code block as one test case."
+#~ msgstr "`mbt test`：把整个代码块当作一个测试用例。"
