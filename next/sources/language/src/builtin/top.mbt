@@ -5,7 +5,7 @@ let boolean : Unit = {
   let c = a && b
   let d = a || b
   let e = !a
-  let f = not(a)
+  let f = !(a && b)
   // end boolean 1
 
 }

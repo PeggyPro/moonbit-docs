@@ -1,6 +1,7 @@
 {
     "import": [
-        "snake/extern"
+        "snake/extern",
+        "moonbitlang/core/deque"
     ],
     "targets": {
         "draw.js.mbt": ["js"],

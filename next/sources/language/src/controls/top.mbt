@@ -121,7 +121,7 @@ fn infinite_loop() -> Unit {
   for i = 1; ; i = i + 1 {
     println(i)
   }
-  for {
+  for ;; {
     println("loop forever")
   }
   // end for loop 3
@@ -252,7 +252,7 @@ test "continue label" {
   let res = outer~: loop init {
     0 => 42
     i =>
-      for {
+      for ;; {
         count = count + 1
         continue outer~ i - 1
       }

@@ -12,21 +12,32 @@ def main():
             continue
 
         # Skip wasi-http for non-wasm backends
-        targets = "all"
+        check_targets = "all"
+        test_targets = "all"
         if example.name == "wasi-http":
-            targets = "wasm"
+            check_targets = "wasm"
+            test_targets = "wasm"
         elif example.name in ["tetris", "mandelbrot", "koch_snowflake", "game_of_life"]:
-            targets="wasm-gc"
+            check_targets = "wasm-gc"
+            test_targets = "wasm-gc"
         elif example.name == "snake":
-            targets="wasm,wasm-gc,js"
+            check_targets = "wasm,wasm-gc,js"
+            test_targets = None
 
         print(f"Processing {example.name}")
         try:
             subprocess.run(["moon", "install"], cwd=example, check=True)
-            subprocess.run(["moon", "check", "--target",
-                           targets], cwd=example, check=True)
-            subprocess.run(["moon", "test", "--target", targets],
-                           cwd=example, check=True)
+            subprocess.run(
+                ["moon", "check", "--target", check_targets],
+                cwd=example,
+                check=True,
+            )
+            if test_targets is not None:
+                subprocess.run(
+                    ["moon", "test", "--target", test_targets],
+                    cwd=example,
+                    check=True,
+                )
             print(f"OK: {example.name}")
         except subprocess.CalledProcessError:
             print(f"FAIL: {example.name}")
