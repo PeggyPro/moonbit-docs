@@ -1,0 +1,7 @@
+options(
+  link: {
+    "native": {
+      "cc": "${build.CC}",
+    },
+  },
+)

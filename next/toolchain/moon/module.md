@@ -416,14 +416,9 @@ For example, if your build script outputs:
 
 and your `moon.pkg` is structured like:
 
-```moonbit
-options(
-  link: {
-    "native": {
-      "cc": "${build.CC}",
-    },
-  },
-)
+```{literalinclude} /snippets/toolchain/moon/build-vars/moon.pkg
+:language: text
+:caption: moon.pkg
 ```
 
 It will be transformed into

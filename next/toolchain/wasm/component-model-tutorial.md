@@ -175,27 +175,9 @@ pub fn add(x : UInt, y : UInt) -> UInt {
 
 Ensure your `gen/moon.pkg` is properly configured for WebAssembly target:
 
-```moonbit
-import {
-  "docs/adder/ffi" @ffi,
-  "docs/adder/gen/interface/docs/adder/add" @add,
-}
-
-options(
-  // link configuration for Wasm backend
-  link: {
-    "wasm": {
-      // Export for cabi_realloc
-      "exports": [
-        "cabi_realloc:cabi_realloc",
-        // Export per the interface definition
-        "wasmExportAdd:docs:adder/add@0.1.0#add",
-      ],
-      "export-memory-name": "memory",
-      "heap-start-address": 16,
-    },
-  },
-)
+```{literalinclude} /snippets/toolchain/wasm/component-model-tutorial/gen/moon.pkg
+:language: text
+:caption: gen/moon.pkg
 ```
 
 ## 7. Build the WebAssembly Component

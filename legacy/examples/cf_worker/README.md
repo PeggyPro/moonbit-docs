@@ -13,7 +13,7 @@ To set up a new project, just run `pnpm create cloudflare@2.5.0` and answer the 
 
 ## Adding MoonBit
 
-Create the three following files (`moon.mod.json` `moon.pkg` `top.mbt`) to the directory just created
+Create `moon.mod.json` and `top.mbt`, plus a package configuration file. Current projects use `moon.pkg`; this example repository keeps the equivalent legacy `moon.pkg.json`:
 
 ```json title=moon.mod.json
 {
@@ -22,21 +22,23 @@ Create the three following files (`moon.mod.json` `moon.pkg` `top.mbt`) to the d
 }
 ```
 
-```moonbit title=moon.pkg
-options(
-  link: {
+```json title=moon.pkg.json
+{
+  "link": {
     "wasm-gc": {
-      exports: [ "fib" ],
-    },
-  },
-)
+      "exports": [
+        "fib"
+      ]
+    }
+  }
+}
 ```
 
 ```moonbit title=top.mbt
 pub fn fib(n : Int) -> Int64 {
-  loop 0L, 1L, n {
-    a, _, 0 => a
-    a, b, n => continue b, a + b, n - 1
+  loop (0L, 1L, n) {
+    (a, _, 0) => a
+    (a, b, n) => continue (b, a + b, n - 1)
   }
 }
 ```
@@ -85,4 +87,4 @@ moon: no work to do
 [wrangler:inf] Ready on http://localhost:58966
 ```
 
-Then you can use `b` to open a browser or `x` to exit the server. The bowser should give you `Hello World! 55`;
+Then you can use `b` to open a browser or `x` to exit the server. The browser should give you `Hello World! 55`;

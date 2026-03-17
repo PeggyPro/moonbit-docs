@@ -1055,14 +1055,9 @@ with its own `moon.pkg` file containing package-specific metadata,
 such as its imports, and whether it should be regarded as a main binary package.
 For example, `src/lib/moon.pkg` can be empty, while `src/main/moon.pkg` can be written as:
 
-```moonbit
-import {
-  "username/hello/lib",
-}
-
-options(
-  "is-main": true,
-)
+```{literalinclude} /snippets/tutorial/for-go-programmers/src/main/moon.pkg
+:language: text
+:caption: src/main/moon.pkg
 ```
 
 Similarly to Go, MoonBit treats all `.mbt` files under a same package directory
@@ -1119,10 +1114,9 @@ $ moon add moonbitlang/x
 
 Then, in your package's `moon.pkg`, specify which packages to import:
 
-```moonbit
-import {
-  "moonbitlang/x/sys",
-}
+```{literalinclude} /snippets/tutorial/for-go-programmers/import-sys.moon.pkg
+:language: text
+:caption: moon.pkg
 ```
 
 Now you should be ready to use the `sys` package in this MoonBit package.
@@ -1158,10 +1152,9 @@ import (
 
 In MoonBit, you can create aliases for imported packages in `moon.pkg`:
 
-```moonbit
-import {
-  "moonbitlang/x/sys" @system,
-}
+```{literalinclude} /snippets/tutorial/for-go-programmers/alias-system.moon.pkg
+:language: text
+:caption: moon.pkg
 ```
 
 Then you may use the alias like so:
