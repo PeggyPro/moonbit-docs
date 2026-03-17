@@ -115,9 +115,12 @@ User can write `@c` to access definitions from `pkgC`.
 
 `````````
 
-Core packages are not special here: if you use `@json`, `@test`, or other core
-aliases, add the corresponding `moonbitlang/core/...` package to `import` to
-avoid `core_package_not_imported` warnings.
+Most core packages are not special here: if you use `@json`, `@test`, or other
+ordinary core aliases, add the corresponding `moonbitlang/core/...` package to
+`import` to avoid `core_package_not_imported` warnings.
+
+`prelude` is the exception. It is available by default, so the names it exposes
+do not need an explicit package import.
 
 ### Test import
 
