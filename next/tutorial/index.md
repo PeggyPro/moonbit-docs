@@ -7,6 +7,7 @@ Here are some tutorials that may help you learn the programming language:
 - [An interactive tour with language basics](https://tour.moonbitlang.com)
 - [Tour for Beginners](./tour.md)
 - [Native CLI Quickstart](./cli-quickstart.md)
+- [Fullstack in One MoonBit Project](./fullstack-one-project.md)
 
 ## Language Transition Guides
 
@@ -20,4 +21,5 @@ Here are some tutorials that may help you learn the programming language:
 :hidden:
 tour
 cli-quickstart
+fullstack-one-project
 ```

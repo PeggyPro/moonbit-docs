@@ -1,6 +1,6 @@
 # MoonBit Language
 
-MoonBit is an AI native programming language toolchain for cloud and edge computing. It compiles to WebAssembly, JavaScript, and C.
+MoonBit is an AI native programming language toolchain for cloud and edge computing. It targets `wasm`, `wasm-gc`, `js`, and `native`, and works well for mixed-backend projects in one module.
 
 **Status**
 

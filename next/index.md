@@ -1,6 +1,8 @@
 # MoonBit Documentation
 
-MoonBit is an end-to-end programming language toolchain for cloud and edge computing using WebAssembly.
+MoonBit is an end-to-end programming language toolchain for cloud and edge computing across `wasm`, `wasm-gc`, `js`, and `native` backends.
+
+You can build mixed-backend projects in one module, such as a native backend and a web frontend that share the same domain model package.
 
 ### Get started
 

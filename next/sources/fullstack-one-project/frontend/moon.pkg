@@ -1,0 +1,13 @@
+import {
+  "moonbit-community/fullstack-one-project-doc/shared" @shared,
+  "moonbitlang/core/json" @json,
+  "moonbit-community/rabbita" @rabbita,
+  "moonbit-community/rabbita/html" @html,
+  "moonbit-community/rabbita/http" @rhttp,
+}
+
+supported_targets = "js"
+
+options(
+  "is-main": true,
+)
