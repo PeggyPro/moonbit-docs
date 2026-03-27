@@ -34,11 +34,10 @@ msgid ""
 msgstr "[MoonBit 的构建系统](./moon/index.md)：`moon`构建系统的完整手册。"
 
 #: ../../toolchain/index.md:4
-#, fuzzy
 msgid ""
 "[MoonBit's Agent IDE](./moonide/index.md): full manual of `moon ide`, the"
 " agent ide."
-msgstr "[MoonBit 的构建系统](./moon/index.md)：`moon`构建系统的完整手册。"
+msgstr "[MoonBit 的 Agent IDE](./moonide/index.md)：`moon ide`（代理 IDE）的完整手册。"
 
 #: ../../toolchain/index.md:5
 msgid "[MoonBit's VSCode Plugin](./vscode/index.md): hint on VSCode plugin."
@@ -59,4 +58,3 @@ msgstr ""
 #: ../../toolchain/index.md:13
 msgid "[Download this section in Markdown](path:/download/toolchain/summary.md)"
 msgstr "[下载本章节的 Markdown 版本](path:/download/toolchain/summary.md)"
-
