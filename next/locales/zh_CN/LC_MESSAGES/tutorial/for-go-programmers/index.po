@@ -2241,14 +2241,10 @@ msgid "Getting Started"
 msgstr "入门指南"
 
 #: ../../tutorial/for-go-programmers/index.md:1202
-msgid "Visit [the online playground](https://try.moonbitlang.com)."
-msgstr "访问 [在线演练场](https://try.moonbitlang.com)。"
-
-#: ../../tutorial/for-go-programmers/index.md:1204
 msgid "Check out our [installation guide](../tour.md#installation)."
 msgstr "查看我们的 [安装指南](../tour.md#installation)。"
 
-#: ../../tutorial/for-go-programmers/index.md:1206
+#: ../../tutorial/for-go-programmers/index.md:1204
 msgid "Create your first MoonBit project:"
 msgstr "创建你的第一个 MoonBit 项目："
 

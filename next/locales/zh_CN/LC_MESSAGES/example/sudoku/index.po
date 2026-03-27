@@ -600,13 +600,11 @@ msgid ""
 "}\n"
 msgstr ""
 
-#: ../../sources/sudoku/src/index.mbt.md:459
+#: ../../sources/sudoku/src/index.mbt.md:458
 msgid ""
-"Running on [MoonBit online IDE](https://try.moonbitlang.com/), It takes "
-"only about 0.11 seconds to solve this Sudoku!"
-msgstr ""
-"在 [MoonBit online IDE](https://try.moonbitlang.com/) 上运行，仅需大约 0.11 "
-"秒即可解决这个数独！"
+"On a regular development machine, it takes only about 0.11 seconds to solve "
+"this Sudoku."
+msgstr "在普通开发机器上，求解这个数独只需要约 0.11 秒。"
 
 #: ../../sources/sudoku/src/index.mbt.md:462
 msgid "Conclusion"
@@ -735,4 +733,3 @@ msgstr ""
 #~ "  }\n"
 #~ "}\n"
 #~ msgstr ""
-

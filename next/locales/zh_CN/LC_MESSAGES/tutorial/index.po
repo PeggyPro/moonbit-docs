@@ -42,7 +42,11 @@ msgstr "[新手之旅](./tour.md)"
 msgid "[Native CLI Quickstart](./cli-quickstart.md)"
 msgstr "[原生 CLI 快速开始](./cli-quickstart.md)"
 
-#: ../../tutorial/index.md:11
+#: ../../tutorial/index.md:10
+msgid "[Fullstack in One MoonBit Project](./fullstack-one-project.md)"
+msgstr "[在一个 MoonBit 项目中开发全栈应用](./fullstack-one-project.md)"
+
+#: ../../tutorial/index.md:12
 msgid "Language Transition Guides"
 msgstr "语言迁移指南"
 

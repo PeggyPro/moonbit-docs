@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the MoonBit package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
@@ -26,19 +25,11 @@ msgstr "MoonBit（月兔）编程语言"
 #: ../../language/index.md:3
 msgid ""
 "MoonBit is an AI native programming language toolchain for cloud and edge "
-"computing. It compiles to WebAssembly, JavaScript, and C."
-msgstr "MoonBit 是一个用于云和边缘计算的 AI 原生编程语言工具链。它可以编译为 WebAssembly、JavaScript 和 C 代码。"
+"computing. It targets `wasm`, `wasm-gc`, `js`, and `native`, and works well "
+"for mixed-backend projects in one module."
+msgstr "MoonBit 是一个面向云与边缘计算的 AI 原生编程语言工具链。它支持 `wasm`、`wasm-gc`、`js` 与 `native` 目标，并且很适合在一个模块中开发混合后端项目。"
 
 #: ../../language/index.md:5
-msgid ""
-"The IDE environment is available at "
-"[https://try.moonbitlang.com](https://try.moonbitlang.com) without any "
-"installation; it does not rely on any server either."
-msgstr ""
-"无需安装即可在 [https://try.moonbitlang.cn](https://try.moonbitlang.cn) 上使用 IDE "
-"环境；它也不依赖任何服务器。"
-
-#: ../../language/index.md:7
 msgid "**Status**"
 msgstr "**状态**"
 
