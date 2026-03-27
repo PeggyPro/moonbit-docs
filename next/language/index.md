@@ -2,8 +2,6 @@
 
 MoonBit is an AI native programming language toolchain for cloud and edge computing. It compiles to WebAssembly, JavaScript, and C.
 
-The IDE environment is available at [https://try.moonbitlang.com](https://try.moonbitlang.com) without any installation; it does not rely on any server either.
-
 **Status**
 
 MoonBit is currently in beta-preview.
