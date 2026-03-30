@@ -69,11 +69,16 @@ html_favicon = "_static/favicon.ico"
 
 # -- Options for LaTeX output ------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
-latex_engine = 'xelatex'
+effective_language = globals().get('language') or ''
 latex_elements = {
-    'preamble': r"\usepackage{xeCJK}",
-    'fvset': "\\fvset{formatcom={\\CJKsetecglue{}}}" # avoid having spaces around text in code blocks
+    # keep code blocks stable across engines; CJK glue hook is only used when available
+    'fvset': r"\fvset{formatcom={\ifdefined\CJKsetecglue\CJKsetecglue{}\fi}}",
 }
+if str(effective_language).startswith('zh'):
+    # keep Chinese PDF pipeline on XeLaTeX + xeCJK
+    latex_engine = 'xelatex'
+    latex_elements['preamble'] = r"\usepackage{xeCJK}"
+# For Japanese and other locales, respect Sphinx defaults for latex_engine/docclass.
 
 # -- Options for myst_parser -------------------------------------------------
 myst_heading_anchors = 4
