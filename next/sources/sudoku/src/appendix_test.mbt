@@ -92,7 +92,7 @@ fn Grid::parse(s : String) -> Grid[@sorted_set.SortedSet[Char]] {
   for p in pairs {
     let (square, digit) = p
     if digit is ('1'..='9') {
-      if not(assign(values, square, digit)) {
+      if !assign(values, square, digit) {
         // println("parseGrid(): found contradiction")
         abort("parseGrid(): found contradiction")
       }

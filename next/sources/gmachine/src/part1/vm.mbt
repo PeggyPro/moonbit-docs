@@ -36,7 +36,7 @@ fn GHeap::alloc(self : GHeap, node : Node) -> Addr {
   }
 
   let mut i = heap.object_count
-  while not(free(i)) {
+  while !(free(i)) {
     i = next(i)
   }
   heap.memory[i] = Some(node)

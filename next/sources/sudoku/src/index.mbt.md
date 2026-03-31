@@ -266,7 +266,7 @@ fn eliminate(
   key : String,
   val : Char
 ) -> Bool {
-  if not(values[key].contains(val)) {
+  if !(values[key].contains(val)) {
     return true
   }
   values[key] = values[key].remove(val)
@@ -278,7 +278,7 @@ fn eliminate(
       for key in peers[key] {
         res = res && eliminate(values, key, val)
       }
-      if not(res) {
+      if !res {
         return res
       }
     }
@@ -380,7 +380,7 @@ backtracking troublesome, we directly copy values each time we assign a value.
 fn search(
   values : Grid[@sorted_set.SortedSet[Char]],
 ) -> Grid[@sorted_set.SortedSet[Char]]? {
-  if values.contains(fn(digits) { not(digits.length() == 1) }) {
+  if values.contains(fn(digits) { !(digits.length() == 1) }) {
     let mut minsq = ""
     let mut n = 10
     for sq in squares {
