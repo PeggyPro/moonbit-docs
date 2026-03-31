@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     paths:
-      - next/sources/**
+      - next/**
   schedule:
     - cron: "0 10 * * 2"
 
@@ -33,3 +33,13 @@ jobs:
       - name: moon check and test
         run: |
           python scripts/check-document.py
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install scrut
+        run: cargo install --locked scrut
+
+      - name: Workspace command transcript
+        shell: bash
+        run: scrut test --shell bash next/sources/workspace/workspace.t

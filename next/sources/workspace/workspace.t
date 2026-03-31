@@ -1,0 +1,57 @@
+Workspace command transcript
+  $ cd "$TMPDIR"
+
+  $ moon new module_a >/dev/null
+  $ moon new module_b >/dev/null
+
+  $ moon work init module_a module_b
+  Created moon.work
+
+  $ grep '"./module_a"' moon.work
+    "./module_a",
+  $ grep '"./module_b"' moon.work
+    "./module_b",
+
+  $ moon new module_c >/dev/null
+  $ moon work use module_c
+  Updated moon.work
+  $ grep '"./module_c"' moon.work
+    "./module_c",
+
+  $ cat > module_a/moon.mod.json <<'JSON'
+  > {
+  >   "name": "moonbit-community/module_a",
+  >   "version": "0.2.0",
+  >   "readme": "README.mbt.md",
+  >   "repository": "",
+  >   "license": "Apache-2.0",
+  >   "keywords": [],
+  >   "description": ""
+  > }
+  > JSON
+
+  $ cat > module_b/moon.mod.json <<'JSON'
+  > {
+  >   "name": "moonbit-community/module_b",
+  >   "version": "0.1.0",
+  >   "deps": {
+  >     "moonbit-community/module_a": "0.1.0"
+  >   },
+  >   "readme": "README.mbt.md",
+  >   "repository": "",
+  >   "license": "Apache-2.0",
+  >   "keywords": [],
+  >   "description": ""
+  > }
+  > JSON
+
+  $ grep '"moonbit-community/module_a"' module_b/moon.mod.json
+      "moonbit-community/module_a": "0.1.0"
+
+  $ moon work sync >/dev/null
+
+  $ grep '"moonbit-community/module_a"' module_b/moon.mod.json
+      "moonbit-community/module_a": "0.2.0"
+
+  $ moon check --target native --no-render >/dev/null 2>&1
+  $ moon test --target native --no-render >/dev/null 2>&1

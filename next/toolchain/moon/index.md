@@ -6,6 +6,7 @@
 tutorial
 script-mode
 package-manage-tour
+workspace
 commands
 module
 package
