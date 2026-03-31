@@ -41,7 +41,7 @@ class MoonBitLexer(RegexLexer):
             (words(('return', 'break', 'continue'), suffix=r"\b"), token.Keyword),
             (words(('try', 'catch', 'raise', 'noraise'), suffix=r"\b"), token.Keyword),
             (r"\bas\b", token.Keyword),
-            (words(('extern', 'pub', 'priv', 'pub(all)', 'pub(readonly)', 'pub(open)', 'test'), suffix=r"\b"), token.Keyword),
+            (words(('extern', 'pub', 'priv', 'pub(all)', 'pub(readonly)', 'pub(open)', 'test', 'wbtest'), suffix=r"\b"), token.Keyword),
             (words(('true', 'false'), suffix=r"\b"), token.Keyword.Constant),
             (words(('Eq', 'Compare', 'Hash', 'Show', 'Default', 'ToJson', 'FromJson'), suffix=r"\b"), token.Name.Builtin),
             (words(('Array', 'FixedArray', 'Int', 'Int64', 'UInt', 'UInt64', 'Option', 'Result', 'Byte', 'Bool', 'Unit', 'String', 'Float', 'Double'), suffix=r"\b"), token.Name.Builtin),
@@ -49,6 +49,8 @@ class MoonBitLexer(RegexLexer):
             (words(('not', 'lsl', 'lsr', 'asr', 'op_add', 'op_sub', 'op_div', 'op_mul', 'op_mod', '...')), token.Operator.Word),
             # @namespace.
             (r"@[A-Za-z][A-Za-z0-9_/]*\.", token.Name.Namespace),
+            # @alias
+            (r"@[A-Za-z][A-Za-z0-9_]*", token.Name.Namespace),
             # Function alias
             (r"([a-z][A-Za-z0-9_]*)(\s+)(as)(\s+)([a-z][A-Za-z0-9_]*)", bygroups(token.Name.Function, token.Whitespace, token.Keyword, token.Whitespace, token.Name.Function)),
             (r"([A-Za-z][A-Za-z0-9_]*)(::)([A-Za-z][A-Za-z0-9_]*)(\s+)(as)(\s+)([a-z][A-Za-z0-9_]*)", bygroups(token.Name.Class, token.Punctuation, token.Name.Function, token.Whitespace, token.Keyword, token.Whitespace, token.Name.Function)),
