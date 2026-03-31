@@ -1,0 +1,146 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026, International Digital Economy Academy
+# This file is distributed under the same license as the MoonBit package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MoonBit \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-31 16:37+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../toolchain/moon/workspace.md:1
+msgid "Workspace Support"
+msgstr "工作区支持"
+
+#: ../../toolchain/moon/workspace.md:3
+msgid ""
+"Moon workspace support lets you manage multiple modules in one repository"
+" with one workspace manifest (`moon.work`)."
+msgstr "Moon 工作区支持让你在一个仓库中通过一个工作区清单（`moon.work`）管理多个模块。"
+
+#: ../../toolchain/moon/workspace.md:6
+msgid "Initialize a workspace"
+msgstr "初始化工作区"
+
+#: ../../toolchain/moon/workspace.md:8
+msgid "Assume this layout:"
+msgstr "假设目录结构如下："
+
+#: ../../toolchain/moon/workspace.md:10
+msgid ""
+"repo/\n"
+"  mod_a/\n"
+"    moon.mod.json\n"
+"  mod_b/\n"
+"    moon.mod.json\n"
+msgstr ""
+"repo/\n"
+"  mod_a/\n"
+"    moon.mod.json\n"
+"  mod_b/\n"
+"    moon.mod.json\n"
+
+#: ../../toolchain/moon/workspace.md:18
+msgid "At `repo/`, initialize the workspace and register members:"
+msgstr "在 `repo/` 下，初始化工作区并注册成员模块："
+
+#: ../../toolchain/moon/workspace.md:20
+msgid "moon work init mod_a mod_b\n"
+msgstr "moon work init mod_a mod_b\n"
+
+#: ../../toolchain/moon/workspace.md:24
+msgid "This creates `moon.work`:"
+msgstr "这会创建 `moon.work`："
+
+#: ../../toolchain/moon/workspace.md:26
+msgid ""
+"members = [\n"
+"  \"./mod_a\",\n"
+"  \"./mod_b\",\n"
+"]\n"
+msgstr ""
+"members = [\n"
+"  \"./mod_a\",\n"
+"  \"./mod_b\",\n"
+"]\n"
+
+#: ../../toolchain/moon/workspace.md:30
+msgid "Add members"
+msgstr "添加成员"
+
+#: ../../toolchain/moon/workspace.md:32
+msgid "When a new module is added, register it with:"
+msgstr "添加新模块后，可用以下命令将其注册到工作区："
+
+#: ../../toolchain/moon/workspace.md:34
+msgid "moon work use mod_c\n"
+msgstr "moon work use mod_c\n"
+
+#: ../../toolchain/moon/workspace.md:38
+msgid "Work at workspace root"
+msgstr "在工作区根目录工作"
+
+#: ../../toolchain/moon/workspace.md:40
+msgid "After `moon.work` is in place, run `moon` commands at the workspace root:"
+msgstr "配置好 `moon.work` 后，可在工作区根目录执行 `moon` 命令："
+
+#: ../../toolchain/moon/workspace.md:42
+msgid ""
+"moon check --target all\n"
+"moon test --target all\n"
+"moon info\n"
+"moon clean\n"
+msgstr ""
+"moon check --target all\n"
+"moon test --target all\n"
+"moon info\n"
+"moon clean\n"
+
+#: ../../toolchain/moon/workspace.md:49
+msgid ""
+"These commands run in workspace context instead of a single-module "
+"context."
+msgstr "这些命令会在工作区上下文中运行，而不是仅针对单个模块。"
+
+#: ../../toolchain/moon/workspace.md:51
+msgid ""
+"Some commands are module-only (for example `publish`). For those "
+"commands, run them in a specific member module directory:"
+msgstr "有些命令只适用于模块（例如 `publish`）。对于这类命令，请在具体成员模块目录中执行："
+
+#: ../../toolchain/moon/workspace.md:54
+msgid "moon -C mod_a publish\n"
+msgstr "moon -C mod_a publish\n"
+
+#: ../../toolchain/moon/workspace.md:58
+msgid "Sync member versions"
+msgstr "同步成员版本"
+
+#: ../../toolchain/moon/workspace.md:60
+msgid ""
+"If a member depends on another workspace member with a stale version (for"
+" example `mod_a@0.1.0` while workspace member `mod_a` is already "
+"`0.2.0`), run:"
+msgstr ""
+"如果某个成员依赖了另一个工作区成员的过期版本（例如 `mod_a@0.1.0`，而工作区中的 "
+"`mod_a` 已是 `0.2.0`），请执行："
+
+#: ../../toolchain/moon/workspace.md:63
+msgid "moon work sync\n"
+msgstr "moon work sync\n"
+
+#: ../../toolchain/moon/workspace.md:67
+msgid ""
+"This updates member `moon.mod.json` files to aligned workspace member "
+"versions."
+msgstr "这会更新成员的 `moon.mod.json` 文件，使工作区成员版本保持一致。"
