@@ -142,7 +142,7 @@ msgstr "元信息"
 
 #: ../../toolchain/moon/module.md:75
 msgid "README"
-msgstr ""
+msgstr "README"
 
 #: ../../toolchain/moon/module.md:77
 msgid ""
