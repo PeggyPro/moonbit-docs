@@ -42,4 +42,4 @@ jobs:
 
       - name: Workspace command transcript
         shell: bash
-        run: scrut test --shell bash next/sources/workspace/workspace.t
+        run: scrut test --shell bash next/sources/workspace/workspace.cram
