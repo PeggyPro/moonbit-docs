@@ -66,9 +66,8 @@ msgid "Then run this script directly:"
 msgstr "然后直接运行该脚本："
 
 #: ../../toolchain/moon/script-mode.md:25
-#, fuzzy
 msgid "$ moon run script.mbtx\n"
-msgstr "moon run script.mbtx\n"
+msgstr "$ moon run script.mbtx\n"
 
 #: ../../toolchain/moon/script-mode.md:29
 msgid ""
@@ -120,16 +119,14 @@ msgid "Moon supports running a `.mbtx` script from stdin:"
 msgstr "Moon 支持从 stdin 运行 `.mbtx` 脚本："
 
 #: ../../toolchain/moon/script-mode.md:56
-#, fuzzy
 msgid "$ cat script.mbtx | moon run -\n"
-msgstr "cat script.mbtx | moon run -\n"
+msgstr "$ cat script.mbtx | moon run -\n"
 
 #: ../../toolchain/moon/script-mode.md:60
 msgid "You can also use a heredoc, a feature provided by the shell:"
 msgstr "你也可以使用 heredoc（由 shell 提供的一项功能）："
 
 #: ../../toolchain/moon/script-mode.md:62
-#, fuzzy
 msgid ""
 "$ moon run - <<EOF\n"
 "fn main {\n"
@@ -137,9 +134,8 @@ msgid ""
 "}\n"
 "EOF\n"
 msgstr ""
-"moon run - <<EOF\n"
+"$ moon run - <<EOF\n"
 "fn main {\n"
 "  println(\"hello\")\n"
 "}\n"
 "EOF\n"
-

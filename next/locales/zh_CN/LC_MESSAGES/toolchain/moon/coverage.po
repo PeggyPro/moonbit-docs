@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the MoonBit package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
@@ -47,6 +46,9 @@ msgid ""
 "...\n"
 "Total tests: 3077, passed: 3077, failed: 0.\n"
 msgstr ""
+"$ moon test --enable-coverage\n"
+"...\n"
+"Total tests: 3077, passed: 3077, failed: 0.\n"
 
 #: ../../toolchain/moon/coverage.md:19
 msgid ""
@@ -67,6 +69,15 @@ msgid ""
 "option/\n"
 "...\n"
 msgstr ""
+"$ ls _build/wasm-gc/debug/test/ -w1\n"
+"array\n"
+"...\n"
+"moonbit_coverage_1735628238436873.txt\n"
+"moonbit_coverage_1735628238436883.txt\n"
+"...\n"
+"moonbit_coverage_1735628238514678.txt\n"
+"option/\n"
+"...\n"
 
 #: ../../toolchain/moon/coverage.md:36
 msgid ""
@@ -135,6 +146,18 @@ msgid ""
 "array/sort_by.mbt: 56/61\n"
 "...\n"
 msgstr ""
+"$ moon coverage report -f summary\n"
+"array/array.mbt: 21/22\n"
+"array/array_nonjs.mbt: 3/3\n"
+"array/blit.mbt: 3/3\n"
+"array/deprecated.mbt: 0/0\n"
+"array/fixedarray.mbt: 115/115\n"
+"array/fixedarray_sort.mbt: 110/116\n"
+"array/fixedarray_sort_by.mbt: 58/61\n"
+"array/slice.mbt: 6/6\n"
+"array/sort.mbt: 70/70\n"
+"array/sort_by.mbt: 56/61\n"
+"...\n"
 
 #: ../../toolchain/moon/coverage.md:74
 msgid "OCaml Bisect format"
@@ -184,6 +207,19 @@ msgid ""
 "            \"source_digest\": \"bcf1fb1d2f143ebf4423565d5a57e84f\",\n"
 "            \"coverage\": [null,null,null,...\n"
 msgstr ""
+"$ moon coverage report -f coveralls\n"
+"$ cat coveralls.json\n"
+"{\n"
+"    \"source_files\": [\n"
+"        {\n"
+"            \"name\": \"builtin/console.mbt\",\n"
+"            \"source_digest\": \"1c24532e12ac5bdf34b7618c9f38bd82\",\n"
+"            \"coverage\": [null,null,...,null,null]\n"
+"        },\n"
+"        {\n"
+"            \"name\": \"immut/array/array.mbt\",\n"
+"            \"source_digest\": \"bcf1fb1d2f143ebf4423565d5a57e84f\",\n"
+"            \"coverage\": [null,null,null,...\n"
 
 #: ../../toolchain/moon/coverage.md:105
 msgid ""
@@ -207,6 +243,16 @@ msgid ""
 "env:\n"
 "    COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n"
 msgstr ""
+"moon coverage report \\\n"
+"    -f coveralls \\\n"
+"    -o codecov_report.json \\\n"
+"    --service-name github \\\n"
+"    --service-job-id \"$GITHUB_RUN_NUMBER\" \\\n"
+"    --service-pull-request \"${{ github.event.number }}\" \\\n"
+"    --send-to coveralls\n"
+"\n"
+"env:\n"
+"    COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n"
 
 #: ../../toolchain/moon/coverage.md:121
 msgid "More information can be found in `moon coverage report --help`."
@@ -227,7 +273,7 @@ msgstr ""
 
 #: ../../toolchain/moon/coverage.md:127
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../../toolchain/moon/coverage.md:129
 msgid ""
@@ -304,4 +350,3 @@ msgstr "添加 `/// @coverage.skip` 指示符会跳过函数内的所有覆盖�
 #~ "option/\n"
 #~ "...\n"
 #~ msgstr ""
-
