@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-16 15:45+0800\n"
+"POT-Creation-Date: 2026-04-03 15:17+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -63,17 +63,15 @@ msgid ""
 "  }\n"
 "}\n"
 msgstr ""
-"标识符的使用存在歧义。如果它指的是循环变量，请使用 `as <id>` "
-"在模式中绑定它。如果它指的是变量在进入循环前的原始值，请在循环外部将其绑定到一个新的绑定器。"
 
 #: ../../language/error_codes/E0017.md:20
-#: ../../language/error_codes/E0017.md:41
-#: ../../language/error_codes/E0017.md:57
+#: ../../language/error_codes/E0017.md:52
+#: ../../language/error_codes/E0017.md:68
 msgid "Output:"
 msgstr "输出："
 
 #: ../../language/error_codes/E0017.md:22
-#: ../../language/error_codes/E0017.md:59
+#: ../../language/error_codes/E0017.md:70
 msgid ""
 "asdf\n"
 "asdf\n"
@@ -93,12 +91,28 @@ msgstr "建议"
 
 #: ../../language/error_codes/E0017.md:30
 msgid ""
-"It is often the case that you may want to refer to the loop variable that"
-" changes with loop iterations. If so, use `as <id>` to bind it in the "
-"pattern."
-msgstr "在许多情况下，您可能需要引用随循环迭代而变化的循环变量。如果需要，请使用 `as <id>` 将其绑定到模式中。"
+"Since `loop` syntax will be removed soon, prefer rewriting new code with "
+"a `for` loop when possible. For example, this code can be written as:"
+msgstr ""
+"由于 `loop` 语法很快会被移除，若条件允许，建议优先将新代码改写为 `for` 循环。例如，这段代码可以写成："
 
 #: ../../language/error_codes/E0017.md:33
+msgid ""
+"let text : StringView = \"asdf\"\n"
+"for i = 0; i < text.length(); i = i + 1 {\n"
+"  println(text[i:])\n"
+"}\n"
+msgstr ""
+
+#: ../../language/error_codes/E0017.md:40
+msgid ""
+"If you are maintaining existing `loop` code, and you want to refer to the"
+" loop variable that changes with loop iterations, use `as <id>` to bind "
+"it in the pattern."
+msgstr ""
+"如果你是在维护现有的 `loop` 代码，并且想引用随循环迭代而变化的循环变量，请使用 `as <id>` 在模式中绑定它。"
+
+#: ../../language/error_codes/E0017.md:44
 msgid ""
 "///|\n"
 "fn main {\n"
@@ -113,7 +127,7 @@ msgid ""
 "}\n"
 msgstr ""
 
-#: ../../language/error_codes/E0017.md:43
+#: ../../language/error_codes/E0017.md:54
 msgid ""
 "asdf\n"
 "sdf\n"
@@ -121,13 +135,13 @@ msgid ""
 "f\n"
 msgstr ""
 
-#: ../../language/error_codes/E0017.md:46
+#: ../../language/error_codes/E0017.md:57
 msgid ""
 "Or, if you want to refer to the original value of the variable before "
 "entering the loop, explicitly bind it to another name outside the loop."
 msgstr "或者，如果你想在进入循环之前引用变量的原始值，可以显式地将其绑定到循环外的另一个名称。"
 
-#: ../../language/error_codes/E0017.md:49
+#: ../../language/error_codes/E0017.md:60
 msgid ""
 "///|\n"
 "fn main {\n"
@@ -142,4 +156,3 @@ msgid ""
 "  }\n"
 "}\n"
 msgstr ""
-
