@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the MoonBit package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
@@ -25,11 +24,11 @@ msgstr "目录："
 
 #: ../../example/index.md:1
 msgid "Examples"
-msgstr "例子"
+msgstr "示例"
 
 #: ../../example/index.md:3
 msgid "Here are some examples built with MoonBit."
-msgstr "这里有一些用 MoonBit 构建的例子"
+msgstr "这里有一些使用 MoonBit 构建的示例。"
 
 #: ../../example/index.md:6
 msgid "[Download this section in Markdown](path:/download/example/summary.md)"

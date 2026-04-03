@@ -387,13 +387,14 @@ msgstr ""
 
 #: ../../toolchain/moon/package.md:244
 msgid "Supported Targets"
-msgstr ""
+msgstr "支持的目标"
 
 #: ../../toolchain/moon/package.md:246
 msgid ""
 "The `supported-targets` option declares which backends a package is "
 "intended to support. It uses a target-set expression, not an array:"
 msgstr ""
+"`supported-targets` 选项用于声明一个包打算支持哪些后端。它使用的是目标集合表达式，而不是数组："
 
 #: ../../toolchain/moon/package.md:251
 msgid ""

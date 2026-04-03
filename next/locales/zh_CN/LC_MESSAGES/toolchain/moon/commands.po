@@ -186,9 +186,8 @@ msgid "`test` — Test the current package"
 msgstr "`test` — 测试当前包"
 
 #: ../../toolchain/moon/commands.md:51
-#, fuzzy
 msgid "`clean` — Remove the _build directory"
-msgstr "`clean` — 删除 target 目录"
+msgstr "`clean` — 删除 _build 目录"
 
 #: ../../toolchain/moon/commands.md:52
 msgid "`fmt` — Format source code"
@@ -609,9 +608,8 @@ msgid "`moon clean`"
 msgstr ""
 
 #: ../../toolchain/moon/commands.md:270
-#, fuzzy
 msgid "Remove the _build directory"
-msgstr "删除 target 目录"
+msgstr "删除 _build 目录"
 
 #: ../../toolchain/moon/commands.md:272
 msgid "**Usage:** `moon clean`"
@@ -667,7 +665,7 @@ msgstr "`-b`, `--bind <绑定>` — 服务器的地址"
 
 #: ../../toolchain/moon/commands.md:308
 msgid "Default value: `127.0.0.1`"
-msgstr "默认值：`"
+msgstr "默认值：`127.0.0.1`"
 
 #: ../../toolchain/moon/commands.md:309
 msgid "`-p`, `--port <PORT>` — The port of the server"
@@ -705,7 +703,7 @@ msgstr "`moon bench`"
 
 #: ../../toolchain/moon/commands.md:336
 msgid "Run benchmarks in the current package"
-msgstr "对当前包运行基准测"
+msgstr "在当前包中运行基准测试"
 
 #: ../../toolchain/moon/commands.md:338
 msgid "**Usage:** `moon bench [OPTIONS]`"
