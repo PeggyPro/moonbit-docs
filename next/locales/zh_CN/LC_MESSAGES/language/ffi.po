@@ -193,10 +193,10 @@ msgstr "MoonBit 不支持多态外部函数。"
 #: ../../language/ffi.md:102
 msgid ""
 "When declaring functions, you need to make sure that the signature "
-"corresponds to the actual foreign function. **When a function returns "
-"nothing (e.g. `void`), omit the return type annotation in the function "
-"declaration.**"
-msgstr "当声明函数时，您需要确保函数签名与实际的外部函数相对应。当一个函数不返回任何值（例如 `void`）时，忽略函数声明中的返回类型注释。"
+"corresponds to the actual foreign function. **Use `-> Unit` when the "
+"foreign function returns no value. This corresponds to `void` in C and "
+"to a Wasm function with no result.**"
+msgstr "当声明函数时，您需要确保函数签名与实际的外部函数相对应。**当外部函数不返回值时，请使用 `-> Unit`。在 C 中，这对应 `void`；在 Wasm 中，这对应没有返回结果的函数。**"
 
 #: ../../language/ffi.md:113 ../../language/ffi.md:136
 msgid ""
@@ -259,7 +259,7 @@ msgid ""
 msgstr "您可以通过函数名称导入一个外部函数："
 
 #: ../../language/ffi.md:159
-msgid "extern \"C\" fn put_char(ch : UInt) = \"function_name\"\n"
+msgid "extern \"C\" fn put_char(ch : UInt) -> Unit = \"function_name\"\n"
 msgstr ""
 
 #: ../../language/ffi.md:163
@@ -330,9 +330,10 @@ msgstr "对于数字类型，`FixedArray[T]` 在将来可能会被迁移到 `Typ
 
 #: ../../language/ffi.md:277
 msgid ""
-"If the return type of `T` in `FuncRef[T]` is `Unit`, then it points to a "
-"function that returns `void`."
-msgstr "如果 `FuncRef[T]` 中的 `T` 的返回类型是 `Unit`，那么它指向一个返回 `void` 的函数。"
+"A foreign function returning `Unit` corresponds to a C function "
+"returning `void`. If the return type of `T` in `FuncRef[T]` is `Unit`, "
+"then it points to a function that returns `void`."
+msgstr "返回 `Unit` 的外部函数对应一个返回 `void` 的 C 函数。如果 `FuncRef[T]` 中 `T` 的返回类型是 `Unit`，那么它指向一个返回 `void` 的函数。"
 
 #: ../../language/ffi.md:282
 msgid ""
@@ -437,7 +438,7 @@ msgid ""
 "extern \"C\" fn register_callback_ffi(\n"
 "  call_closure : FuncRef[(() -> Unit) -> Unit],\n"
 "  closure : () -> Unit\n"
-") = \"register_callback\"\n"
+") -> Unit = \"register_callback\"\n"
 "\n"
 "fn register_callback(callback : () -> Unit) -> Unit {\n"
 "  register_callback_ffi(\n"
@@ -606,7 +607,7 @@ msgstr ""
 "                 ^\n"
 "                 |\n"
 "                 |_\n"
-"                    `moonbit_make_external_object` 返回的指针"
+"                    `moonbit_make_external_object` 返回的指针\n"
 
 #: ../../language/ffi.md:446
 msgid ""
@@ -886,4 +887,3 @@ msgstr ""
 #~ "  }\n"
 #~ "}\n"
 #~ msgstr ""
-
