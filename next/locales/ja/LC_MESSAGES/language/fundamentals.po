@@ -5160,11 +5160,14 @@ msgstr "特殊構文"
 msgid "Pipelines"
 msgstr "パイプライン"
 
-#: ../../language/fundamentals.md:1699
+#: ../../language/fundamentals.md:1703
 msgid ""
-"MoonBit provides a convenient pipe syntax `x |> f(y)`, which can be used to "
-"chain regular function calls:"
-msgstr "MoonBit には便利なパイプ構文 `x |> f(y)` があり、通常の関数呼び出しを連結できます："
+"MoonBit provides convenient pipe syntaxes `x |> f(y)` and `f <| x`, which can"
+" be used to chain regular function calls or make nested builder-style code "
+"easier to read:"
+msgstr ""
+"MoonBit には便利なパイプ構文 `x |> f(y)` と `f <| x` があり、通常の関数呼び出しを連結したり、ネストしたビルダー風コード"
+"を読みやすくしたりできます："
 
 #: ../../language/fundamentals.md:1701
 msgid ""
@@ -5182,12 +5185,12 @@ msgstr ""
 "|> x => { x + 1 }\n"
 "|> ignore // <=> ignore(add(1, 5))\n"
 
-#: ../../language/fundamentals.md:1708
+#: ../../language/fundamentals.md:1712
 msgid ""
 "The MoonBit code follows the *data-first* style, meaning the function places"
-" its \"subject\" as the first argument.  Thus, the pipe operator inserts the"
+" its \"subject\" as the first argument. Thus, the pipe operator inserts the"
 " left-hand side value into the first argument of the right-hand side "
-"function call by default.  For example, `x |> f(y)` is equivalent to `f(x, "
+"function call by default. For example, `x |> f(y)` is equivalent to `f(x, "
 "y)`."
 msgstr ""
 "MoonBit のコードは *data-first* スタイルに従っています。つまり、関数は対象を第 1 "
@@ -5203,7 +5206,7 @@ msgstr ""
 "`_` 演算子を使うと、`x |> f(y, _)` のように `f` の任意の引数位置に `x` を差し込めます。これは `f(y, x)` "
 "と等価です。ラベル付き引数も使えます。"
 
-#: ../../language/fundamentals.md:1714
+#: ../../language/fundamentals.md:1718
 msgid ""
 "The pipe operator can also connect to an arrow function. When piping into an"
 " arrow function, the function body must be wrapped in curly braces, for "
@@ -5212,7 +5215,62 @@ msgstr ""
 "パイプ演算子はアロー関数にもつなげられます。アロー関数にパイプするときは、関数本体を中括弧で囲む必要があります。たとえば `value |> x => "
 "{ x + 1 }` です。"
 
-#: ../../language/fundamentals.md:1717
+#: ../../language/fundamentals.md:1720
+msgid ""
+"The reverse pipe operator applies the right-hand side as the final argument of"
+" the left-hand side call. For example, `f <| x` is equivalent to `f(x)`, and "
+"`f(a, b) <| c` is equivalent to `f(a, b, c)`. This is especially useful for "
+"DSL-like code, since nested calls such as `div([text(\"hello\")])` can instead"
+" be written as `div <| [text <| \"hello\"]`."
+msgstr ""
+"逆パイプ演算子は、右辺を左辺の呼び出しの最後の引数として適用します。たとえば、`f <| x` は `f(x)` と等価で、`f(a, b) <| c`"
+" は `f(a, b, c)` と等価です。これは DSL 風のコードで特に有用で、`div([text(\"hello\")])` のようなネストし"
+"た呼び出しを `div <| [text <| \"hello\"]` と書けます。"
+
+#: ../../language/fundamentals.md:1722
+msgid ""
+"let page =\n"
+"  div <| [\n"
+"    text <| \"hello\",\n"
+"    section(\"toolbar\") <| fn () {\n"
+"      [\n"
+"        text <| \"save\",\n"
+"        text <| \"cancel\",\n"
+"      ]\n"
+"    },\n"
+"  ]\n"
+"inspect(\n"
+"  page,\n"
+"  content=\n"
+"    \"div(text(hello), toolbar: div(text(save), text(cancel)))\",\n"
+")\n"
+msgstr ""
+"let page =\n"
+"  div <| [\n"
+"    text <| \"hello\",\n"
+"    section(\"toolbar\") <| fn () {\n"
+"      [\n"
+"        text <| \"save\",\n"
+"        text <| \"cancel\",\n"
+"      ]\n"
+"    },\n"
+"  ]\n"
+"inspect(\n"
+"  page,\n"
+"  content=\n"
+"    \"div(text(hello), toolbar: div(text(save), text(cancel)))\",\n"
+")\n"
+
+#: ../../language/fundamentals.md:1729
+msgid ""
+"Because reverse pipe attaches the final argument, it also works well with "
+"functions whose last argument is a lambda, enabling a trailing-lambda style "
+"such as `section(\"toolbar\") <| fn () { ... }`."
+msgstr ""
+"逆パイプは最後の引数を付け足すので、最後の引数がラムダである関数とも相性がよく、`section(\"toolbar\") <| fn () { ... "
+"}` のような trailing-lambda スタイルを書けます。"
+
+#: ../../language/fundamentals.md:1732
 msgid "Cascade Operator"
 msgstr "カスケード演算子"
 

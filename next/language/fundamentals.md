@@ -1700,7 +1700,7 @@ Generics are supported in top-level function and data type definitions. Type par
 
 ### Pipelines
 
-MoonBit provides a convenient pipe syntax `x |> f(y)`, which can be used to chain regular function calls:
+MoonBit provides convenient pipe syntaxes `x |> f(y)` and `f <| x`, which can be used to chain regular function calls or make nested builder-style code easier to read:
 
 ```{literalinclude} /sources/language/src/operator/top.mbt
 :language: moonbit
@@ -1709,13 +1709,24 @@ MoonBit provides a convenient pipe syntax `x |> f(y)`, which can be used to chai
 :end-before: end operator 4
 ```
 
-The MoonBit code follows the *data-first* style, meaning the function places its "subject" as the first argument. 
-Thus, the pipe operator inserts the left-hand side value into the first argument of the right-hand side function call by default. 
+The MoonBit code follows the *data-first* style, meaning the function places its "subject" as the first argument.
+Thus, the pipe operator inserts the left-hand side value into the first argument of the right-hand side function call by default.
 For example, `x |> f(y)` is equivalent to `f(x, y)`.
 
 You can use the `_` operator to insert `x` into any argument of the function `f`, such as `x |> f(y, _)`, which is equivalent to `f(y, x)`. Labeled arguments are also supported.
 
 The pipe operator can also connect to an arrow function. When piping into an arrow function, the function body must be wrapped in curly braces, for example `value |> x => { x + 1 }`.
+
+The reverse pipe operator applies the right-hand side as the final argument of the left-hand side call. For example, `f <| x` is equivalent to `f(x)`, and `f(a, b) <| c` is equivalent to `f(a, b, c)`. This is especially useful for DSL-like code, since nested calls such as `div([text("hello")])` can instead be written as `div <| [text <| "hello"]`.
+
+```{literalinclude} /sources/language/src/operator/top.mbt
+:language: moonbit
+:dedent:
+:start-after: start operator 4 reverse
+:end-before: end operator 4 reverse
+```
+
+Because reverse pipe attaches the final argument, it also works well with functions whose last argument is a lambda, enabling a trailing-lambda style such as `section("toolbar") <| fn () { ... }`.
 
 
 ### Cascade Operator

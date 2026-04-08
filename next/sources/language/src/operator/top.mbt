@@ -65,6 +65,38 @@ fn pipe() -> Unit {
   // end operator 4
 }
 
+fn text(content : String) -> String {
+  "text(" + content + ")"
+}
+
+fn div(children : Array[String]) -> String {
+  "div(" + children.join(", ") + ")"
+}
+
+fn section(title : String, body : () -> Array[String]) -> String {
+  title + ": " + (div <| body())
+}
+
+test {
+  // start operator 4 reverse
+  let page =
+    div <| [
+      text <| "hello",
+      section("toolbar") <| fn () {
+        [
+          text <| "save",
+          text <| "cancel",
+        ]
+      },
+    ]
+  inspect(
+    page,
+    content=
+      "div(text(hello), toolbar: div(text(save), text(cancel)))",
+  )
+  // end operator 4 reverse
+}
+
 trait Ignore {
   f(Self) -> Unit
 }
