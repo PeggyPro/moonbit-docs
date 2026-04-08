@@ -1253,6 +1253,68 @@ If a `struct` declares a constructor, it can be constructed by name directly:
 :end-before: end struct constructor 3
 ```
 
+The constructor call follows the declared `new` signature, so unlabeled parameters can be written in the familiar `TypeName(value)` form.
+
+Constructors may also use labeled and optional arguments, just like normal functions:
+
+```{literalinclude} /sources/language/src/data/top.mbt
+:language: moonbit
+:start-after: start struct constructor 4
+:end-before: end struct constructor 4
+```
+
+```{literalinclude} /sources/language/src/data/top.mbt
+:language: moonbit
+:start-after: start struct constructor 5
+:end-before: end struct constructor 5
+```
+
+```{literalinclude} /sources/language/src/data/top.mbt
+:language: moonbit
+:start-after: start struct constructor 6
+:end-before: end struct constructor 6
+```
+
+Because struct constructors are implemented by normal functions, they may raise errors:
+
+```{literalinclude} /sources/language/src/data/top.mbt
+:language: moonbit
+:start-after: start struct constructor 7
+:end-before: end struct constructor 7
+```
+
+```{literalinclude} /sources/language/src/data/top.mbt
+:language: moonbit
+:start-after: start struct constructor 8
+:end-before: end struct constructor 8
+```
+
+```{literalinclude} /sources/language/src/data/top.mbt
+:language: moonbit
+:start-after: start struct constructor 9
+:end-before: end struct constructor 9
+```
+
+Asynchronous constructors are declared with `async fn new` and can be used inside async code:
+
+```{literalinclude} /sources/async/src/async.mbt
+:language: moonbit
+:start-after: start struct constructor async 1
+:end-before: end struct constructor async 1
+```
+
+```{literalinclude} /sources/async/src/async.mbt
+:language: moonbit
+:start-after: start struct constructor async 2
+:end-before: end struct constructor async 2
+```
+
+```{literalinclude} /sources/async/src/async.mbt
+:language: moonbit
+:start-after: start struct constructor async 3
+:end-before: end struct constructor async 3
+```
+
 Creating value via `struct` constructor has exactly the same semantic as
 [enum constructors](#Enum),
 except that `struct` constructors cannot be used for pattern matching.
@@ -1264,10 +1326,6 @@ they may [raise error](/language/error-handling.md) or [perform asynchronous ope
 `struct` constructors also support [optional arguments](#Optional-arguments).
 Notice that the default value of optional arguments should be defined at the implementation of struct constructors,
 the declaration inside the `struct` should only contain a `label? : T` signature.
-
-For `struct` with type parameters, constructors may specialize the type arguments or
-require [trait bounds](/language/methods.mbt:#Using-traits) on the type parameters.
-The syntax is the same as a normal toplevel function declaration.
 
 ### Enum
 

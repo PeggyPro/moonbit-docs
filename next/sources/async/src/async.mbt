@@ -28,6 +28,31 @@ async fn use_value() -> Int {
 // end optional arguments async
 
 ///|
+// start struct constructor async 1
+struct AsyncBox {
+  value : Int
+
+  async fn new(x : Int) -> AsyncBox
+} derive(Show)
+// end struct constructor async 1
+
+///|
+// start struct constructor async 2
+async fn AsyncBox::new(x : Int) -> AsyncBox {
+  @async.sleep(0)
+  { value: x }
+}
+// end struct constructor async 2
+
+///|
+// start struct constructor async 3
+async test "struct constructor async" {
+  let box = AsyncBox(10)
+  inspect(box, content="{value: 10}")
+}
+// end struct constructor async 3
+
+///|
 // start with_task_group example
 async test "with_task_group" {
   let log = []

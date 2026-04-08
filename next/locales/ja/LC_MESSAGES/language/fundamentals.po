@@ -3525,20 +3525,18 @@ msgstr ""
 "MoonBit は、すべての `struct` 型に対してカスタムコンストラクタを定義することもサポートしています。`struct` "
 "のコンストラクタは、struct 名を使ってその struct の値を作るための特別な関数です。次のように宣言できます："
 
-#: ../../language/fundamentals.md:1228
+#: ../../language/fundamentals.md:1232
 msgid ""
-"struct StructWithConstr {\n"
-"  x : Int\n"
-"  y : Int\n"
+"struct IntBox {\n"
+"  value : Int\n"
 "\n"
-"  fn new(x~ : Int, y? : Int) -> StructWithConstr\n"
+"  fn new(value : Int) -> IntBox\n"
 "} derive(Show)\n"
 msgstr ""
-"struct StructWithConstr {\n"
-"  x : Int\n"
-"  y : Int\n"
+"struct IntBox {\n"
+"  value : Int\n"
 "\n"
-"  fn new(x~ : Int, y? : Int) -> StructWithConstr\n"
+"  fn new(value : Int) -> IntBox\n"
 "} derive(Show)\n"
 
 #: ../../language/fundamentals.md:1234
@@ -3550,21 +3548,69 @@ msgstr ""
 "ここで、コンストラクタの戻り値は struct 自身でなければなりません。そして、コンストラクタはまったく同じ型を持つ `new` "
 "メソッド（ここでは名前を変更できません）として実装する必要があります："
 
-#: ../../language/fundamentals.md:1238
+#: ../../language/fundamentals.md:1242
 msgid ""
-"fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {\n"
-"  { x, y }\n"
+"fn IntBox::new(value : Int) -> IntBox {\n"
+"  { value, }\n"
 "}\n"
 msgstr ""
-"fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {\n"
-"  { x, y }\n"
+"fn IntBox::new(value : Int) -> IntBox {\n"
+"  { value, }\n"
 "}\n"
 
 #: ../../language/fundamentals.md:1244
 msgid "If a `struct` declares a constructor, it can be constructed by name directly:"
 msgstr "`struct` がコンストラクタを宣言していれば、名前で直接構築できます："
 
-#: ../../language/fundamentals.md:1246
+#: ../../language/fundamentals.md:1250
+msgid ""
+"  let box = IntBox(10)\n"
+"  inspect(box, content=\"{value: 10}\")\n"
+msgstr ""
+"  let box = IntBox(10)\n"
+"  inspect(box, content=\"{value: 10}\")\n"
+
+#: ../../language/fundamentals.md:1256
+msgid ""
+"The constructor call follows the declared `new` signature, so unlabeled "
+"parameters can be written in the familiar `TypeName(value)` form."
+msgstr ""
+"コンストラクタ呼び出しは宣言された `new` のシグネチャに従うため、ラベルのない引数は馴染みのある `TypeName(value)` の形で書けま"
+"す。"
+
+#: ../../language/fundamentals.md:1258
+msgid ""
+"Constructors may also use labeled and optional arguments, just like normal "
+"functions:"
+msgstr "コンストラクタでも、通常の関数と同じようにラベル付き引数やオプション引数を使えます："
+
+#: ../../language/fundamentals.md:1260
+msgid ""
+"struct StructWithConstr {\n"
+"  x : Int\n"
+"  y : Int\n"
+"\n"
+"  fn new(x~ : Int, y? : Int) -> StructWithConstr\n"
+"} derive(Show)\n"
+msgstr ""
+"struct StructWithConstr {\n"
+"  x : Int\n"
+"  y : Int\n"
+"\n"
+"  fn new(x~ : Int, y? : Int) -> StructWithConstr\n"
+"} derive(Show)\n"
+
+#: ../../language/fundamentals.md:1266
+msgid ""
+"fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {\n"
+"  { x, y }\n"
+"}\n"
+msgstr ""
+"fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {\n"
+"  { x, y }\n"
+"}\n"
+
+#: ../../language/fundamentals.md:1272
 msgid ""
 "  let s = StructWithConstr(x=1)\n"
 "  inspect(s, content=\"{x: 1, y: 1}\")\n"
@@ -3572,7 +3618,111 @@ msgstr ""
 "  let s = StructWithConstr(x=1)\n"
 "  inspect(s, content=\"{x: 1, y: 1}\")\n"
 
-#: ../../language/fundamentals.md:1252
+#: ../../language/fundamentals.md:1278
+msgid ""
+"Because struct constructors are implemented by normal functions, they may "
+"raise errors:"
+msgstr "struct コンストラクタは通常の関数として実装されるため、エラーを送出することもできます："
+
+#: ../../language/fundamentals.md:1280
+msgid ""
+"suberror BuildError {\n"
+"  NegativeInput\n"
+"} derive(Show)\n"
+"\n"
+"struct Positive {\n"
+"  value : Int\n"
+"\n"
+"  fn new(x : Int) -> Positive raise BuildError\n"
+"} derive(Show)\n"
+msgstr ""
+"suberror BuildError {\n"
+"  NegativeInput\n"
+"} derive(Show)\n"
+"\n"
+"struct Positive {\n"
+"  value : Int\n"
+"\n"
+"  fn new(x : Int) -> Positive raise BuildError\n"
+"} derive(Show)\n"
+
+#: ../../language/fundamentals.md:1286
+msgid ""
+"fn Positive::new(x : Int) -> Positive raise BuildError {\n"
+"  guard x >= 0 else { raise NegativeInput }\n"
+"  { value: x }\n"
+"}\n"
+msgstr ""
+"fn Positive::new(x : Int) -> Positive raise BuildError {\n"
+"  guard x >= 0 else { raise NegativeInput }\n"
+"  { value: x }\n"
+"}\n"
+
+#: ../../language/fundamentals.md:1292
+msgid ""
+"inspect(\n"
+"  try? Positive(10),\n"
+"  content=\"Ok({value: 10})\",\n"
+")\n"
+"inspect(\n"
+"  try? Positive(-1),\n"
+"  content=\"Err(NegativeInput)\",\n"
+")\n"
+msgstr ""
+"inspect(\n"
+"  try? Positive(10),\n"
+"  content=\"Ok({value: 10})\",\n"
+")\n"
+"inspect(\n"
+"  try? Positive(-1),\n"
+"  content=\"Err(NegativeInput)\",\n"
+")\n"
+
+#: ../../language/fundamentals.md:1298
+msgid ""
+"Asynchronous constructors are declared with `async fn new` and can be used "
+"inside async code:"
+msgstr "非同期コンストラクタは `async fn new` として宣言し、非同期コードの中で使えます："
+
+#: ../../language/fundamentals.md:1300
+msgid ""
+"struct AsyncBox {\n"
+"  value : Int\n"
+"\n"
+"  async fn new(x : Int) -> AsyncBox\n"
+"} derive(Show)\n"
+msgstr ""
+"struct AsyncBox {\n"
+"  value : Int\n"
+"\n"
+"  async fn new(x : Int) -> AsyncBox\n"
+"} derive(Show)\n"
+
+#: ../../language/fundamentals.md:1306
+msgid ""
+"async fn AsyncBox::new(x : Int) -> AsyncBox {\n"
+"  @async.sleep(0)\n"
+"  { value: x }\n"
+"}\n"
+msgstr ""
+"async fn AsyncBox::new(x : Int) -> AsyncBox {\n"
+"  @async.sleep(0)\n"
+"  { value: x }\n"
+"}\n"
+
+#: ../../language/fundamentals.md:1312
+msgid ""
+"async test \"struct constructor async\" {\n"
+"  let box = AsyncBox(10)\n"
+"  inspect(box, content=\"{value: 10}\")\n"
+"}\n"
+msgstr ""
+"async test \"struct constructor async\" {\n"
+"  let box = AsyncBox(10)\n"
+"  inspect(box, content=\"{value: 10}\")\n"
+"}\n"
+
+#: ../../language/fundamentals.md:1318
 msgid ""
 "Creating value via `struct` constructor has exactly the same semantic as "
 "[enum constructors](#enum), except that `struct` constructors cannot be used"
@@ -3584,7 +3734,7 @@ msgstr ""
 "コンストラクタはパターンマッチには使えません。例えば、外部の `struct` "
 "をコンストラクタで作るとき、式の期待型が分かっていればパッケージ名は省略できます。"
 
-#: ../../language/fundamentals.md:1258
+#: ../../language/fundamentals.md:1324
 msgid ""
 "Since `struct` constructors are implemented by normal functions, they may "
 "[raise error](/language/error-handling.md) or [perform asynchronous "
@@ -3599,17 +3749,7 @@ msgstr ""
 "[optional arguments](#optional-arguments) もサポートします。オプション引数のデフォルト値は struct "
 "コンストラクタの実装側で定義し、`struct` 内の宣言には `label? : T` のシグネチャだけを書きます。"
 
-#: ../../language/fundamentals.md:1264
-msgid ""
-"For `struct` with type parameters, constructors may specialize the type "
-"arguments or require [trait bounds](/language/methods.mbt:#Using-traits) on "
-"the type parameters. The syntax is the same as a normal toplevel function "
-"declaration."
-msgstr ""
-"型パラメータ付きの `struct` では、コンストラクタが型引数を特化したり、型パラメータに [trait "
-"制約](/language/methods.md#using-traits) を要求したりできます。構文は通常のトップレベル関数宣言と同じです。"
-
-#: ../../language/fundamentals.md:1268
+#: ../../language/fundamentals.md:1330
 msgid "Enum"
 msgstr "Enum"
 

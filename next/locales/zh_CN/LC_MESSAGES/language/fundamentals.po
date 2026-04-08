@@ -2919,11 +2919,10 @@ msgstr ""
 
 #: ../../language/fundamentals.md:1232
 msgid ""
-"struct StructWithConstr {\n"
-"  x : Int\n"
-"  y : Int\n"
+"struct IntBox {\n"
+"  value : Int\n"
 "\n"
-"  fn new(x~ : Int, y? : Int) -> StructWithConstr\n"
+"  fn new(value : Int) -> IntBox\n"
 "} derive(Show)\n"
 msgstr ""
 
@@ -2938,8 +2937,8 @@ msgstr ""
 
 #: ../../language/fundamentals.md:1242
 msgid ""
-"fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {\n"
-"  { x, y }\n"
+"fn IntBox::new(value : Int) -> IntBox {\n"
+"  { value, }\n"
 "}\n"
 msgstr ""
 
@@ -2951,11 +2950,116 @@ msgstr "当一个结构体定义了构造器，它就可以直接通过类型名
 
 #: ../../language/fundamentals.md:1250
 msgid ""
+"  let box = IntBox(10)\n"
+"  inspect(box, content=\"{value: 10}\")\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1256
+msgid ""
+"The constructor call follows the declared `new` signature, so unlabeled "
+"parameters can be written in the familiar `TypeName(value)` form."
+msgstr "构造器调用遵循声明的 `new` 签名，因此无标签参数可以写成熟悉的 `TypeName(value)` 形式。"
+
+#: ../../language/fundamentals.md:1258
+msgid ""
+"Constructors may also use labeled and optional arguments, just like normal"
+" functions:"
+msgstr "构造器也可以像普通函数一样使用带标签参数和可选参数："
+
+#: ../../language/fundamentals.md:1260
+msgid ""
+"struct StructWithConstr {\n"
+"  x : Int\n"
+"  y : Int\n"
+"\n"
+"  fn new(x~ : Int, y? : Int) -> StructWithConstr\n"
+"} derive(Show)\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1266
+msgid ""
+"fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {\n"
+"  { x, y }\n"
+"}\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1272
+msgid ""
 "  let s = StructWithConstr(x=1)\n"
 "  inspect(s, content=\"{x: 1, y: 1}\")\n"
 msgstr ""
 
-#: ../../language/fundamentals.md:1256
+#: ../../language/fundamentals.md:1278
+msgid ""
+"Because struct constructors are implemented by normal functions, they may"
+" raise errors:"
+msgstr "由于结构体构造器由普通函数实现，因此它们也可以抛出错误："
+
+#: ../../language/fundamentals.md:1280
+msgid ""
+"suberror BuildError {\n"
+"  NegativeInput\n"
+"} derive(Show)\n"
+"\n"
+"struct Positive {\n"
+"  value : Int\n"
+"\n"
+"  fn new(x : Int) -> Positive raise BuildError\n"
+"} derive(Show)\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1286
+msgid ""
+"fn Positive::new(x : Int) -> Positive raise BuildError {\n"
+"  guard x >= 0 else { raise NegativeInput }\n"
+"  { value: x }\n"
+"}\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1292
+msgid ""
+"inspect(\n"
+"  try? Positive(10),\n"
+"  content=\"Ok({value: 10})\",\n"
+")\n"
+"inspect(\n"
+"  try? Positive(-1),\n"
+"  content=\"Err(NegativeInput)\",\n"
+")\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1298
+msgid ""
+"Asynchronous constructors are declared with `async fn new` and can be used"
+" inside async code:"
+msgstr "异步构造器使用 `async fn new` 声明，并且可以在异步代码中使用："
+
+#: ../../language/fundamentals.md:1300
+msgid ""
+"struct AsyncBox {\n"
+"  value : Int\n"
+"\n"
+"  async fn new(x : Int) -> AsyncBox\n"
+"} derive(Show)\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1306
+msgid ""
+"async fn AsyncBox::new(x : Int) -> AsyncBox {\n"
+"  @async.sleep(0)\n"
+"  { value: x }\n"
+"}\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1312
+msgid ""
+"async test \"struct constructor async\" {\n"
+"  let box = AsyncBox(10)\n"
+"  inspect(box, content=\"{value: 10}\")\n"
+"}\n"
+msgstr ""
+
+#: ../../language/fundamentals.md:1318
 msgid ""
 "Creating value via `struct` constructor has exactly the same semantic as "
 "[enum constructors](#Enum), except that `struct` constructors cannot be "
@@ -2966,7 +3070,7 @@ msgstr ""
 "通过自定义构造器定义结构体和 [枚举构造器](#Enum) "
 "有完全相同的语义，唯一的不同是结构体的构造器无法用于模式匹配。例如，通过构造器创建一个来自外部的结构体的值时，如果从上下文可以推断出表达式的类型，则可以省略包名或类型名标注。"
 
-#: ../../language/fundamentals.md:1262
+#: ../../language/fundamentals.md:1324
 msgid ""
 "Since `struct` constructors are implemented by normal functions, they may"
 " [raise error](/language/error-handling.md) or [perform asynchronous "
@@ -2981,21 +3085,11 @@ msgstr ""
 "arguments)。这里需要注意，可选参数的默认值应该在 `new` 方法处定义，而不是在 `struct` 内的声明里定义。`struct` "
 "内的声明只应该包含一个 `label? : T` 的类型签名。"
 
-#: ../../language/fundamentals.md:1268
-msgid ""
-"For `struct` with type parameters, constructors may specialize the type "
-"arguments or require [trait bounds](/language/methods.mbt:#Using-traits) "
-"on the type parameters. The syntax is the same as a normal toplevel "
-"function declaration."
-msgstr ""
-"对于有类型参数的 `struct`，构造器可以特化这些类型参数，也可以给类型参数加上 [特征约束](/language/methods.mbt"
-":#Using-traits)。语法和普通的顶层函数声明相同。"
-
-#: ../../language/fundamentals.md:1272
+#: ../../language/fundamentals.md:1330
 msgid "Enum"
 msgstr "枚举"
 
-#: ../../language/fundamentals.md:1274
+#: ../../language/fundamentals.md:1332
 msgid ""
 "Enum types are similar to algebraic data types in functional languages. "
 "Users familiar with C/C++ may prefer calling it tagged union."

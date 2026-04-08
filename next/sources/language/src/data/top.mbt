@@ -47,25 +47,78 @@ test "struct 4" (t : @test.Test) {
 }
 
 // start struct constructor 1
+struct IntBox {
+  value : Int
+
+  fn new(value : Int) -> IntBox
+} derive(Show)
+// end struct constructor 1
+
+// start struct constructor 2
+fn IntBox::new(value : Int) -> IntBox {
+  { value, }
+}
+// end struct constructor 2
+
+test "struct constructor positional" {
+  // start struct constructor 3
+  let box = IntBox(10)
+  inspect(box, content="{value: 10}")
+  // end struct constructor 3
+}
+
+// start struct constructor 4
 struct StructWithConstr {
   x : Int
   y : Int
 
   fn new(x~ : Int, y? : Int) -> StructWithConstr
 } derive(Show)
-// end struct constructor 1
+// end struct constructor 4
 
-// start struct constructor 2
+// start struct constructor 5
 fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {
   { x, y }
 }
-// end struct constructor 2
+// end struct constructor 5
 
-test "struct constructor" {
-  // start struct constructor 3
+test "struct constructor optional" {
+  // start struct constructor 6
   let s = StructWithConstr(x=1)
   inspect(s, content="{x: 1, y: 1}")
-  // end struct constructor 3
+  // end struct constructor 6
+}
+
+// start struct constructor 7
+suberror BuildError {
+  NegativeInput
+} derive(Show)
+
+struct Positive {
+  value : Int
+
+  fn new(x : Int) -> Positive raise BuildError
+} derive(Show)
+// end struct constructor 7
+
+// start struct constructor 8
+fn Positive::new(x : Int) -> Positive raise BuildError {
+  guard x >= 0 else { raise NegativeInput }
+  { value: x }
+}
+// end struct constructor 8
+
+test "struct constructor raise" {
+  // start struct constructor 9
+  inspect(
+    try? Positive(10),
+    content="Ok({value: 10})",
+  )
+  inspect(
+    try? Positive(-1),
+    content="Err(NegativeInput)",
+  )
+  // end struct constructor 9
 }
 
 // start enum 1
