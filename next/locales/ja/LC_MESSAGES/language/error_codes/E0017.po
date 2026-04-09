@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 21:04+0800\n"
+"POT-Creation-Date: 2026-04-03 15:17+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ja\n"
@@ -63,13 +63,13 @@ msgid ""
 msgstr ""
 
 #: ../../language/error_codes/E0017.md:20
-#: ../../language/error_codes/E0017.md:41
-#: ../../language/error_codes/E0017.md:57
+#: ../../language/error_codes/E0017.md:52
+#: ../../language/error_codes/E0017.md:68
 msgid "Output:"
 msgstr ""
 
 #: ../../language/error_codes/E0017.md:22
-#: ../../language/error_codes/E0017.md:59
+#: ../../language/error_codes/E0017.md:70
 msgid ""
 "asdf\n"
 "asdf\n"
@@ -89,12 +89,26 @@ msgstr ""
 
 #: ../../language/error_codes/E0017.md:30
 msgid ""
-"It is often the case that you may want to refer to the loop variable that"
-" changes with loop iterations. If so, use `as <id>` to bind it in the "
-"pattern."
+"Since `loop` syntax will be removed soon, prefer rewriting new code with "
+"a `for` loop when possible. For example, this code can be written as:"
 msgstr ""
 
 #: ../../language/error_codes/E0017.md:33
+msgid ""
+"let text : StringView = \"asdf\"\n"
+"for i = 0; i < text.length(); i = i + 1 {\n"
+"  println(text[i:])\n"
+"}\n"
+msgstr ""
+
+#: ../../language/error_codes/E0017.md:40
+msgid ""
+"If you are maintaining existing `loop` code, and you want to refer to the"
+" loop variable that changes with loop iterations, use `as <id>` to bind "
+"it in the pattern."
+msgstr ""
+
+#: ../../language/error_codes/E0017.md:44
 msgid ""
 "///|\n"
 "fn main {\n"
@@ -109,7 +123,7 @@ msgid ""
 "}\n"
 msgstr ""
 
-#: ../../language/error_codes/E0017.md:43
+#: ../../language/error_codes/E0017.md:54
 msgid ""
 "asdf\n"
 "sdf\n"
@@ -117,13 +131,13 @@ msgid ""
 "f\n"
 msgstr ""
 
-#: ../../language/error_codes/E0017.md:46
+#: ../../language/error_codes/E0017.md:57
 msgid ""
 "Or, if you want to refer to the original value of the variable before "
 "entering the loop, explicitly bind it to another name outside the loop."
 msgstr ""
 
-#: ../../language/error_codes/E0017.md:49
+#: ../../language/error_codes/E0017.md:60
 msgid ""
 "///|\n"
 "fn main {\n"
@@ -138,4 +152,12 @@ msgid ""
 "  }\n"
 "}\n"
 msgstr ""
+
+#~ msgid ""
+#~ "It is often the case that you "
+#~ "may want to refer to the loop "
+#~ "variable that changes with loop "
+#~ "iterations. If so, use `as <id>` "
+#~ "to bind it in the pattern."
+#~ msgstr ""
 
