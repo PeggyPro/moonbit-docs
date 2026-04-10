@@ -3054,6 +3054,8 @@ msgid ""
 "prefer `for`, `for .. in`, or `while`. This section is kept as reference "
 "for existing code and migration."
 msgstr ""
+"`loop` 構文はまもなく削除されます。新しいコードには導入せず、`for`、`for .. in`、または `while` を使ってください。こ"
+"の節は既存コードの参照と移行のために残されています。"
 
 #: ../../language/fundamentals.md:1050
 msgid ""
@@ -3698,7 +3700,6 @@ msgstr ""
 "}\n"
 
 #: ../../language/fundamentals.md:1292
-#, fuzzy
 msgid ""
 "  inspect(\n"
 "    try? Positive(10),\n"
@@ -3709,14 +3710,14 @@ msgid ""
 "    content=\"Err(NegativeInput)\",\n"
 "  )\n"
 msgstr ""
-"inspect(\n"
-"  try? Positive(10),\n"
-"  content=\"Ok({value: 10})\",\n"
-")\n"
-"inspect(\n"
-"  try? Positive(-1),\n"
-"  content=\"Err(NegativeInput)\",\n"
-")\n"
+"  inspect(\n"
+"    try? Positive(10),\n"
+"    content=\"Ok({value: 10})\",\n"
+"  )\n"
+"  inspect(\n"
+"    try? Positive(-1),\n"
+"    content=\"Err(NegativeInput)\",\n"
+"  )\n"
 
 #: ../../language/fundamentals.md:1298
 msgid ""
@@ -3763,7 +3764,6 @@ msgstr ""
 "}\n"
 
 #: ../../language/fundamentals.md:1318
-#, fuzzy
 msgid ""
 "Creating value via `struct` constructor has exactly the same semantic as "
 "[enum constructors](#Enum), except that `struct` constructors cannot be "
@@ -3771,12 +3771,11 @@ msgid ""
 "using constructors, the package name can be omitted if the expected type "
 "of the expression is known."
 msgstr ""
-"`struct` コンストラクタによる値の生成は、[enum コンストラクタ](#enum) "
+"`struct` コンストラクタによる値の生成は、[enum コンストラクタ](#Enum) "
 "とまったく同じ意味を持ちます。ただし、`struct` コンストラクタはパターンマッチには使えません。例えば、外部の `struct` "
 "をコンストラクタで作るとき、式の期待型が分かっていればパッケージ名は省略できます。"
 
 #: ../../language/fundamentals.md:1324
-#, fuzzy
 msgid ""
 "Since `struct` constructors are implemented by normal functions, they may"
 " [raise error](/language/error-handling.md) or [perform asynchronous "
@@ -3788,7 +3787,7 @@ msgid ""
 msgstr ""
 "`struct` コンストラクタは通常の関数として実装されるため、[error を送出](/language/error-handling.md)"
 " したり [非同期操作を行う](/language/async-experimental.md) こともできます。`struct` "
-"コンストラクタは [optional arguments](#optional-arguments) "
+"コンストラクタは [optional arguments](#Optional-arguments) "
 "もサポートします。オプション引数のデフォルト値は struct コンストラクタの実装側で定義し、`struct` 内の宣言には `label? :"
 " T` のシグネチャだけを書きます。"
 
@@ -6049,7 +6048,6 @@ msgstr ""
 "として一致させますが、search モードではまず `if` が一致します）。"
 
 #: ../../language/fundamentals.md:2044
-#, fuzzy
 msgid ""
 "Regex literals support `\\b` and `\\B` as part of the regex syntax, but "
 "these word-boundary assertions are not currently available in `regex "
@@ -6270,4 +6268,3 @@ msgstr ""
 #~ "  assert_true(!(\"zabc!\" =~ re\"^abc\"))\n"
 #~ "}\n"
 #~ msgstr ""
-

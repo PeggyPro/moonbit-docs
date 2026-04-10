@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the MoonBit package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
@@ -21,7 +20,7 @@ msgstr ""
 
 #: ../../sources/sudoku/src/index.mbt.md:2
 msgid "Sudoku Solver"
-msgstr ""
+msgstr "数独ソルバー"
 
 #: ../../sources/sudoku/src/index.mbt.md:4
 msgid ""
@@ -34,14 +33,18 @@ msgid ""
 "demonstrate how to write a suitable program to solve Sudoku using "
 "MoonBit. ![sudoku example](/imgs/sudoku.jpg)"
 msgstr ""
+"数独は、1979 年に生まれた論理パズルゲームです。新聞のような印刷媒体と相性がよく、デジタル時代の今でも、コンピュータやスマートフォン向けに多くの"
+"数独プログラムがあります。今日では娯楽の選択肢が多様になっていますが、数独愛好家は今なお活発なコミュニティを形成しています（オンラインフォーラムの例:"
+" [enjoysudoku](http://forum.enjoysudoku.com/)）。この記事では、MoonBit を使って数独を解くのに適し"
+"たプログラムを書く方法を紹介します。![数独の例](/imgs/sudoku.jpg)"
 
 #: ../../sources/sudoku/src/index.mbt.md:4
 msgid "sudoku example"
-msgstr ""
+msgstr "数独の例"
 
 #: ../../sources/sudoku/src/index.mbt.md:13
 msgid "Squares, Units, and Peers"
-msgstr ""
+msgstr "マス、ユニット、ピア"
 
 #: ../../sources/sudoku/src/index.mbt.md:15
 msgid ""
@@ -50,6 +53,8 @@ msgid ""
 "This gives each square in the grid a coordinate, for example, the square "
 "containing the number 0 in the grid below has the coordinate C3."
 msgstr ""
+"最も一般的な数独は 9x9 の盤面で行います。行は上から下へ A-I、列は左から右へ 1-9 とラベル付けします。これにより盤面の各マスに座標が与え"
+"られ、たとえば次の盤面で 0 が入っているマスの座標は C3 です。"
 
 #: ../../sources/sudoku/src/index.mbt.md:20
 msgid ""
@@ -71,6 +76,8 @@ msgid ""
 " must have unique digits from 1 to 9. However, in the initial state of "
 "the game, most squares do not contain any digits."
 msgstr ""
+"この 9x9 の盤面には合計 9 個のユニットがあり、それぞれのユニットに含まれるマスには 1 から 9 までの異なる数字が入らなければなりません。"
+"ただし、ゲーム開始時にはほとんどのマスに数字は入っていません。"
 
 #: ../../sources/sudoku/src/index.mbt.md:37
 msgid ""
@@ -93,6 +100,8 @@ msgid ""
 "include other squares in the same row, column, and unit. For example, the"
 " peers of C2 include these squares:"
 msgstr ""
+"ユニットに加えて、もう一つ重要な概念がピアです。あるマスのピアには、同じ行・列・ユニットにある他のマスが含まれます。たとえば C2 のピアには次のマ"
+"スが含まれます。"
 
 #: ../../sources/sudoku/src/index.mbt.md:55
 msgid ""
@@ -135,7 +144,7 @@ msgstr ""
 
 #: ../../sources/sudoku/src/index.mbt.md:93
 msgid "No two squares that are peers can contain the same digit."
-msgstr ""
+msgstr "ピア同士の 2 つのマスに同じ数字を入れることはできません。"
 
 #: ../../sources/sudoku/src/index.mbt.md:95
 msgid ""
@@ -144,6 +153,8 @@ msgid ""
 "hashtable, but using an array would be more compact and simple. First, we"
 " write a function to convert coordinates A1-I9 to indices 0-80:"
 msgstr ""
+"81 個のマスと各マスに関連する情報を保存するために、`Grid[T]` というデータ型が必要です。これはハッシュテーブルでも実装できますが、配列を使"
+"う方がコンパクトで単純です。まず、A1-I9 の座標を 0-80 の添字に変換する関数を書きます。"
 
 #: ../../sources/sudoku/src/index.mbt.md:100
 msgid ""
@@ -173,6 +184,8 @@ msgid ""
 "overloading the op_get and op_set methods, we can write convenient code "
 "like `table[\"A2\"]` and `table[\"C3\"] = ...`."
 msgstr ""
+"次に配列をラップし、`Grid[T]` の作成、参照、特定座標への代入、コピーの操作を提供します。op_get と op_set メソッドをオーバー"
+"ロードすることで、`table[\"A2\"]` や `table[\"C3\"] = ...` のような便利なコードを書けます。"
 
 #: ../../sources/sudoku/src/index.mbt.md:125
 msgid ""
@@ -215,7 +228,7 @@ msgstr ""
 
 #: ../../sources/sudoku/src/index.mbt.md:163
 msgid "Next, we prepare some constants:"
-msgstr ""
+msgstr "次に、いくつかの定数を用意します:"
 
 #: ../../sources/sudoku/src/index.mbt.md:165
 msgid ""
@@ -243,11 +256,11 @@ msgstr ""
 msgid ""
 "The process of constructing the units and peers tables is tedious, so it "
 "will not be detailed here."
-msgstr ""
+msgstr "units と peers の表を構築する処理は煩雑なので、ここでは詳しく扱いません。"
 
 #: ../../sources/sudoku/src/index.mbt.md:187
 msgid "Preprocessing the Grid"
-msgstr ""
+msgstr "盤面の前処理"
 
 #: ../../sources/sudoku/src/index.mbt.md:189
 msgid ""
@@ -255,6 +268,7 @@ msgid ""
 " acceptable; both `.` and `0` represent empty squares, and other "
 "characters like spaces and newlines are ignored."
 msgstr ""
+"初期の数独盤面は文字列で表します。形式はさまざまでも構いません。`.` と `0` はどちらも空マスを表し、空白や改行のような他の文字は無視します。"
 
 #: ../../sources/sudoku/src/index.mbt.md:193
 msgid ""
@@ -288,6 +302,8 @@ msgid ""
 "Therefore, we initially set the content of all squares to `['1', '2', "
 "'3', '4', '5', '6', '7', '8', '9']` (a List)."
 msgstr ""
+"ひとまず、ゲームのルールはあまり深く考えないことにします。各マスに入れられる数字だけを考えるなら、1-9 はすべて候補になります。そのため、最初はす"
+"べてのマスの内容を `['1', '2', '3', '4', '5', '6', '7', '8', '9']`（List）に設定します。"
 
 #: ../../sources/sudoku/src/index.mbt.md:222
 msgid ""
@@ -305,6 +321,8 @@ msgid ""
 "key, val)`, where `key` is a string like `A6` and `val` is a character. "
 "It is easy to write such code."
 msgstr ""
+"次に、入力で既知の数字が入っているマスへ値を割り当てる必要があります。この処理は `assign(values, key, val)` 関数で実装で"
+"きます。ここで `key` は `A6` のような文字列、`val` は文字です。このようなコードを書くのは簡単です。"
 
 #: ../../sources/sudoku/src/index.mbt.md:235
 msgid ""
@@ -316,7 +334,7 @@ msgstr ""
 
 #: ../../sources/sudoku/src/index.mbt.md:241
 msgid "This implementation is simple and precise, but we can do more."
-msgstr ""
+msgstr "この実装は単純で明快ですが、さらに改善できます。"
 
 #: ../../sources/sudoku/src/index.mbt.md:243
 msgid ""
@@ -325,6 +343,8 @@ msgid ""
 " to gain insights from the rules, similar to solving Sudoku with pen and "
 "paper. Let's start with the elimination method:"
 msgstr ""
+"ここで、先ほど脇に置いておいたルールを再び持ち込みます。ただし、ルールそのものが何をすべきかを直接教えてくれるわけではありません。紙と鉛筆で数独を解"
+"くときと同じように、ルールから手がかりを引き出すヒューリスティック戦略が必要です。まずは消去法から始めます。"
 
 #: ../../sources/sudoku/src/index.mbt.md:248
 msgid ""
@@ -333,6 +353,8 @@ msgid ""
 "values, as this would violate the rule that no two squares in the same "
 "unit, row, or column can have the same digit."
 msgstr ""
+"**戦略 1**: あるマス `key` に値 `val` が割り当てられたら、そのピア（`peers[key]`）の候補値の一覧に `val` が含"
+"まれていてはいけません。同じユニット・行・列にある 2 つのマスに同じ数字は入れられないからです。"
 
 #: ../../sources/sudoku/src/index.mbt.md:253
 msgid ""
@@ -340,6 +362,8 @@ msgid ""
 "specific digit (possibly happen after applying the above rule several "
 "times), then that digit should be assigned to that square."
 msgstr ""
+"**戦略 2**: あるユニットの中で、特定の数字を入れられるマスが 1 つしかない場合（これは上の規則を何度か適用した後に起こりえます）、その数字"
+"はそのマスに割り当てるべきです。"
 
 #: ../../sources/sudoku/src/index.mbt.md:257
 msgid ""
@@ -350,6 +374,9 @@ msgid ""
 "value to handle possible contradictions. If the list of possible values "
 "for a square becomes empty, something went wrong, and we return `false`."
 msgstr ""
+"コードを調整するために、あるマスの候補値から数字を取り除く `eliminate` 関数を定義します。消去処理を行ったあと、この関数は `key` と"
+" `val` に対して上記の戦略を適用し、さらに消去を進めようとします。なお、矛盾の可能性を扱うために真偽値を返す点に注意してください。あるマスの候"
+"補値リストが空になってしまったら、どこかで破綻しているので `false` を返します。"
 
 #: ../../sources/sudoku/src/index.mbt.md:264
 msgid ""
@@ -398,6 +425,7 @@ msgid ""
 "Next, we define `assign(values, key, val)` to remove all values except "
 "`val` from the possible values of `key`."
 msgstr ""
+"次に、`assign(values, key, val)` を定義し、`key` の候補値から `val` 以外のすべての値を取り除くようにします。"
 
 #: ../../sources/sudoku/src/index.mbt.md:306
 msgid ""
@@ -424,6 +452,8 @@ msgid ""
 "This is key to quickly eliminating invalid options. In fact, this "
 "preprocessing can already solve some simple Sudoku puzzles."
 msgstr ""
+"この 2 つの関数は、アクセスする各マスに対してヒューリスティック戦略を適用します。戦略がうまく働くと、新たに検討すべきマスが生まれ、それによって戦"
+"略が盤面全体へ広く伝播していきます。これが無効な候補を素早く取り除く鍵です。実際、この前処理だけで解ける簡単な数独もあります。"
 
 #: ../../sources/sudoku/src/index.mbt.md:328
 msgid ""
@@ -469,10 +499,13 @@ msgid ""
 "topic, refer to Chapter 6 of _Artificial Intelligence: A Modern "
 "Approach_."
 msgstr ""
+"人工知能に興味があるなら、これが制約充足問題（CSP）であり、`assign` と `eliminate` が特化したアーク整合性アルゴリズムである"
+"ことに気づくかもしれません。この話題について詳しくは、_Artificial Intelligence: A Modern Approach_ の第 "
+"6 章を参照してください。"
 
 #: ../../sources/sudoku/src/index.mbt.md:368
 msgid "Search"
-msgstr ""
+msgstr "探索"
 
 #: ../../sources/sudoku/src/index.mbt.md:370
 msgid ""
@@ -482,6 +515,8 @@ msgid ""
 "square, we still use `assign`, which allows us to apply previous "
 "optimizations to eliminate many invalid branches during the search."
 msgstr ""
+"前処理のあとでは、実行可能な組み合わせを探すために総当たり探索を大胆に使えます。ただし、探索の途中でもヒューリスティック戦略は引き続き利用できます。"
+"あるマスに値を割り当てようとするときにも `assign` を使うことで、これまでの最適化を適用し、多くの無効な分岐を探索中に取り除けます。"
 
 #: ../../sources/sudoku/src/index.mbt.md:376
 msgid ""
@@ -490,6 +525,8 @@ msgid ""
 " backtracking troublesome, we directly copy values each time we assign a "
 "value."
 msgstr ""
+"もう一つ注意すべき点は、探索中に衝突が起こりうることです（あるマスの候補値が尽きたときなど）。可変構造だとバックトラックが面倒になるため、ここでは値"
+"を割り当てるたびに直接コピーを作ります。"
 
 #: ../../sources/sudoku/src/index.mbt.md:380
 msgid ""
@@ -539,6 +576,8 @@ msgid ""
 "[magictour](http://magictour.free.fr/top95), a list of difficult Sudoku "
 "puzzles, which is not easy for humans."
 msgstr ""
+"人間には簡単ではない難問数独の一覧である [magictour](http://magictour.free.fr/top95) から取った例を実行し"
+"てみましょう。"
 
 #: ../../sources/sudoku/src/index.mbt.md:424
 msgid ""
@@ -580,11 +619,11 @@ msgstr ""
 msgid ""
 "On a regular development machine, it takes only about 0.11 seconds to "
 "solve this Sudoku."
-msgstr ""
+msgstr "一般的な開発マシンでは、この数独を解くのにかかる時間は約 0.11 秒です。"
 
 #: ../../sources/sudoku/src/index.mbt.md:462
 msgid "Conclusion"
-msgstr ""
+msgstr "まとめ"
 
 #: ../../sources/sudoku/src/index.mbt.md:464
 msgid ""
@@ -596,16 +635,21 @@ msgid ""
 "reveals that one should not be overly concerned with an unsolvable Sudoku"
 " puzzle."
 msgstr ""
+"ゲームの目的は、退屈を紛らわせ、楽しさをもたらすことです。ゲームを遊ぶことがワクワクすることより不安の原因になってしまうなら、それはゲームデザイナー"
+"の本来の意図に反しているかもしれません。この記事では、単純な消去法と総当たり探索だけでいくつかの数独を素早く解けることを示しました。これは数独に遊ぶ"
+"価値がないという意味ではなく、解けない数独にあまり思い詰める必要はない、ということを示しています。"
 
 #: ../../sources/sudoku/src/index.mbt.md:471
 msgid "Let's play with MoonBit with ease!"
-msgstr ""
+msgstr "気軽に MoonBit を楽しみましょう！"
 
 #: ../../sources/sudoku/src/index.mbt.md:473
 msgid ""
 "This tutorial references Norvig's blog: "
 "[http://norvig.com/sudoku.html](http://norvig.com/sudoku.html)"
 msgstr ""
+"このチュートリアルは Norvig のブログ "
+"[http://norvig.com/sudoku.html](http://norvig.com/sudoku.html) を参考にしています。"
 
 #~ msgid ""
 #~ "fn eliminate(\n"
@@ -698,4 +742,3 @@ msgstr ""
 #~ " about 0.11 seconds to solve this "
 #~ "Sudoku!"
 #~ msgstr ""
-

@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the MoonBit package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
@@ -25,7 +24,7 @@ msgstr ""
 
 #: ../../language/error_codes/E0017.md:3
 msgid "Warning name: `ambiguous_loop_argument`"
-msgstr ""
+msgstr "警告名: `ambiguous_loop_argument`"
 
 #: ../../language/error_codes/E0017.md:5
 msgid ""
@@ -34,10 +33,12 @@ msgid ""
 "original value of the variable before entering the loop, please bind it "
 "to a new binder outside the loop."
 msgstr ""
+"識別子の参照先が曖昧です。ループ変数を指す場合は、パターン内で `as <id>` を使って束縛してください。ループに入る前の元の値を指す場合は、ルー"
+"プの外で別の束縛名にしてください。"
 
 #: ../../language/error_codes/E0017.md:10
 msgid "Erroneous example"
-msgstr ""
+msgstr "問題のある例"
 
 #: ../../language/error_codes/E0017.md:12
 msgid ""
@@ -66,7 +67,7 @@ msgstr ""
 #: ../../language/error_codes/E0017.md:52
 #: ../../language/error_codes/E0017.md:68
 msgid "Output:"
-msgstr ""
+msgstr "出力:"
 
 #: ../../language/error_codes/E0017.md:22
 #: ../../language/error_codes/E0017.md:70
@@ -81,17 +82,19 @@ msgstr ""
 msgid ""
 "Because `a` refers to the value of `a` before entering the loop, "
 "therefore the value is always the same."
-msgstr ""
+msgstr "`a` はループに入る前の `a` の値を参照しているため、値は常に同じになります。"
 
 #: ../../language/error_codes/E0017.md:28
 msgid "Suggestion"
-msgstr ""
+msgstr "対処"
 
 #: ../../language/error_codes/E0017.md:30
 msgid ""
 "Since `loop` syntax will be removed soon, prefer rewriting new code with "
 "a `for` loop when possible. For example, this code can be written as:"
 msgstr ""
+"`loop` 構文はまもなく削除される予定なので、新しいコードでは可能なら `for` ループに書き換えることを勧めます。たとえば、次のように書けま"
+"す。"
 
 #: ../../language/error_codes/E0017.md:33
 msgid ""
@@ -107,6 +110,8 @@ msgid ""
 " loop variable that changes with loop iterations, use `as <id>` to bind "
 "it in the pattern."
 msgstr ""
+"既存の `loop` コードを保守していて、反復ごとに変化するループ変数を参照したい場合は、パターン内で `as <id>` を使って束縛してくださ"
+"い。"
 
 #: ../../language/error_codes/E0017.md:44
 msgid ""
@@ -136,6 +141,7 @@ msgid ""
 "Or, if you want to refer to the original value of the variable before "
 "entering the loop, explicitly bind it to another name outside the loop."
 msgstr ""
+"あるいは、ループに入る前の元の変数値を参照したい場合は、ループの外で別の名前に明示的に束縛してください。"
 
 #: ../../language/error_codes/E0017.md:60
 msgid ""
@@ -160,4 +166,3 @@ msgstr ""
 #~ "iterations. If so, use `as <id>` "
 #~ "to bind it in the pattern."
 #~ msgstr ""
-

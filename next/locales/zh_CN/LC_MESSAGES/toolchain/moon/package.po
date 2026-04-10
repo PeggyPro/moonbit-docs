@@ -265,11 +265,10 @@ msgstr ""
 "`moonbitlang/core/...` 包加入 `import`，以避免 `core_package_not_imported` 警告。"
 
 #: ../../toolchain/moon/package.md:158
-#, fuzzy
 msgid ""
 "`prelude` is the exception. It is available by default, so the names it "
 "exposes do not need an explicit package import."
-msgstr "`prelude` 是例外。它默认可用，因此它暴露出来的名称和别名，例如 `@ref`，不需要显式写入包导入。"
+msgstr "`prelude` 是例外。它默认可用，因此它暴露的名称不需要显式导入对应的包。"
 
 #: ../../toolchain/moon/package.md:161
 msgid "Test import"
