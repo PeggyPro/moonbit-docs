@@ -11,7 +11,7 @@ enum Token {
   Id(String)
   Number(Int)
   EOF
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 fn between(this : Char, lw : Char, up : Char) -> Bool {
@@ -57,7 +57,7 @@ fn isClose(this : Char) -> Bool {
 struct Tokens {
   tokens : Array[Token]
   mut current : Int
-} derive(Show)
+} derive(Debug)
 
 ///|
 fn Tokens::new(tokens : Array[Token]) -> Tokens {
@@ -74,7 +74,9 @@ fn Tokens::peek(self : Tokens) -> Token {
 }
 
 ///|
-suberror ParseError { ParseError(String) }
+suberror ParseError {
+  ParseError(String)
+}
 
 ///|
 #callsite(autofill(loc))
@@ -96,7 +98,9 @@ fn Tokens::eat(
   let __tok = self.peek()
   // assert tok_ != EOF
   if __tok != tok {
-    raise ParseError("\{loc} - Tokens::eat(): expect \{tok} but got \{__tok}")
+    raise ParseError(
+      "\{loc} - Tokens::eat(): expect \{@debug.to_string(tok)} but got \{@debug.to_string(__tok)}",
+    )
   } else {
     self.next()
   }
@@ -165,18 +169,33 @@ fn tokenize(source : String) -> Tokens {
 
 ///|
 test "tokenize" {
-  inspect(tokenize("").tokens, content="[]")
-  inspect(tokenize("12345678").tokens, content="[Number(12345678)]")
-  inspect(tokenize("1234 5678").tokens, content="[Number(1234), Number(5678)]")
-  inspect(
+  debug_inspect(tokenize("").tokens, content="[]")
+  debug_inspect(tokenize("12345678").tokens, content="[Number(12345678)]")
+  debug_inspect(
+    tokenize("1234 5678").tokens,
+    content="[Number(1234), Number(5678)]",
+  )
+  debug_inspect(
     tokenize("a0 a_0 a-0").tokens,
     content=(
       #|[Id("a0"), Id("a_0"), Id("a-0")]
     ),
   )
-  inspect(
+  debug_inspect(
     tokenize("(Cons 0 (Cons 1 Nil))").tokens,
-    content="[Open('('), CONS, Number(0), Open('('), CONS, Number(1), NIL, Close(')'), Close(')')]",
+    content=(
+      #|[
+      #|  Open('('),
+      #|  CONS,
+      #|  Number(0),
+      #|  Open('('),
+      #|  CONS,
+      #|  Number(1),
+      #|  NIL,
+      #|  Close(')'),
+      #|  Close(')'),
+      #|]
+    ),
   )
 }
 
@@ -187,7 +206,10 @@ fn Tokens::parse_var(self : Tokens) -> String raise ParseError {
       self.next()
       return s
     }
-    other => raise ParseError("parse_var(): expect a variable but got \{other}")
+    other =>
+      raise ParseError(
+        "parse_var(): expect a variable but got \{@debug.to_string(other)}",
+      )
   }
 }
 
@@ -200,7 +222,10 @@ fn Tokens::parse_cons(self : Tokens) -> RawExpr[String] raise ParseError {
       let xs = self.parse_expr()
       return App(App(Constructor(tag=1, arity=2), x), xs)
     }
-    other => raise ParseError("parse_cons(): expect Cons but got \{other}")
+    other =>
+      raise ParseError(
+        "parse_cons(): expect Cons but got \{@debug.to_string(other)}",
+      )
   }
 }
 
@@ -236,32 +261,35 @@ fn Tokens::parse_case(self : Tokens) -> RawExpr[String] raise ParseError {
 fn Tokens::parse_alts(
   self : Tokens,
 ) -> List[(Int, List[String], RawExpr[String])] raise ParseError {
-  let acc : List[(Int, List[String], RawExpr[String])] = @list.empty()
-  loop (self.peek(), acc) {
-    (Open('['), acc) => {
-      self.next()
-      self.eat(Open('('))
-      let (tag, variables) = match self.peek() {
-        NIL => {
-          self.next()
-          (0, @list.empty())
+  for tok = self.peek(), acc = @list.empty() {
+    match tok {
+      Open('[') => {
+        self.next()
+        self.eat(Open('('))
+        let (tag, variables) = match self.peek() {
+          NIL => {
+            self.next()
+            (0, @list.empty())
+          }
+          CONS => {
+            self.next()
+            let x = self.parse_var()
+            let xs = self.parse_var()
+            (1, @list.from_array([x, xs]))
+          }
+          other =>
+            raise ParseError(
+              "parse_alts(): expect NIL or CONS but got \{@debug.to_string(other)}",
+            )
         }
-        CONS => {
-          self.next()
-          let x = self.parse_var()
-          let xs = self.parse_var()
-          (1, @list.from_array([x, xs]))
-        }
-        other =>
-          raise ParseError("parse_alts(): expect NIL or CONS but got \{other}")
+        self.eat(Close(')'))
+        let exp = self.parse_expr()
+        let alt = (tag, variables, exp)
+        self.eat(Close(']'))
+        continue self.peek(), acc.prepend(alt)
       }
-      self.eat(Close(')'))
-      let exp = self.parse_expr()
-      let alt = (tag, variables, exp)
-      self.eat(Close(']'))
-      continue (self.peek(), acc.prepend(alt))
+      _ => break acc.rev()
     }
-    (_, acc) => acc.rev()
   }
 }
 
@@ -269,16 +297,17 @@ fn Tokens::parse_alts(
 fn Tokens::parse_defs(
   self : Tokens,
 ) -> List[(String, RawExpr[String])] raise ParseError {
-  let acc : List[(String, RawExpr[String])] = @list.empty()
-  loop (self.peek(), acc) {
-    (Open('['), acc) => {
-      self.next()
-      let name = self.parse_var()
-      let value = self.parse_expr()
-      self.eat(Close(']'))
-      continue (self.peek(), acc.prepend((name, value)))
+  for tok = self.peek(), acc = @list.empty() {
+    match tok {
+      Open('[') => {
+        self.next()
+        let name = self.parse_var()
+        let value = self.parse_expr()
+        self.eat(Close(']'))
+        continue self.peek(), acc.prepend((name, value))
+      }
+      _ => break acc.rev()
     }
-    (_, acc) => acc.rev()
   }
 }
 
@@ -319,12 +348,15 @@ fn Tokens::parse_expr(self : Tokens) -> RawExpr[String] raise ParseError {
         CONS => self.parse_cons()
         Id(_) | Open('(') => self.parse_apply()
         other =>
-          raise ParseError("parse_expr(): can't parse \{other} behind a '('")
+          raise ParseError(
+            "parse_expr(): can't parse \{@debug.to_string(other)} behind a '('",
+          )
       }
       self.eat(Close(')'))
       return exp
     }
-    other => raise ParseError("parse_expr(): can't parse \{other}")
+    other =>
+      raise ParseError("parse_expr(): can't parse \{@debug.to_string(other)}")
   }
 }
 
@@ -334,14 +366,13 @@ fn Tokens::parse_sc(self : Tokens) -> ScDef[String] raise ParseError {
   self.eat(DefFn)
   let fn_name = self.parse_var()
   self.eat(Open('['))
-  let args = loop (self.peek(), @list.empty()) {
-    (tok, acc) =>
-      if tok != Close(']') {
-        let name = self.parse_var()
-        continue (self.peek(), acc.prepend(name))
-      } else {
-        acc.rev()
-      }
+  let args = for tok = self.peek(), acc = @list.empty() {
+    if tok != Close(']') {
+      let name = self.parse_var()
+      continue self.peek(), acc.prepend(name)
+    } else {
+      break acc.rev()
+    }
   }
   self.eat(Close(']'))
   let body = self.parse_expr()

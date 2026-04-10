@@ -1,4 +1,5 @@
 // start instr definition
+
 enum Instruction {
   Unwind
   PushGlobal(String)
@@ -22,5 +23,5 @@ enum Instruction {
   Gt // >
   Ge // >=
   Cond(List[Instruction], List[Instruction])
-} derive(Eq, Show)
+} derive(Eq, Debug)
 // end instr definition

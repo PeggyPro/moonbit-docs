@@ -1,8 +1,9 @@
 // start derive hash struct
+
 struct DeriveHash {
   x : Int
   y : String?
-} derive(Hash, Eq, Show)
+} derive(Hash, Eq)
 
 test "derive hash struct" {
   let hs = @hashset.new()

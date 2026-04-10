@@ -1,4 +1,5 @@
 // start operator 1
+
 struct T {
   x : Int
 }
@@ -15,10 +16,11 @@ test {
 // end operator 1
 
 // start operator 2
+
 struct Coord {
   mut x : Int
   mut y : Int
-} derive(Show)
+}
 
 #alias("_[_]")
 fn Coord::get(coord : Self, key : String) -> Int {
@@ -41,10 +43,10 @@ test "operator 3" (t : @test.Test) {
   let println = fn(show) { t.writeln(show) }
   // start operator 3
   let c = { x: 1, y: 2 }
-  println(c)
+  println("{x: \{c.x}, y: \{c.y}}")
   println(c["y"])
   c["x"] = 23
-  println(c)
+  println("{x: \{c.x}, y: \{c.y}}")
   println(c["x"])
   // end operator 3
   t.snapshot(filename="operator_3")
@@ -79,20 +81,13 @@ fn section(title : String, body : () -> Array[String]) -> String {
 
 test {
   // start operator 4 reverse
-  let page =
-    div <| [
+  let page = div <| [
       text <| "hello",
-      section("toolbar") <| fn () {
-        [
-          text <| "save",
-          text <| "cancel",
-        ]
-      },
+      section("toolbar") <| fn() { [text <| "save", text <| "cancel"] },
     ]
   inspect(
     page,
-    content=
-      "div(text(hello), toolbar: div(text(save), text(cancel)))",
+    content="div(text(hello), toolbar: div(text(save), text(cancel)))",
   )
   // end operator 4 reverse
 }
@@ -160,6 +155,7 @@ test {
 }
 
 // start view 1
+
 test {
   let xs = [0, 1, 2, 3, 4, 5]
   let s1 : ArrayView[Int] = xs[2:]
@@ -174,6 +170,7 @@ test {
 // end view 1
 
 // start view 2
+
 struct DataView(String)
 
 struct Data {}
@@ -193,6 +190,7 @@ test {
 // end view 2
 
 // start spread 1
+
 test {
   let a1 : Array[Int] = [1, 2, 3]
   let a2 : FixedArray[Int] = [4, 5, 6]
@@ -203,6 +201,7 @@ test {
 // end spread 1
 
 // start spread 2
+
 test {
   let s1 : String = "Hello"
   let s2 : StringView = "World".view()
@@ -213,6 +212,7 @@ test {
 // end spread 2
 
 // start spread 3
+
 test {
   let b1 : Bytes = "hello"
   let b2 : BytesView = b1[1:4]

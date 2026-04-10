@@ -1,4 +1,5 @@
 // start struct 1
+
 struct User {
   id : Int
   name : String
@@ -47,14 +48,16 @@ test "struct 4" (t : @test.Test) {
 }
 
 // start struct constructor 1
+
 struct IntBox {
   value : Int
 
   fn new(value : Int) -> IntBox
-} derive(Show)
+} derive(Debug)
 // end struct constructor 1
 
 // start struct constructor 2
+
 fn IntBox::new(value : Int) -> IntBox {
   { value, }
 }
@@ -63,20 +66,22 @@ fn IntBox::new(value : Int) -> IntBox {
 test "struct constructor positional" {
   // start struct constructor 3
   let box = IntBox(10)
-  inspect(box, content="{value: 10}")
+  debug_inspect(box, content="{ value: 10 }")
   // end struct constructor 3
 }
 
 // start struct constructor 4
+
 struct StructWithConstr {
   x : Int
   y : Int
 
   fn new(x~ : Int, y? : Int) -> StructWithConstr
-} derive(Show)
+} derive(Debug)
 // end struct constructor 4
 
 // start struct constructor 5
+
 fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {
   { x, y }
 }
@@ -85,23 +90,25 @@ fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {
 test "struct constructor optional" {
   // start struct constructor 6
   let s = StructWithConstr(x=1)
-  inspect(s, content="{x: 1, y: 1}")
+  debug_inspect(s, content="{ x: 1, y: 1 }")
   // end struct constructor 6
 }
 
 // start struct constructor 7
+
 suberror BuildError {
   NegativeInput
-} derive(Show)
+} derive(Debug)
 
 struct Positive {
   value : Int
 
   fn new(x : Int) -> Positive raise BuildError
-} derive(Show)
+} derive(Debug)
 // end struct constructor 7
 
 // start struct constructor 8
+
 fn Positive::new(x : Int) -> Positive raise BuildError {
   guard x >= 0 else { raise NegativeInput }
   { value: x }
@@ -110,18 +117,13 @@ fn Positive::new(x : Int) -> Positive raise BuildError {
 
 test "struct constructor raise" {
   // start struct constructor 9
-  inspect(
-    try? Positive(10),
-    content="Ok({value: 10})",
-  )
-  inspect(
-    try? Positive(-1),
-    content="Err(NegativeInput)",
-  )
+  debug_inspect(try? Positive(10), content="Ok({ value: 10 })")
+  debug_inspect(try? Positive(-1), content="Err(NegativeInput)")
   // end struct constructor 9
 }
 
 // start enum 1
+
 /// An enum type that represents the ordering relation between two values,
 /// with three cases "Smaller", "Greater" and "Equal"
 enum Relation {
@@ -172,6 +174,7 @@ test "enum 3" (t : @test.Test) {
 }
 
 // start enum 4
+
 enum Lst {
   Nil
   // constructor `Cons` carries additional payload: the first element of the list,
@@ -224,6 +227,7 @@ test "enum 6" (t : @test.Test) {
 }
 
 // start enum 7
+
 enum E {
   // `x` and `y` are labelled argument
   C(x~ : Int, y~ : Int)
@@ -253,12 +257,13 @@ test "enum 9" (t : @test.Test) {
 }
 
 // start enum 10
+
 enum Object {
   Point(x~ : Double, y~ : Double)
   Circle(x~ : Double, y~ : Double, radius~ : Double)
 }
 
-suberror NotImplementedError derive(Show)
+suberror NotImplementedError derive(Debug)
 
 fn Object::distance_with(
   self : Object,
@@ -289,7 +294,7 @@ test "enum 11" (t : @test.Test) {
     println(p1.distance_with(p2))
     println(p1.distance_with(c1))
   } catch {
-    e => println(e)
+    _ => println("NotImplementedError")
   }
   // end enum 11
   t.snapshot(filename="enum_11")
@@ -297,6 +302,7 @@ test "enum 11" (t : @test.Test) {
 
 // start enum 12
 // A set implemented using mutable binary search tree.
+
 struct Set[X] {
   mut root : Tree[X]
 }
@@ -306,6 +312,7 @@ fn[X : Compare] Set::insert(self : Set[X], x : X) -> Unit {
 }
 
 // A mutable binary search tree with parent pointer
+
 enum Tree[X] {
   Nil
   // only labelled arguments can be mutable
@@ -319,6 +326,7 @@ enum Tree[X] {
 
 // In-place insert a new element to a binary search tree.
 // Return the new tree root
+
 fn[X : Compare] Tree::insert(
   self : Tree[X],
   x : X,
@@ -345,21 +353,25 @@ fn[X : Compare] Tree::insert(
 // end enum 12
 
 // start typealias 1
+
 pub type Index = Int
+
 pub type MyIndex = Int
+
 pub type MyMap = Map[Int, String]
 // end typealias 1
 
 // start local-type 1
-fn[T : Show] toplevel(x : T) -> Unit {
+
+fn[T : Debug] toplevel(x : T) -> Unit {
   enum LocalEnum {
     A(T)
     B(Int)
-  } derive(Show)
+  } derive(Debug)
   struct LocalStruct {
     a : (String, T)
-  } derive(Show)
-  struct LocalStructTuple(T) derive(Show)
+  } derive(Debug)
+  struct LocalStructTuple(T) derive(Debug)
   ...
 }
 // end local-type 1

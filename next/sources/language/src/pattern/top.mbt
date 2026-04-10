@@ -21,6 +21,7 @@ let user : Unit = {
 }
 
 // start pattern 2
+
 test {
   let ary = [1, 2, 3, 4]
   if ary is [a, b, .. rest] && a == 1 && b == 2 && rest.length() == 2 {
@@ -34,11 +35,14 @@ test {
 // end pattern 2
 
 // start array pattern 1
+
 test {
   fn palindrome(s : String) -> Bool {
-    loop s.view() {
-      [] | [_] => true
-      [a, .. rest, b] => if a == b { continue rest } else { false }
+    for view = s.view() {
+      match view {
+        [] | [_] => break true
+        [a, .. rest, b] => if a == b { continue rest } else { break false }
+      }
     }
   }
 
@@ -49,6 +53,7 @@ test {
 // end array pattern 1
 
 // start array pattern 2
+
 const NO : Bytes = "no"
 
 test {
@@ -67,11 +72,13 @@ test {
 // end array pattern 2
 
 // start bit pattern 1
+
 test {
   let packet : Bytes = b"\xD2\x10\x7F"
   let header : BytesView = packet[0:2]
   let (flag, kind, version, length) = match header {
-    [u1be(flag), u3be(kind), u4be(version), u8be(length)] => (flag, kind, version, length)
+    [u1be(flag), u3be(kind), u4be(version), u8be(length)] =>
+      (flag, kind, version, length)
     _ => fail("bad header")
   }
   assert_eq(flag, 1)
@@ -82,11 +89,12 @@ test {
 // end bit pattern 1
 
 // start bit pattern 2
+
 test {
   let data : Bytes = b"\xF1\xAA\xBB"
   let view : BytesView = data[0:]
   let tag = match view {
-    [u4be(0b1111), u4be(tag), ..rest] => {
+    [u4be(0b1111), u4be(tag), .. rest] => {
       assert_eq(rest, b"\xAA\xBB"[0:])
       tag
     }
@@ -97,6 +105,7 @@ test {
 // end bit pattern 2
 
 // start bit pattern sources
+
 test {
   let b : Bytes = b"\x80"
   guard b is [u1be(1), ..] else { fail("Bytes") }
@@ -119,6 +128,7 @@ test {
 // end bit pattern sources
 
 // start bit pattern signed
+
 test {
   let bytes = b"\x80"
   let u : UInt = match bytes[:] {
@@ -135,6 +145,7 @@ test {
 // end bit pattern signed
 
 // start bit pattern types
+
 test {
   let bytes = b"\x80\x00\x00\x00\x00"
   let big : UInt64 = match bytes[:] {
@@ -172,6 +183,7 @@ fn eval(expr : Arith) -> Int {
 }
 
 // start pattern 4
+
 const Zero = 0
 
 fn sign(x : Int) -> Int {
@@ -218,6 +230,7 @@ fn json() -> Unit {
 }
 
 // start simple pattern 1
+
 const ONE = 1
 
 fn match_int(x : Int) -> Unit {
@@ -230,6 +243,7 @@ fn match_int(x : Int) -> Unit {
 // end simple pattern 1
 
 // start simple pattern 2
+
 struct Point3D {
   x : Int
   y : Int
@@ -258,6 +272,7 @@ fn[T] match_point(p : Point[T]) -> Unit {
 // end simple pattern 2
 
 // start guard condition 1
+
 fn guard_cond(x : Int?) -> Int {
   fn f(x : Int) -> Array[Int] {
     [x, x + 42]
@@ -278,6 +293,7 @@ test {
 // end guard condition 1
 
 // start guard condition 2
+
 fn guard_check(x : Int?) -> Unit {
   match x {
     Some(a) if a >= 0 => ()
@@ -288,8 +304,11 @@ fn guard_check(x : Int?) -> Unit {
 // end guard condition 2
 
 // start regex literal 1
+
 const REGEX_IDENT_START = re"[A-Za-z_]"
+
 const REGEX_IDENT_CONT = re"[A-Za-z0-9_]*"
+
 const REGEX_AB : Regex = re"a" + re"b"
 
 fn regex_default_arg(re? : Regex = re"abc") -> Bool {
@@ -308,13 +327,14 @@ test {
 // end regex literal 1
 
 // start regex match 1
+
 test {
   let input = " let_name = 42 "
-  if input =~ (
-      ((REGEX_IDENT_START + REGEX_IDENT_CONT) as ident),
+  if (input =~ (
+      (REGEX_IDENT_START + REGEX_IDENT_CONT) as ident,
       before=head,
-      after=tail,
-    ) {
+      after=tail
+    )) {
     assert_true(head is " ")
     assert_true(ident is "let_name")
     assert_true(tail is " = 42 ")
@@ -322,7 +342,7 @@ test {
     fail("expected identifier")
   }
 
-  if "abc" =~ (re"b", before~, after~) {
+  if ("abc" =~ (re"b", before~, after~)) {
     assert_true(before is "a")
     assert_true(after is "c")
   } else {
@@ -330,7 +350,7 @@ test {
   }
 
   let source : StringView = "abc"
-  if source =~ (re"." as ch, after=rest) {
+  if (source =~ (re"." as ch, after=rest)) {
     assert_eq(ch, 'a')
     assert_true(rest is "bc")
   } else {
@@ -343,6 +363,7 @@ test {
 // end regex match 1
 
 // start lexmatch 1
+
 test {
   let text = "xxabbbcyy"
   lexmatch text {

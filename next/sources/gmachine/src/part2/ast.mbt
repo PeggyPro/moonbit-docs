@@ -1,4 +1,4 @@
-using  @list { type List }
+using @list {type List}
 
 enum RawExpr[T] {
   Var(T)
@@ -7,13 +7,13 @@ enum RawExpr[T] {
   App(RawExpr[T], RawExpr[T])
   Let(Bool, List[(T, RawExpr[T])], RawExpr[T]) // isRec, Defs, Body
   Case(RawExpr[T], List[(Int, List[T], RawExpr[T])])
-} derive(Show)
+} derive(Debug)
 
 struct ScDef[T] {
   name : String
   args : List[T]
   body : RawExpr[T]
-} derive(Show)
+} derive(Debug)
 
 fn[T] ScDef::new(name : String, args : List[T], body : RawExpr[T]) -> ScDef[T] {
   { name, args, body }

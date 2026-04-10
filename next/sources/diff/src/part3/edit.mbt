@@ -3,7 +3,7 @@ enum Edit {
   Insert(new~ : Line)
   Delete(old~ : Line)
   Equal(old~ : Line, new~ : Line) // old, new
-} derive(Show)
+}
 
 ///|
 /// start pprint definition

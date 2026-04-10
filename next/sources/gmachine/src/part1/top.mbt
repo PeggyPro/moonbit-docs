@@ -4,7 +4,7 @@ fn run(codes : List[String]) -> Node {
     let tokens = tokenize(code)
     let code = try tokens.parse_sc() catch {
       ParseError(s) => abort(s)
-    } else {
+    } noraise {
       expr => expr
     }
     let code = code.compileSC()
@@ -28,11 +28,11 @@ fn run(codes : List[String]) -> Node {
 test "basic eval" {
   // S K K x => ((K x (K x)) => x
   let main = "(defn main[] (S K K 3))"
-  inspect(run(@list.from_array([main])), content="NNum(3)")
+  debug_inspect(run(@list.from_array([main])), content="NNum(3)")
   let main = "(defn main[] (K 0 1))"
-  inspect(run(@list.from_array([main])), content="NNum(0)")
+  debug_inspect(run(@list.from_array([main])), content="NNum(0)")
   let main = "(defn main[] (K1 0 1))"
-  inspect(run(@list.from_array([main])), content="NNum(1)")
+  debug_inspect(run(@list.from_array([main])), content="NNum(1)")
   let r = LazyRef::{ data: Waiting(fn() { 3 + 4 }) }
   inspect(square(r), content="49")
 }

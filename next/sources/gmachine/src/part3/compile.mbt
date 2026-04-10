@@ -21,7 +21,7 @@ fn ScDef::compileSC(self : ScDef[String]) -> (String, Int, List[Instruction]) {
 fn RawExpr::compileR(
   self : RawExpr[String],
   env : List[(String, Int)],
-  arity : Int
+  arity : Int,
 ) -> List[Instruction] {
   if arity == 0 {
     self.compileE(env) + @list.from_array([Update(arity), Unwind])
@@ -33,7 +33,7 @@ fn RawExpr::compileR(
 ///|
 fn RawExpr::compileC(
   self : RawExpr[String],
-  env : List[(String, Int)]
+  env : List[(String, Int)],
 ) -> List[Instruction] {
   match self {
     Var(s) =>
@@ -45,12 +45,16 @@ fn RawExpr::compileC(
     // start c_constr definition
     App(App(Constructor(tag=1, arity=2), x), xs) =>
       // Cons(x, xs)
-      xs.compileC(env) + x.compileC(argOffset(1, env)) + @list.from_array([Pack(1, 2)])
+      xs.compileC(env) +
+      x.compileC(argOffset(1, env)) +
+      @list.from_array([Pack(1, 2)])
     // Empty
     Constructor(tag=0, arity=0) => @list.from_array([Pack(0, 0)])
     // end c_constr definition
     App(e1, e2) =>
-      e2.compileC(env) + e1.compileC(argOffset(1, env)) + @list.from_array([MkApp])
+      e2.compileC(env) +
+      e1.compileC(argOffset(1, env)) +
+      @list.from_array([MkApp])
     Let(rec, defs, e) =>
       if rec {
         compileLetrec(RawExpr::compileC, defs, e, env)
@@ -64,7 +68,7 @@ fn RawExpr::compileC(
 ///|
 fn RawExpr::compileE(
   self : RawExpr[String],
-  env : List[(String, Int)]
+  env : List[(String, Int)],
 ) -> List[Instruction] {
   match self {
     // start num definition
@@ -106,7 +110,9 @@ fn RawExpr::compileE(
       @list.from_array([Pack(0, 0)])
     App(App(Constructor(tag=1, arity=2), x), xs) =>
       // Cons(x, xs)
-      xs.compileC(env) + x.compileC(argOffset(1, env)) + @list.from_array([Pack(1, 2)])
+      xs.compileC(env) +
+      x.compileC(argOffset(1, env)) +
+      @list.from_array([Pack(1, 2)])
     // end e_constr_case definition
     // start default definition
     _ => self.compileC(env) + @list.from_array([Eval])
@@ -117,7 +123,7 @@ fn RawExpr::compileE(
 ///|
 fn compileAlts(
   alts : List[(Int, List[String], RawExpr[String])],
-  env : List[(String, Int)]
+  env : List[(String, Int)],
 ) -> List[(Int, List[Instruction])] {
   fn buildenv(variables : List[String], off : Int) -> List[(String, Int)] {
     match variables {
@@ -127,7 +133,7 @@ fn compileAlts(
   }
 
   fn go(
-    alts : List[(Int, List[String], RawExpr[String])]
+    alts : List[(Int, List[String], RawExpr[String])],
   ) -> List[(Int, List[Instruction])] {
     match alts {
       Empty => @list.empty()
@@ -148,7 +154,7 @@ fn compileAlts(
 
 ///|
 fn argOffset(n : Int, env : List[(String, Int)]) -> List[(String, Int)] {
-  env.map(fn (entry) {
+  env.map(fn(entry) {
     let (name, offset) = entry
     (name, offset + n)
   })
@@ -159,14 +165,16 @@ fn compileLet(
   comp : (RawExpr[String], List[(String, Int)]) -> List[Instruction],
   defs : List[(String, RawExpr[String])],
   expr : RawExpr[String],
-  env : List[(String, Int)]
+  env : List[(String, Int)],
 ) -> List[Instruction] {
-  let (env, codes) = loop (env, @list.empty(), defs) {
-    (env, acc, Empty) => (env, acc)
-    (env, acc, More((name, expr), tail=rest)) => {
-      let code = expr.compileC(env)
-      let env = argOffset(1, env).prepend((name, 0))
-      continue (env, acc + code, rest)
+  let (env, codes) = for env = env, acc = @list.empty(), remaining = defs {
+    match remaining {
+      Empty => break (env, acc)
+      More((name, expr), tail=rest) => {
+        let code = expr.compileC(env)
+        let env = argOffset(1, env).prepend((name, 0))
+        continue env, acc + code, rest
+      }
     }
   }
   codes + comp(expr, env) + @list.from_array([Slide(defs.length())])
@@ -177,25 +185,28 @@ fn compileLetrec(
   comp : (RawExpr[String], List[(String, Int)]) -> List[Instruction],
   defs : List[(String, RawExpr[String])],
   expr : RawExpr[String],
-  env : List[(String, Int)]
+  env : List[(String, Int)],
 ) -> List[Instruction] {
   let mut env = env
-  loop defs {
-    Empty => ()
-    More((name, _), tail=rest) => {
-      env = argOffset(1, env).prepend((name, 0))
-      continue rest
+  for remaining = defs {
+    match remaining {
+      Empty => break
+      More((name, _), tail=rest) => {
+        env = argOffset(1, env).prepend((name, 0))
+        continue rest
+      }
     }
   }
   let n = defs.length()
   fn compileDefs(
     defs : List[(String, RawExpr[String])],
-    offset : Int
+    offset : Int,
   ) -> List[Instruction] {
     match defs {
       Empty => comp(expr, env) + @list.from_array([Slide(n)])
       More((_, expr), tail=rest) =>
-        expr.compileC(env) + compileDefs(rest, offset - 1).prepend(Update(offset))
+        expr.compileC(env) +
+        compileDefs(rest, offset - 1).prepend(Update(offset))
     }
   }
 
@@ -204,73 +215,168 @@ fn compileLetrec(
 
 ///|
 let compiled_primitives : List[(String, Int, List[Instruction])] = @list.from_array([
-  // Arith
-  (
-    "add",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Add, Update(2), Pop(2), Unwind]),
-  ),
-  (
-    "sub",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Sub, Update(2), Pop(2), Unwind]),
-  ),
-  (
-    "mul",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Mul, Update(2), Pop(2), Unwind]),
-  ),
-  (
-    "div",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Div, Update(2), Pop(2), Unwind]),
-  ),
-  // Compare
-  (
-    "eq",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Eq, Update(2), Pop(2), Unwind]),
-  ),
-  (
-    "neq",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Ne, Update(2), Pop(2), Unwind]),
-  ),
-  (
-    "ge",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Ge, Update(2), Pop(2), Unwind]),
-  ),
-  (
-    "gt",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Gt, Update(2), Pop(2), Unwind]),
-  ),
-  (
-    "le",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Le, Update(2), Pop(2), Unwind]),
-  ),
-  (
-    "lt",
-    2,
-    @list.from_array([Push(1), Eval, Push(1), Eval, Lt, Update(2), Pop(2), Unwind]),
-  ),
-  // MISC
-  ("negate", 1, @list.from_array([Push(0), Eval, Neg, Update(1), Pop(1), Unwind])),
-  (
-    "if",
-    3,
-    @list.from_array([
-      Push(0),
-      Eval,
-      Cond(@list.from_array([Push(1)]), @list.from_array([Push(2)])),
-      Update(3),
-      Pop(3),
-      Unwind,
-    ]),
-  ),
-])
+    // Arith
+    (
+      "add",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Add,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    (
+      "sub",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Sub,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    (
+      "mul",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Mul,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    (
+      "div",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Div,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    // Compare
+    (
+      "eq",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Eq,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    (
+      "neq",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Ne,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    (
+      "ge",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Ge,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    (
+      "gt",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Gt,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    (
+      "le",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Le,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    (
+      "lt",
+      2,
+      @list.from_array([
+        Push(1),
+        Eval,
+        Push(1),
+        Eval,
+        Lt,
+        Update(2),
+        Pop(2),
+        Unwind,
+      ]),
+    ),
+    // MISC
+    (
+      "negate",
+      1,
+      @list.from_array([Push(0), Eval, Neg, Update(1), Pop(1), Unwind]),
+    ),
+    (
+      "if",
+      3,
+      @list.from_array([
+        Push(0),
+        Eval,
+        Cond(@list.from_array([Push(1)]), @list.from_array([Push(2)])),
+        Update(3),
+        Pop(3),
+        Unwind,
+      ]),
+    ),
+  ],
+)
 
 ///| start builtin definition
 let builtinOpS : @hashmap.HashMap[String, Instruction] = {

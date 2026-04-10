@@ -33,7 +33,7 @@ struct AsyncBox {
   value : Int
 
   async fn new(x : Int) -> AsyncBox
-} derive(Show)
+} derive(Debug)
 // end struct constructor async 1
 
 ///|
@@ -48,7 +48,7 @@ async fn AsyncBox::new(x : Int) -> AsyncBox {
 // start struct constructor async 3
 async test "struct constructor async" {
   let box = AsyncBox(10)
-  inspect(box, content="{value: 10}")
+  debug_inspect(box, content="{ value: 10 }")
 }
 // end struct constructor async 3
 
@@ -57,9 +57,11 @@ async test "struct constructor async" {
 async test "with_task_group" {
   let log = []
   @async.with_task_group(group => {
-    group.spawn_bg(() => for _ in 0..<3 {
-      log.push("task #1 tick")
-      @async.sleep(200) // sleep for 200ms
+    group.spawn_bg(() => {
+      for _ in 0..<3 {
+        log.push("task #1 tick")
+        @async.sleep(200) // sleep for 200ms
+      }
     })
     group.spawn_bg(() => {
       @async.sleep(100)
@@ -92,13 +94,15 @@ async fn with_timeout(timeout : Int, f : async () -> Unit) -> Unit {
 ///|
 // start async combinator example
 async fn make_request() -> String {
-  @async.retry(Immediate, max_retry=3, () => @async.with_timeout(1000, () => {
-    let (response, body) = @http.get("https://www.moonbitlang.com")
-    guard response.code is (200..<300) else {
-      fail("the HTTP request is not successful")
-    }
-    body.text()
-  }))
+  @async.retry(Immediate, max_retry=3, () => {
+    @async.with_timeout(1000, () => {
+      let (response, body) = @http.get("https://www.moonbitlang.com")
+      guard response.code is (200..<300) else {
+        fail("the HTTP request is not successful")
+      }
+      body.text()
+    })
+  })
 }
 // end async combinator example
 

@@ -202,11 +202,14 @@ test "for loop 9" (t : @test.Test) {
 }
 
 // start functional loop
+
 test {
   fn sum(xs : @list.List[Int]) -> Int {
-    loop (xs, 0) {
-      (Empty, acc) => break acc // <=> Nil, acc => acc
-      (More(x, tail=rest), acc) => continue (rest, x + acc)
+    for xs = xs, acc = 0 {
+      match xs {
+        Empty => break acc // <=> Nil, acc => acc
+        More(x, tail=rest) => continue rest, x + acc
+      }
     }
   }
 
@@ -215,6 +218,7 @@ test {
 // end functional loop
 
 // start for loop 10
+
 test {
   let mut i = 0
   for j in 0..<10 {
@@ -222,7 +226,7 @@ test {
   }
   assert_eq(i, 45)
   let mut k = 0
-  for l in 0..=10 {
+  for l in 0..<=10 {
     k += l
   }
   assert_eq(k, 55)
@@ -230,6 +234,7 @@ test {
 // end for loop 10
 
 // start loop label
+
 test "break label" {
   let mut count = 0
   let xs = [1, 2, 3]
@@ -249,13 +254,14 @@ test "break label" {
 test "continue label" {
   let mut count = 0
   let init = 10
-  let res = outer~: loop init {
-    0 => 42
-    i =>
-      for ;; {
-        count = count + 1
-        continue outer~ i - 1
-      }
+  let res = outer~: for i = init {
+    if i == 0 {
+      break outer~ 42
+    }
+    for ;; {
+      count = count + 1
+      continue outer~ i - 1
+    }
   }
   assert_eq(res, 42)
   assert_eq(count, 10)
@@ -263,6 +269,7 @@ test "continue label" {
 // end loop label
 
 // start guard 1
+
 fn guarded_get(array : Array[Int], index : Int) -> Int? {
   guard index >= 0 && index < array.length() else { None }
   Some(array[index])
@@ -278,6 +285,7 @@ fn process(string : String) -> String {
 }
 
 // start guard 2
+
 enum Resource {
   Folder(Array[String])
   PlainText(String)
@@ -305,6 +313,7 @@ fn g() -> Unit {
 }
 
 // start match 1
+
 fn decide_sport(weather : String, humidity : Int) -> String {
   match weather {
     "sunny" => "tennis"

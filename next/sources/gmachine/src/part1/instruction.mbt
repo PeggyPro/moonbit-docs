@@ -1,4 +1,5 @@
 // start instr definition
+
 enum Instruction {
   Unwind
   PushGlobal(String)
@@ -7,5 +8,5 @@ enum Instruction {
   MkApp
   Update(Int)
   Pop(Int)
-} derive(Eq, Show)
+} derive(Eq, Debug)
 // end instr definition

@@ -4,7 +4,7 @@ fn run(codes : List[String]) -> Node {
     let tokens = tokenize(code)
     let code = try tokens.parse_sc() catch {
       ParseError(s) => abort(s)
-    } else {
+    } noraise {
       expr => expr
     }
     let code = code.compileSC()
@@ -30,7 +30,7 @@ fn run(codes : List[String]) -> Node {
 ///|
 test "basic eval" {
   let main = "(defn main[] (let ([add1 (add 1)]) (add1 1)))"
-  inspect(run(@list.from_array([main])), content="NNum(2)")
+  debug_inspect(run(@list.from_array([main])), content="NNum(2)")
   let main = "(defn main[] (let ([x 4] [y 5]) (sub x y)))"
-  inspect(run(@list.from_array([main])), content="NNum(-1)")
+  debug_inspect(run(@list.from_array([main])), content="NNum(-1)")
 }

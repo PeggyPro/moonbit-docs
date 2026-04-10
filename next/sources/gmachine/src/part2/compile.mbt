@@ -21,7 +21,7 @@ fn ScDef::compileSC(self : ScDef[String]) -> (String, Int, List[Instruction]) {
 fn RawExpr::compileR(
   self : RawExpr[String],
   env : List[(String, Int)],
-  arity : Int
+  arity : Int,
 ) -> List[Instruction] {
   if arity == 0 {
     self.compileC(env) + @list.from_array([Update(arity), Unwind])
@@ -33,7 +33,7 @@ fn RawExpr::compileR(
 ///|
 fn RawExpr::compileC(
   self : RawExpr[String],
-  env : List[(String, Int)]
+  env : List[(String, Int)],
 ) -> List[Instruction] {
   match self {
     Var(s) =>
@@ -58,7 +58,7 @@ fn RawExpr::compileC(
 
 ///|
 fn argOffset(n : Int, env : List[(String, Int)]) -> List[(String, Int)] {
-  env.map(fn (entry) {
+  env.map(fn(entry) {
     let (name, offset) = entry
     (name, offset + n)
   })
@@ -69,14 +69,16 @@ fn compileLet(
   comp : (RawExpr[String], List[(String, Int)]) -> List[Instruction],
   defs : List[(String, RawExpr[String])],
   expr : RawExpr[String],
-  env : List[(String, Int)]
+  env : List[(String, Int)],
 ) -> List[Instruction] {
-  let (env, codes) = loop (env, @list.empty(), defs) {
-    (env, acc, Empty) => (env, acc)
-    (env, acc, More((name, expr), tail=rest)) => {
-      let code = expr.compileC(env)
-      let env = argOffset(1, env).prepend((name, 0))
-      continue (env, acc + code, rest)
+  let (env, codes) = for env = env, acc = @list.empty(), remaining = defs {
+    match remaining {
+      Empty => break (env, acc)
+      More((name, expr), tail=rest) => {
+        let code = expr.compileC(env)
+        let env = argOffset(1, env).prepend((name, 0))
+        continue env, acc + code, rest
+      }
     }
   }
   codes + comp(expr, env) + @list.from_array([Slide(defs.length())])
@@ -88,25 +90,28 @@ fn compileLetrec(
   comp : (RawExpr[String], List[(String, Int)]) -> List[Instruction],
   defs : List[(String, RawExpr[String])],
   expr : RawExpr[String],
-  env : List[(String, Int)]
+  env : List[(String, Int)],
 ) -> List[Instruction] {
   let mut env = env
-  loop defs {
-    Empty => ()
-    More((name, _), tail=rest) => {
-      env = argOffset(1, env).prepend((name, 0))
-      continue rest
+  for remaining = defs {
+    match remaining {
+      Empty => break
+      More((name, _), tail=rest) => {
+        env = argOffset(1, env).prepend((name, 0))
+        continue rest
+      }
     }
   }
   let n = defs.length()
   fn compileDefs(
     defs : List[(String, RawExpr[String])],
-    offset : Int
+    offset : Int,
   ) -> List[Instruction] {
     match defs {
       Empty => comp(expr, env) + @list.from_array([Slide(n)])
       More((_, expr), tail=rest) =>
-        expr.compileC(env) + compileDefs(rest, offset - 1).prepend(Update(offset))
+        expr.compileC(env) +
+        compileDefs(rest, offset - 1).prepend(Update(offset))
     }
   }
 

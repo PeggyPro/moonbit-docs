@@ -1,4 +1,5 @@
 // start test 1
+
 test "test_name" {
   assert_eq(1 + 1, 2)
   assert_eq(2 + 2, 4)
@@ -7,27 +8,29 @@ test "test_name" {
 // end test 1
 
 // start test 2
+
 test "panic_test" {
   let _ : Int = Option::None.unwrap()
-
 }
 // end test 2
 
 // start snapshot test 1
+
 struct X {
   x : Int
-} derive(Show)
+} derive(Debug)
 
 test "show snapshot test" {
-  inspect({ x: 10 }, content="{x: 10}")
+  debug_inspect({ x: 10 }, content="{ x: 10 }")
 }
 // end snapshot test 1
 
 // start snapshot test 2
+
 enum Rec {
   End
   Really_long_name_that_is_difficult_to_read(Rec)
-} derive(Show, ToJson)
+} derive(Debug, ToJson)
 
 test "json snapshot test" {
   let r = Really_long_name_that_is_difficult_to_read(
@@ -35,7 +38,7 @@ test "json snapshot test" {
       Really_long_name_that_is_difficult_to_read(End),
     ),
   )
-  inspect(
+  debug_inspect(
     r,
     content="Really_long_name_that_is_difficult_to_read(Really_long_name_that_is_difficult_to_read(Really_long_name_that_is_difficult_to_read(End)))",
   )
@@ -50,6 +53,7 @@ test "json snapshot test" {
 // end snapshot test 2
 
 // start snapshot test 3
+
 test "record anything" (t : @test.Test) {
   t.write("Hello, world!")
   t.writeln(" And hello, MoonBit!")
