@@ -5,23 +5,6 @@ MoonBit supports deriving a number of builtin traits automatically from the type
 To derive a trait `T`, it is required that all fields used in the type implements `T`.
 For example, deriving `Show` for a struct `struct A { x: T1; y: T2 }` requires both `T1: Show` and `T2: Show`
 
-## Show
-
-`derive(Show)` will generate a pretty-printing method for the type.
-The derived format is similar to how the type can be constructed in code.
-
-```{literalinclude} /sources/language/src/derive/show.mbt
-:language: moonbit
-:start-after: start derive show struct
-:end-before: end derive show struct
-```
-
-```{literalinclude} /sources/language/src/derive/show.mbt
-:language: moonbit
-:start-after: start derive show enum
-:end-before: end derive show enum
-```
-
 ## Eq and Compare
 
 `derive(Eq)` and `derive(Compare)` will generate the corresponding method for testing equality and comparison.

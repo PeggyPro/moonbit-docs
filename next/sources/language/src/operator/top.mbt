@@ -1,5 +1,4 @@
-// start operator 1
-
+/// start operator 1
 struct T {
   x : Int
 }
@@ -15,8 +14,7 @@ test {
 }
 // end operator 1
 
-// start operator 2
-
+/// start operator 2
 struct Coord {
   mut x : Int
   mut y : Int
@@ -154,8 +152,7 @@ test {
   assert_eq((b >> 2).x, 0b11)
 }
 
-// start view 1
-
+/// start view 1
 test {
   let xs = [0, 1, 2, 3, 4, 5]
   let s1 : ArrayView[Int] = xs[2:]
@@ -169,8 +166,7 @@ test {
 }
 // end view 1
 
-// start view 2
-
+/// start view 2
 struct DataView(String)
 
 struct Data {}
@@ -189,8 +185,7 @@ test {
 }
 // end view 2
 
-// start spread 1
-
+/// start spread 1
 test {
   let a1 : Array[Int] = [1, 2, 3]
   let a2 : FixedArray[Int] = [4, 5, 6]
@@ -200,8 +195,7 @@ test {
 }
 // end spread 1
 
-// start spread 2
-
+/// start spread 2
 test {
   let s1 : String = "Hello"
   let s2 : StringView = "World".view()
@@ -211,8 +205,7 @@ test {
 }
 // end spread 2
 
-// start spread 3
-
+/// start spread 3
 test {
   let b1 : Bytes = "hello"
   let b2 : BytesView = b1[1:4]

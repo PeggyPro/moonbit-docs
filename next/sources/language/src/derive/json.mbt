@@ -1,5 +1,4 @@
 // start json basic
-
 struct JsonTest1 {
   x : Int
   y : Int
@@ -23,7 +22,6 @@ test "json basic" {
 // end json basic
 
 // start json args
-
 struct JsonTest3 {
   x : Int
   y : Int
@@ -51,7 +49,6 @@ test "json args" {
 // end json args
 
 // start json optional
-
 struct A {
   x : Int?
   y : Int??

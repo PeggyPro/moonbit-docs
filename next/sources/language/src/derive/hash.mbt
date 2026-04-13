@@ -1,5 +1,4 @@
 // start derive hash struct
-
 struct DeriveHash {
   x : Int
   y : String?

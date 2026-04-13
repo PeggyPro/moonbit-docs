@@ -1,5 +1,4 @@
 // start struct 1
-
 struct User {
   id : Int
   name : String
@@ -48,7 +47,6 @@ test "struct 4" (t : @test.Test) {
 }
 
 // start struct constructor 1
-
 struct IntBox {
   value : Int
 
@@ -57,7 +55,6 @@ struct IntBox {
 // end struct constructor 1
 
 // start struct constructor 2
-
 fn IntBox::new(value : Int) -> IntBox {
   { value, }
 }
@@ -71,7 +68,6 @@ test "struct constructor positional" {
 }
 
 // start struct constructor 4
-
 struct StructWithConstr {
   x : Int
   y : Int
@@ -81,7 +77,6 @@ struct StructWithConstr {
 // end struct constructor 4
 
 // start struct constructor 5
-
 fn StructWithConstr::new(x~ : Int, y? : Int = x) -> StructWithConstr {
   { x, y }
 }
@@ -95,7 +90,6 @@ test "struct constructor optional" {
 }
 
 // start struct constructor 7
-
 suberror BuildError {
   NegativeInput
 } derive(Debug)
@@ -108,7 +102,6 @@ struct Positive {
 // end struct constructor 7
 
 // start struct constructor 8
-
 fn Positive::new(x : Int) -> Positive raise BuildError {
   guard x >= 0 else { raise NegativeInput }
   { value: x }
@@ -174,7 +167,6 @@ test "enum 3" (t : @test.Test) {
 }
 
 // start enum 4
-
 enum Lst {
   Nil
   // constructor `Cons` carries additional payload: the first element of the list,
@@ -227,7 +219,6 @@ test "enum 6" (t : @test.Test) {
 }
 
 // start enum 7
-
 enum E {
   // `x` and `y` are labelled argument
   C(x~ : Int, y~ : Int)
@@ -257,7 +248,6 @@ test "enum 9" (t : @test.Test) {
 }
 
 // start enum 10
-
 enum Object {
   Point(x~ : Double, y~ : Double)
   Circle(x~ : Double, y~ : Double, radius~ : Double)
@@ -302,7 +292,6 @@ test "enum 11" (t : @test.Test) {
 
 // start enum 12
 // A set implemented using mutable binary search tree.
-
 struct Set[X] {
   mut root : Tree[X]
 }
@@ -312,7 +301,6 @@ fn[X : Compare] Set::insert(self : Set[X], x : X) -> Unit {
 }
 
 // A mutable binary search tree with parent pointer
-
 enum Tree[X] {
   Nil
   // only labelled arguments can be mutable
@@ -326,7 +314,6 @@ enum Tree[X] {
 
 // In-place insert a new element to a binary search tree.
 // Return the new tree root
-
 fn[X : Compare] Tree::insert(
   self : Tree[X],
   x : X,
@@ -353,16 +340,12 @@ fn[X : Compare] Tree::insert(
 // end enum 12
 
 // start typealias 1
-
 pub type Index = Int
-
 pub type MyIndex = Int
-
 pub type MyMap = Map[Int, String]
 // end typealias 1
 
 // start local-type 1
-
 fn[T : Debug] toplevel(x : T) -> Unit {
   enum LocalEnum {
     A(T)

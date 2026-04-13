@@ -202,7 +202,6 @@ test "for loop 9" (t : @test.Test) {
 }
 
 // start for loop 10
-
 test {
   let mut i = 0
   for j in 0..<10 {
@@ -218,7 +217,6 @@ test {
 // end for loop 10
 
 // start loop label
-
 test "break label" {
   let mut count = 0
   let xs = [1, 2, 3]
@@ -253,7 +251,6 @@ test "continue label" {
 // end loop label
 
 // start guard 1
-
 fn guarded_get(array : Array[Int], index : Int) -> Int? {
   guard index >= 0 && index < array.length() else { None }
   Some(array[index])
@@ -269,7 +266,6 @@ fn process(string : String) -> String {
 }
 
 // start guard 2
-
 enum Resource {
   Folder(Array[String])
   PlainText(String)
@@ -297,7 +293,6 @@ fn g() -> Unit {
 }
 
 // start match 1
-
 fn decide_sport(weather : String, humidity : Int) -> String {
   match weather {
     "sunny" => "tennis"

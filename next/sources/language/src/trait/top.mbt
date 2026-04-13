@@ -1,5 +1,4 @@
-// start trait 1
-
+/// start trait 1
 pub(open) trait I {
   method_(Int) -> Int
   method_with_label(Int, label~ : Int) -> Int
@@ -7,8 +6,7 @@ pub(open) trait I {
 }
 // end trait 1
 
-// start trait 2
-
+/// start trait 2
 pub(open) trait MyShow {
   to_string(Self) -> String
 }
@@ -21,17 +19,15 @@ pub impl MyShow for MyType with to_string(self) {
 
 struct MyContainer[_] {}
 
-// trait implementation with type parameters.
-// `[X : Show]` means the type parameter `X` must implement `Show`,
-// this will be covered later.
-
+/// trait implementation with type parameters.
+/// `[X : Show]` means the type parameter `X` must implement `Show`,
+/// this will be covered later.
 pub impl[X : MyShow] MyShow for MyContainer[X] with to_string(self) {
   ...
 }
 // end trait 2
 
-// start trait 3
-
+/// start trait 3
 pub(open) trait J {
   f(Self) -> Unit
   f_twice(Self) -> Unit = _
@@ -43,8 +39,7 @@ impl J with f_twice(self) {
 }
 // end trait 3
 
-// start trait 4
-
+/// start trait 4
 impl J for Int with f(self) {
   println(self)
 }
@@ -60,8 +55,7 @@ impl J for String with f_twice(self) {
 
 // end trait 4
 
-// start trait 5
-
+/// start trait 5
 fn[X : Eq] contains(xs : Array[X], elem : X) -> Bool {
   for x in xs {
     if x == elem {
@@ -73,8 +67,7 @@ fn[X : Eq] contains(xs : Array[X], elem : X) -> Bool {
 }
 // end trait 5
 
-// start trait 6
-
+/// start trait 6
 struct Point {
   x : Int
   y : Int
@@ -91,16 +84,14 @@ test {
 }
 // end trait 6
 
-// start trait 7
-
+/// start trait 7
 test {
   assert_eq(Show::to_string(42), "42")
   assert_eq(Compare::compare(1.0, 2.5), -1)
 }
 // end trait 7
 
-// start trait 8
-
+/// start trait 8
 struct MyCustomType {}
 
 pub impl Show for MyCustomType with output(self, logger) {
@@ -113,8 +104,7 @@ fn f() -> Unit {
 }
 // end trait 8
 
-// start trait 9
-
+/// start trait 9
 struct T {
   a : Int
   b : Int
@@ -130,8 +120,7 @@ test {
 }
 // end trait 9
 
-// start super trait 1
-
+/// start super trait 1
 pub(open) trait Position {
   pos(Self) -> (Int, Int)
 }
@@ -143,8 +132,7 @@ pub(open) trait Draw {
 pub(open) trait Object: Position + Draw {}
 // end super trait 1
 
-// start super trait 2
-
+/// start super trait 2
 impl Position for Point with pos(self) {
   (self.x, self.y)
 }
@@ -166,8 +154,7 @@ test {
 }
 // end super trait 2
 
-// start trait object 1
-
+/// start trait object 1
 pub(open) trait Animal {
   speak(Self) -> String
 }
@@ -206,8 +193,7 @@ test {
 }
 // end trait object 1
 
-// start trait object 2
-
+/// start trait object 2
 pub(open) trait Logger {
   write_string(Self, String) -> Unit
 }
@@ -220,8 +206,7 @@ fn[Obj : CanLog] &Logger::write_object(self : &Logger, obj : Obj) -> Unit {
   obj.log(self)
 }
 
-// use the new method to simplify code
-
+/// use the new method to simplify code
 pub impl[A : CanLog, B : CanLog] CanLog for (A, B) with log(self, logger) {
   let (a, b) = self
   logger

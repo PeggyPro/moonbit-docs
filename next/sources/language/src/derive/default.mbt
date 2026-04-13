@@ -1,5 +1,4 @@
 // start derive default struct
-
 struct DeriveDefault {
   x : Int
   y : String?
@@ -12,7 +11,6 @@ test "derive default struct" {
 // end derive default struct
 
 // start derive default enum
-
 enum DeriveDefaultEnum {
   Case1(Int)
   Case2(label~ : String)

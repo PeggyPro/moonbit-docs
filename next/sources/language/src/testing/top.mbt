@@ -1,5 +1,4 @@
-// start test 1
-
+/// start test 1
 test "test_name" {
   assert_eq(1 + 1, 2)
   assert_eq(2 + 2, 4)
@@ -7,15 +6,13 @@ test "test_name" {
 }
 // end test 1
 
-// start test 2
-
+/// start test 2
 test "panic_test" {
   let _ : Int = Option::None.unwrap()
 }
 // end test 2
 
-// start snapshot test 1
-
+/// start snapshot test 1
 struct X {
   x : Int
 } derive(Debug)
@@ -25,8 +22,7 @@ test "show snapshot test" {
 }
 // end snapshot test 1
 
-// start snapshot test 2
-
+/// start snapshot test 2
 enum Rec {
   End
   Really_long_name_that_is_difficult_to_read(Rec)
@@ -52,8 +48,7 @@ test "json snapshot test" {
 }
 // end snapshot test 2
 
-// start snapshot test 3
-
+/// start snapshot test 3
 test "record anything" (t : @test.Test) {
   t.write("Hello, world!")
   t.writeln(" And hello, MoonBit!")
