@@ -1296,14 +1296,14 @@ Asynchronous constructors are declared with `async fn new` and can be used insid
 ```
 
 Creating value via `struct` constructor has exactly the same semantic as
-[enum constructors](#Enum),
+[enum constructors](#enum),
 except that `struct` constructors cannot be used for pattern matching.
 For example, when creating a foreign `struct` using constructors,
 the package name can be omitted if the expected type of the expression is known.
 
 Since `struct` constructors are implemented by normal functions,
 they may [raise error](/language/error-handling.md) or [perform asynchronous operations](/language/async-experimental.md).
-`struct` constructors also support [optional arguments](#Optional-arguments).
+`struct` constructors also support [optional arguments](#optional-arguments).
 Notice that the default value of optional arguments should be defined at the implementation of struct constructors,
 the declaration inside the `struct` should only contain a `label? : T` signature.
 
