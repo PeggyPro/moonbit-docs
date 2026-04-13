@@ -18,16 +18,20 @@ pub fn command() -> @argparse.Command {
       ),
     ],
     positionals=[
-      @argparse.PositionArg::new("url", about="HTTP or HTTPS URL to download"),
+      @argparse.PositionArg::new(
+        "url",
+        about="HTTP or HTTPS URL to download",
+        num_args=@argparse.ValueRange::single(),
+      ),
     ],
   )
 }
 
 ///|
-pub fn parse_config(argv : Array[String]) -> Config raise {
+pub fn parse_config(argv : ArrayView[String]) -> Config raise {
   let matches = @argparse.parse(command(), argv~)
   let values : Map[String, Array[String]] = matches.values
-  guard values is { "url": [url, ..], "output"? : output_paths, .. } else {
+  guard values is { "url": [url], "output"? : output_paths, .. } else {
     fail("missing url")
   }
   let output = match output_paths {
