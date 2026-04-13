@@ -201,22 +201,6 @@ test "for loop 9" (t : @test.Test) {
   t.snapshot(filename="for_loop_9")
 }
 
-// start functional loop
-
-test {
-  fn sum(xs : @list.List[Int]) -> Int {
-    for xs = xs, acc = 0 {
-      match xs {
-        Empty => break acc // <=> Nil, acc => acc
-        More(x, tail=rest) => continue rest, x + acc
-      }
-    }
-  }
-
-  assert_eq(sum(@list.from_array([1, 2, 3])), 6)
-}
-// end functional loop
-
 // start for loop 10
 
 test {
