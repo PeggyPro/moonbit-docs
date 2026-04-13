@@ -116,7 +116,6 @@ test "struct constructor raise" {
 }
 
 // start enum 1
-
 /// An enum type that represents the ordering relation between two values,
 /// with three cases "Smaller", "Greater" and "Equal"
 enum Relation {

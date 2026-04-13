@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoonBit \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-28 13:08+0800\n"
+"POT-Creation-Date: 2026-04-13 10:53+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ja\n"
@@ -20,15 +20,13 @@ msgstr ""
 
 #: ../../language/derive.md:1
 msgid "Deriving traits"
-msgstr ""
-"trait の derive"
+msgstr "trait の derive"
 
 #: ../../language/derive.md:3
 msgid ""
 "MoonBit supports deriving a number of builtin traits automatically from "
 "the type definition."
-msgstr ""
-"MoonBit では、型定義からいくつかの組み込み trait を自動的に derive できます。"
+msgstr "MoonBit では、型定義からいくつかの組み込み trait を自動的に derive できます。"
 
 #: ../../language/derive.md:5
 msgid ""
@@ -36,89 +34,26 @@ msgid ""
 "implements `T`. For example, deriving `Show` for a struct `struct A { x: "
 "T1; y: T2 }` requires both `T1: Show` and `T2: Show`"
 msgstr ""
-"trait `T` を derive するには、その型で使われているすべてのフィールドが `T` を実装している必要があります。例えば、`struct A { x: T1; y: T2 }` に対して `Show` を derive するには、`T1: Show` と `T2: Show` の両方が必要です。"
+"trait `T` を derive するには、その型で使われているすべてのフィールドが `T` "
+"を実装している必要があります。例えば、`struct A { x: T1; y: T2 }` に対して `Show` を derive "
+"するには、`T1: Show` と `T2: Show` の両方が必要です。"
 
 #: ../../language/derive.md:8
-msgid "Show"
-msgstr ""
-"Show"
+msgid "Eq and Compare"
+msgstr "Eq と Compare"
 
 #: ../../language/derive.md:10
-msgid ""
-"`derive(Show)` will generate a pretty-printing method for the type. The "
-"derived format is similar to how the type can be constructed in code."
-msgstr ""
-"`derive(Show)` は、その型の pretty-printing メソッドを生成します。生成される形式は、コード上でその型を構築する書き方に近いものです。"
-
-#: ../../language/derive.md:13
-msgid ""
-"struct MyStruct {\n"
-"  x : Int\n"
-"  y : Int\n"
-"} derive(Show)\n"
-"\n"
-"test \"derive show struct\" {\n"
-"  let p = MyStruct::{ x: 1, y: 2 }\n"
-"  assert_eq(Show::to_string(p), \"{x: 1, y: 2}\")\n"
-"}\n"
-msgstr ""
-"struct MyStruct {\n"
-"  x : Int\n"
-"  y : Int\n"
-"} derive(Show)\n"
-"\n"
-"test \"derive show struct\" {\n"
-"  let p = MyStruct::{ x: 1, y: 2 }\n"
-"  assert_eq(Show::to_string(p), \"{x: 1, y: 2}\")\n"
-"}\n"
-
-#: ../../language/derive.md:19
-msgid ""
-"enum MyEnum {\n"
-"  Case1(Int)\n"
-"  Case2(label~ : String)\n"
-"  Case3\n"
-"} derive(Show)\n"
-"\n"
-"test \"derive show enum\" {\n"
-"  assert_eq(Show::to_string(MyEnum::Case1(42)), \"Case1(42)\")\n"
-"  assert_eq(\n"
-"    Show::to_string(MyEnum::Case2(label=\"hello\")),\n"
-"    \"Case2(label=\\\"hello\\\")\",\n"
-"  )\n"
-"  assert_eq(Show::to_string(MyEnum::Case3), \"Case3\")\n"
-"}\n"
-msgstr ""
-"enum MyEnum {\n"
-"  Case1(Int)\n"
-"  Case2(label~ : String)\n"
-"  Case3\n"
-"} derive(Show)\n"
-"\n"
-"test \"derive show enum\" {\n"
-"  assert_eq(Show::to_string(MyEnum::Case1(42)), \"Case1(42)\")\n"
-"  assert_eq(\n"
-"    Show::to_string(MyEnum::Case2(label=\"hello\")),\n"
-"    \"Case2(label=\\\"hello\\\")\",\n"
-"  )\n"
-"  assert_eq(Show::to_string(MyEnum::Case3), \"Case3\")\n"
-"}\n"
-
-#: ../../language/derive.md:25
-msgid "Eq and Compare"
-msgstr ""
-"Eq と Compare"
-
-#: ../../language/derive.md:27
 msgid ""
 "`derive(Eq)` and `derive(Compare)` will generate the corresponding method"
 " for testing equality and comparison. Fields are compared in the same "
 "order as their definitions. For enums, the order between cases ascends in"
 " the order of definition."
 msgstr ""
-"`derive(Eq)` と `derive(Compare)` は、それぞれ等価性と比較のための対応するメソッドを生成します。フィールドは定義順に比較されます。enum では、ケース同士の順序は定義順になります。"
+"`derive(Eq)` と `derive(Compare)` "
+"は、それぞれ等価性と比較のための対応するメソッドを生成します。フィールドは定義順に比較されます。enum "
+"では、ケース同士の順序は定義順になります。"
 
-#: ../../language/derive.md:31
+#: ../../language/derive.md:14
 msgid ""
 "struct DeriveEqCompare {\n"
 "  x : Int\n"
@@ -180,7 +115,7 @@ msgstr ""
 "  assert_eq(p1 >= p2, false)\n"
 "}\n"
 
-#: ../../language/derive.md:37
+#: ../../language/derive.md:20
 msgid ""
 "enum DeriveEqCompareEnum {\n"
 "  Case1(Int)\n"
@@ -246,35 +181,33 @@ msgstr ""
 "  assert_eq(p4 < p7, true) // Case2 < Case3\n"
 "}\n"
 
-#: ../../language/derive.md:43
+#: ../../language/derive.md:26
 msgid "Default"
-msgstr ""
-"Default"
+msgstr "Default"
 
-#: ../../language/derive.md:45
+#: ../../language/derive.md:28
 msgid ""
 "`derive(Default)` will generate a method that returns the default value "
 "of the type."
-msgstr ""
-"`derive(Default)` は、その型のデフォルト値を返すメソッドを生成します。"
+msgstr "`derive(Default)` は、その型のデフォルト値を返すメソッドを生成します。"
 
-#: ../../language/derive.md:47
+#: ../../language/derive.md:30
 msgid ""
 "For structs, the default value is the struct with all fields set as their"
 " default value."
-msgstr ""
-"struct では、すべてのフィールドをデフォルト値にした struct がデフォルト値になります。"
+msgstr "struct では、すべてのフィールドをデフォルト値にした struct がデフォルト値になります。"
 
-#: ../../language/derive.md:49
+#: ../../language/derive.md:32
+#, fuzzy
 msgid ""
 "struct DeriveDefault {\n"
 "  x : Int\n"
 "  y : String?\n"
-"} derive(Default, Eq, Show)\n"
+"} derive(Default, Eq)\n"
 "\n"
 "test \"derive default struct\" {\n"
 "  let p = DeriveDefault::default()\n"
-"  assert_eq(p, DeriveDefault::{ x: 0, y: None })\n"
+"  assert_true(p == DeriveDefault::{ x: 0, y: None })\n"
 "}\n"
 msgstr ""
 "struct DeriveDefault {\n"
@@ -287,21 +220,21 @@ msgstr ""
 "  assert_eq(p, DeriveDefault::{ x: 0, y: None })\n"
 "}\n"
 
-#: ../../language/derive.md:55
+#: ../../language/derive.md:38
 msgid "For enums, the default value is the only case that has no parameters."
-msgstr ""
-"enum では、パラメータを持たない唯一のケースがデフォルト値になります。"
+msgstr "enum では、パラメータを持たない唯一のケースがデフォルト値になります。"
 
-#: ../../language/derive.md:57
+#: ../../language/derive.md:40
+#, fuzzy
 msgid ""
 "enum DeriveDefaultEnum {\n"
 "  Case1(Int)\n"
 "  Case2(label~ : String)\n"
 "  Case3\n"
-"} derive(Default, Eq, Show)\n"
+"} derive(Default, Eq)\n"
 "\n"
 "test \"derive default enum\" {\n"
-"  assert_eq(DeriveDefaultEnum::default(), DeriveDefaultEnum::Case3)\n"
+"  assert_true(DeriveDefaultEnum::default() == DeriveDefaultEnum::Case3)\n"
 "}\n"
 msgstr ""
 "enum DeriveDefaultEnum {\n"
@@ -314,14 +247,13 @@ msgstr ""
 "  assert_eq(DeriveDefaultEnum::default(), DeriveDefaultEnum::Case3)\n"
 "}\n"
 
-#: ../../language/derive.md:63
+#: ../../language/derive.md:46
 msgid ""
 "Enums that has no cases or more than one cases without parameters cannot "
 "derive `Default`."
-msgstr ""
-"ケースがない enum や、パラメータなしケースが複数ある enum は `Default` を derive できません。"
+msgstr "ケースがない enum や、パラメータなしケースが複数ある enum は `Default` を derive できません。"
 
-#: ../../language/derive.md:67
+#: ../../language/derive.md:50
 msgid ""
 "enum CannotDerive1 {\n"
 "    Case1(String)\n"
@@ -342,27 +274,29 @@ msgstr ""
 "enum CannotDerive2 {\n"
 "    Case1\n"
 "    Case2\n"
-"} derive(Default) // Case1 and Case2 are both candidates as default constructor\n"
+"} derive(Default) // Case1 and Case2 are both candidates as default "
+"constructor\n"
 
-#: ../../language/derive.md:79
+#: ../../language/derive.md:62
 msgid "Hash"
-msgstr ""
-"Hash"
+msgstr "Hash"
 
-#: ../../language/derive.md:81
+#: ../../language/derive.md:64
 msgid ""
 "`derive(Hash)` will generate a hash implementation for the type. This "
 "will allow the type to be used in places that expects a `Hash` "
 "implementation, for example `HashMap`s and `HashSet`s."
 msgstr ""
-"`derive(Hash)` はその型の hash 実装を生成します。これにより、`HashMap` や `HashSet` など、`Hash` 実装を期待する場所でその型を使えるようになります。"
+"`derive(Hash)` はその型の hash 実装を生成します。これにより、`HashMap` や `HashSet` など、`Hash` "
+"実装を期待する場所でその型を使えるようになります。"
 
-#: ../../language/derive.md:85
+#: ../../language/derive.md:68
+#, fuzzy
 msgid ""
 "struct DeriveHash {\n"
 "  x : Int\n"
 "  y : String?\n"
-"} derive(Hash, Eq, Show)\n"
+"} derive(Hash, Eq)\n"
 "\n"
 "test \"derive hash struct\" {\n"
 "  let hs = @hashset.new()\n"
@@ -387,51 +321,50 @@ msgstr ""
 "  assert_eq(hs.length(), 2)\n"
 "}\n"
 
-#: ../../language/derive.md:91
+#: ../../language/derive.md:74
 msgid "Arbitrary"
-msgstr ""
-"Arbitrary"
+msgstr "Arbitrary"
 
-#: ../../language/derive.md:93
+#: ../../language/derive.md:76
 msgid "`derive(Arbitrary)` will generate random values of the given type."
-msgstr ""
-"`derive(Arbitrary)` は指定した型のランダム値を生成します。"
+msgstr "`derive(Arbitrary)` は指定した型のランダム値を生成します。"
 
-#: ../../language/derive.md:95
+#: ../../language/derive.md:78
 msgid "FromJson and ToJson"
-msgstr ""
-"FromJson と ToJson"
+msgstr "FromJson と ToJson"
 
-#: ../../language/derive.md:97
+#: ../../language/derive.md:80
 msgid ""
 "`derive(FromJson)` and `derive(ToJson)` automatically derives round-"
 "trippable method implementations used for serializing the type to and "
 "from JSON. The implementation is mainly for debugging and storing the "
 "types in a human-readable format."
 msgstr ""
-"`derive(FromJson)` と `derive(ToJson)` は、型を JSON へ/から変換する往復可能なメソッド実装を自動的に derive します。主な用途はデバッグや、人間が読める形での保存です。"
+"`derive(FromJson)` と `derive(ToJson)` は、型を JSON へ/から変換する往復可能なメソッド実装を自動的に "
+"derive します。主な用途はデバッグや、人間が読める形での保存です。"
 
-#: ../../language/derive.md:101
+#: ../../language/derive.md:84
+#, fuzzy
 msgid ""
 "struct JsonTest1 {\n"
 "  x : Int\n"
 "  y : Int\n"
-"} derive(FromJson, ToJson, Eq, Show)\n"
+"} derive(FromJson, ToJson, Eq)\n"
 "\n"
 "enum JsonTest2 {\n"
 "  A(x~ : Int)\n"
 "  B(x~ : Int, y~ : Int)\n"
-"} derive(FromJson(style=\"legacy\"), ToJson(style=\"legacy\"), Eq, Show)\n"
+"} derive(FromJson(style=\"legacy\"), ToJson(style=\"legacy\"), Eq)\n"
 "\n"
 "test \"json basic\" {\n"
 "  let input = JsonTest1::{ x: 123, y: 456 }\n"
 "  let expected : Json = { \"x\": 123, \"y\": 456 }\n"
 "  assert_eq(input.to_json(), expected)\n"
-"  assert_eq(@json.from_json(expected), input)\n"
+"  assert_true(@json.from_json(expected) == input)\n"
 "  let input = JsonTest2::A(x=123)\n"
 "  let expected : Json = { \"$tag\": \"A\", \"x\": 123 }\n"
 "  assert_eq(input.to_json(), expected)\n"
-"  assert_eq(@json.from_json(expected), input)\n"
+"  assert_true(@json.from_json(expected) == input)\n"
 "}\n"
 msgstr ""
 "struct JsonTest1 {\n"
@@ -455,36 +388,37 @@ msgstr ""
 "  assert_eq(@json.from_json(expected), input)\n"
 "}\n"
 
-#: ../../language/derive.md:107
+#: ../../language/derive.md:90
 msgid ""
 "Both derive directives accept a number of arguments to configure the "
 "exact behavior of serialization and deserialization."
-msgstr ""
-"どちらの derive 指示子も、シリアライズとデシリアライズの具体的な振る舞いを設定するための複数の引数を受け取れます。"
+msgstr "どちらの derive 指示子も、シリアライズとデシリアライズの具体的な振る舞いを設定するための複数の引数を受け取れます。"
 
-#: ../../language/derive.md:110
+#: ../../language/derive.md:93
 msgid "The actual behavior of JSON serialization arguments is unstable."
-msgstr ""
-"JSON シリアライズ引数の実際の振る舞いは不安定です。"
+msgstr "JSON シリアライズ引数の実際の振る舞いは不安定です。"
 
-#: ../../language/derive.md:114
+#: ../../language/derive.md:97
 msgid ""
 "JSON derivation arguments are only for coarse-grained control of the "
 "derived format. If you need to precisely control how the types are laid "
 "out, consider **directly implementing the two traits instead**."
 msgstr ""
-"JSON derive 引数は、生成される形式を大まかに制御するためのものです。型のレイアウトを厳密に制御したいなら、**代わりに 2 つの trait を直接実装することを検討してください**。"
+"JSON derive 引数は、生成される形式を大まかに制御するためのものです。型のレイアウトを厳密に制御したいなら、**代わりに 2 つの "
+"trait を直接実装することを検討してください**。"
 
-#: ../../language/derive.md:118
+#: ../../language/derive.md:101
 msgid ""
 "We have recently deprecated a large number of advanced layout tweaking "
 "arguments. For such usage and future usage of them, please manually "
 "implement the traits. The arguments include: `repr`, `case_repr`, "
 "`default`, `rename_all`, etc."
 msgstr ""
-"最近、多数の高度なレイアウト調整引数を非推奨にしました。そうした用途や今後それらを使う場合は、trait を手動実装してください。引数には `repr`、`case_repr`、`default`、`rename_all` などがあります。"
+"最近、多数の高度なレイアウト調整引数を非推奨にしました。そうした用途や今後それらを使う場合は、trait を手動実装してください。引数には "
+"`repr`、`case_repr`、`default`、`rename_all` などがあります。"
 
-#: ../../language/derive.md:123
+#: ../../language/derive.md:106
+#, fuzzy
 msgid ""
 "struct JsonTest3 {\n"
 "  x : Int\n"
@@ -493,23 +427,22 @@ msgid ""
 "  FromJson(fields(x(rename=\"renamedX\"))),\n"
 "  ToJson(fields(x(rename=\"renamedX\"))),\n"
 "  Eq,\n"
-"  Show,\n"
 ")\n"
 "\n"
 "enum JsonTest4 {\n"
 "  A(x~ : Int)\n"
 "  B(x~ : Int, y~ : Int)\n"
-"} derive(FromJson, ToJson, Eq, Show)\n"
+"} derive(FromJson, ToJson, Eq)\n"
 "\n"
 "test \"json args\" {\n"
 "  let input = JsonTest3::{ x: 123, y: 456 }\n"
 "  let expected : Json = { \"renamedX\": 123, \"y\": 456 }\n"
 "  assert_eq(input.to_json(), expected)\n"
-"  assert_eq(@json.from_json(expected), input)\n"
+"  assert_true(@json.from_json(expected) == input)\n"
 "  let input = JsonTest4::A(x=123)\n"
 "  let expected : Json = [\"A\", { \"x\": 123 }]\n"
 "  assert_eq(input.to_json(), expected)\n"
-"  assert_eq(@json.from_json(expected), input)\n"
+"  assert_true(@json.from_json(expected) == input)\n"
 "}\n"
 msgstr ""
 "struct JsonTest3 {\n"
@@ -538,20 +471,20 @@ msgstr ""
 "  assert_eq(@json.from_json(expected), input)\n"
 "}\n"
 
-#: ../../language/derive.md:129
+#: ../../language/derive.md:112
 msgid "Enum styles"
-msgstr ""
-"enum のスタイル"
+msgstr "enum のスタイル"
 
-#: ../../language/derive.md:131
+#: ../../language/derive.md:114
 msgid ""
 "There are currently two styles of enum serialization: `legacy` and "
 "`flat`, which the user must select one using the `style` argument. "
 "Considering the following enum definition:"
 msgstr ""
-"現在、enum のシリアライズには `legacy` と `flat` の 2 種類のスタイルがあり、`style` 引数でどちらかを選ぶ必要があります。次の enum 定義を考えます："
+"現在、enum のシリアライズには `legacy` と `flat` の 2 種類のスタイルがあり、`style` "
+"引数でどちらかを選ぶ必要があります。次の enum 定義を考えます："
 
-#: ../../language/derive.md:135
+#: ../../language/derive.md:118
 msgid ""
 "enum E {\n"
 "  One\n"
@@ -565,12 +498,11 @@ msgstr ""
 "  Axes(x~: Int, y~: Int)\n"
 "}\n"
 
-#: ../../language/derive.md:143
+#: ../../language/derive.md:126
 msgid "With `derive(ToJson(style=\"legacy\"))`, the enum is formatted into:"
-msgstr ""
-"`derive(ToJson(style=\"legacy\"))` では、enum は次のように出力されます："
+msgstr "`derive(ToJson(style=\"legacy\"))` では、enum は次のように出力されます："
 
-#: ../../language/derive.md:145
+#: ../../language/derive.md:128
 msgid ""
 "E::One              => { \"$tag\": \"One\" }\n"
 "E::Uniform(2)       => { \"$tag\": \"Uniform\", \"0\": 2 }\n"
@@ -580,12 +512,11 @@ msgstr ""
 "E::Uniform(2)       => { \"$tag\": \"Uniform\", \"0\": 2 }\n"
 "E::Axes(x=-1, y=1)  => { \"$tag\": \"Axes\", \"x\": -1, \"y\": 1 }\n"
 
-#: ../../language/derive.md:151
+#: ../../language/derive.md:134
 msgid "With `derive(ToJson(style=\"flat\"))`, the enum is formatted into:"
-msgstr ""
-"`derive(ToJson(style=\"flat\"))` では、enum は次のように出力されます："
+msgstr "`derive(ToJson(style=\"flat\"))` では、enum は次のように出力されます："
 
-#: ../../language/derive.md:153
+#: ../../language/derive.md:136
 msgid ""
 "E::One              => \"One\"\n"
 "E::Uniform(2)       => [ \"Uniform\", 2 ]\n"
@@ -595,28 +526,31 @@ msgstr ""
 "E::Uniform(2)       => [ \"Uniform\", 2 ]\n"
 "E::Axes(x=-1, y=1)  => [ \"Axes\", -1, 1 ]\n"
 
-#: ../../language/derive.md:159
+#: ../../language/derive.md:142
 msgid "Deriving `Option`"
-msgstr ""
-"`Option` の derive"
+msgstr "`Option` の derive"
 
-#: ../../language/derive.md:161
+#: ../../language/derive.md:144
 msgid ""
 "A notable exception is the builtin type `Option[T]`. Ideally, it would be"
 " interpreted as `T | undefined`, but the issue is that it would be  "
 "impossible to distinguish `Some(None)` and `None` for "
 "`Option[Option[T]]`."
 msgstr ""
-"例外として、組み込み型 `Option[T]` があります。本来なら `T | undefined` と解釈したいところですが、`Option[Option[T]]` に対して `Some(None)` と `None` を区別できなくなるという問題があります。"
+"例外として、組み込み型 `Option[T]` があります。本来なら `T | undefined` "
+"と解釈したいところですが、`Option[Option[T]]` に対して `Some(None)` と `None` "
+"を区別できなくなるという問題があります。"
 
-#: ../../language/derive.md:165
+#: ../../language/derive.md:148
 msgid ""
 "As a result, it interpreted as `T | undefined` iff it is a direct field "
 "of a struct, and `[T] | null` otherwise:"
 msgstr ""
-"そのため、struct の直接フィールドである場合に限って `T | undefined` と解釈し、それ以外では `[T] | null` と解釈されます："
+"そのため、struct の直接フィールドである場合に限って `T | undefined` と解釈し、それ以外では `[T] | null` "
+"と解釈されます："
 
-#: ../../language/derive.md:168
+#: ../../language/derive.md:151
+#, fuzzy
 msgid ""
 "struct A {\n"
 "  x : Int?\n"
@@ -652,188 +586,246 @@ msgstr ""
 "  json_inspect({ x: None, y: None, z: (None, None) }, content={\n"
 "    \"z\": [null, null],\n"
 "  })\n"
-"  json_inspect({ x: Some(1), y: Some(None), z: (Some(1), Some(None)) }, content={\n"
+"  json_inspect({ x: Some(1), y: Some(None), z: (Some(1), Some(None)) }, "
+"content={\n"
 "    \"x\": 1,\n"
 "    \"y\": null,\n"
 "    \"z\": [[1], [null]],\n"
 "  })\n"
-"  json_inspect({ x: Some(1), y: Some(Some(1)), z: (Some(1), Some(Some(1))) }, content={\n"
+"  json_inspect({ x: Some(1), y: Some(Some(1)), z: (Some(1), "
+"Some(Some(1))) }, content={\n"
 "    \"x\": 1,\n"
 "    \"y\": [1],\n"
 "    \"z\": [[1], [[1]]],\n"
 "  })\n"
 "}\n"
 
-#: ../../language/derive.md:174
+#: ../../language/derive.md:157
 msgid "Container arguments"
-msgstr ""
-"コンテナ引数"
+msgstr "コンテナ引数"
 
-#: ../../language/derive.md:176
+#: ../../language/derive.md:159
 msgid ""
 "`rename_fields` and `rename_cases` (enum only) batch renames fields (for "
 "enums and structs) and enum cases to the given format. Available "
 "parameters are:"
 msgstr ""
-"`rename_fields` と `rename_cases`（enum のみ）は、フィールド（enum と struct）および enum ケースを指定した形式へ一括でリネームします。利用できる形式は次のとおりです："
+"`rename_fields` と `rename_cases`（enum のみ）は、フィールド（enum と struct）および enum "
+"ケースを指定した形式へ一括でリネームします。利用できる形式は次のとおりです："
 
-#: ../../language/derive.md:180
+#: ../../language/derive.md:163
 msgid "`lowercase`"
-msgstr ""
-"`lowercase`"
+msgstr "`lowercase`"
 
-#: ../../language/derive.md:181
+#: ../../language/derive.md:164
 msgid "`UPPERCASE`"
-msgstr ""
-"`UPPERCASE`"
+msgstr "`UPPERCASE`"
 
-#: ../../language/derive.md:182
+#: ../../language/derive.md:165
 msgid "`camelCase`"
-msgstr ""
-"`camelCase`"
+msgstr "`camelCase`"
 
-#: ../../language/derive.md:183
+#: ../../language/derive.md:166
 msgid "`PascalCase`"
-msgstr ""
-"`PascalCase`"
+msgstr "`PascalCase`"
 
-#: ../../language/derive.md:184
+#: ../../language/derive.md:167
 msgid "`snake_case`"
-msgstr ""
-"`snake_case`"
+msgstr "`snake_case`"
 
-#: ../../language/derive.md:185
+#: ../../language/derive.md:168
 msgid "`SCREAMING_SNAKE_CASE`"
-msgstr ""
-"`SCREAMING_SNAKE_CASE`"
+msgstr "`SCREAMING_SNAKE_CASE`"
 
-#: ../../language/derive.md:186
+#: ../../language/derive.md:169
 msgid "`kebab-case`"
-msgstr ""
-"`kebab-case`"
+msgstr "`kebab-case`"
 
-#: ../../language/derive.md:187
+#: ../../language/derive.md:170
 msgid "`SCREAMING-KEBAB-CASE`"
-msgstr ""
-"`SCREAMING-KEBAB-CASE`"
+msgstr "`SCREAMING-KEBAB-CASE`"
 
-#: ../../language/derive.md:189
+#: ../../language/derive.md:172
 msgid ""
 "Example: `rename_fields = \"PascalCase\"` for a field named "
 "`my_long_field_name` results in `MyLongFieldName`."
 msgstr ""
-"例：`my_long_field_name` というフィールドに対して `rename_fields = \"PascalCase\"` を指定すると、`MyLongFieldName` になります。"
+"例：`my_long_field_name` というフィールドに対して `rename_fields = \"PascalCase\"` "
+"を指定すると、`MyLongFieldName` になります。"
 
-#: ../../language/derive.md:193
+#: ../../language/derive.md:176
 msgid ""
 "Renaming assumes the name of fields in `snake_case` and the name of "
 "structs/enum cases in `PascalCase`."
+msgstr "リネームは、フィールド名が `snake_case`、struct/enum ケース名が `PascalCase` であることを前提にしています。"
+
+#: ../../language/derive.md:179
+msgid "`cases(...)` (enum only) controls the layout of enum cases."
+msgstr "`cases(...)`（enum のみ）は enum ケースのレイアウトを制御します。"
+
+#: ../../language/derive.md:182
+msgid "This might be replaced with case attributes in the future."
+msgstr "これは将来、case アトリビュートに置き換えられる可能性があります。"
+
+#: ../../language/derive.md:185
+msgid "For example, for an enum"
+msgstr "例えば、次の enum では"
+
+#: ../../language/derive.md:187
+msgid ""
+"enum E {\n"
+"  A(...)\n"
+"  B(...)\n"
+"}\n"
 msgstr ""
-"リネームは、フィールド名が `snake_case`、struct/enum ケース名が `PascalCase` であることを前提にしています。"
+"enum E {\n"
+"  A(...)\n"
+"  B(...)\n"
+"}\n"
+
+#: ../../language/derive.md:194
+msgid "you are able to control each case using `cases(A(...), B(...))`."
+msgstr "`cases(A(...), B(...))` を使って各ケースを制御できます。"
 
 #: ../../language/derive.md:196
-msgid "`cases(...)` (enum only) controls the layout of enum cases."
-msgstr ""
-"`cases(...)`（enum のみ）は enum ケースのレイアウトを制御します。"
+msgid "See [Case arguments](#case-arguments) below for details."
+msgstr "詳細は以下の [Case arguments](#case-arguments) を参照してください。"
 
-#: ../../language/derive.md:199
-msgid "This might be replaced with case attributes in the future."
-msgstr ""
-"これは将来、case アトリビュートに置き換えられる可能性があります。"
+#: ../../language/derive.md:198
+msgid "`fields(...)` (struct only) controls the layout of struct fields."
+msgstr "`fields(...)`（struct のみ）は struct フィールドのレイアウトを制御します。"
 
-#: ../../language/derive.md:202
-msgid "For example, for an enum"
-msgstr ""
-"例えば、次の enum では"
+#: ../../language/derive.md:201
+msgid "This might be replaced with field attributes in the future."
+msgstr "これは将来、field アトリビュートに置き換えられる可能性があります。"
 
 #: ../../language/derive.md:204
-msgid ""
-"enum E {\n"
-"  A(...)\n"
-"  B(...)\n"
-"}\n"
-msgstr ""
-"enum E {\n"
-"  A(...)\n"
-"  B(...)\n"
-"}\n"
+msgid "For example, for a struct"
+msgstr "例えば、次の struct では"
 
-#: ../../language/derive.md:211
-msgid "you are able to control each case using `cases(A(...), B(...))`."
+#: ../../language/derive.md:206
+msgid ""
+"struct S {\n"
+"  x: Int\n"
+"  y: Int\n"
+"}\n"
 msgstr ""
-"`cases(A(...), B(...))` を使って各ケースを制御できます。"
+"struct S {\n"
+"  x: Int\n"
+"  y: Int\n"
+"}\n"
 
 #: ../../language/derive.md:213
-msgid "See [Case arguments](#case-arguments) below for details."
-msgstr ""
-"詳細は以下の [Case arguments](#case-arguments) を参照してください。"
-
-#: ../../language/derive.md:215
-msgid "`fields(...)` (struct only) controls the layout of struct fields."
-msgstr ""
-"`fields(...)`（struct のみ）は struct フィールドのレイアウトを制御します。"
-
-#: ../../language/derive.md:218
-msgid "This might be replaced with field attributes in the future."
-msgstr ""
-"これは将来、field アトリビュートに置き換えられる可能性があります。"
-
-#: ../../language/derive.md:221
-msgid "For example, for a struct"
-msgstr ""
-"例えば、次の struct では"
-
-#: ../../language/derive.md:223
-msgid ""
-"struct S {\n"
-"  x: Int\n"
-"  y: Int\n"
-"}\n"
-msgstr ""
-"struct S {\n"
-"  x: Int\n"
-"  y: Int\n"
-"}\n"
-
-#: ../../language/derive.md:230
 msgid "you are able to control each field using `fields(x(...), y(...))`"
-msgstr ""
-"`fields(x(...), y(...))` を使って各フィールドを制御できます。"
+msgstr "`fields(x(...), y(...))` を使って各フィールドを制御できます。"
 
-#: ../../language/derive.md:232 ../../language/derive.md:242
+#: ../../language/derive.md:215 ../../language/derive.md:225
 msgid "See [Field arguments](#field-arguments) below for details."
-msgstr ""
-"詳細は以下の [Field arguments](#field-arguments) を参照してください。"
+msgstr "詳細は以下の [Field arguments](#field-arguments) を参照してください。"
 
-#: ../../language/derive.md:234
+#: ../../language/derive.md:217
 msgid "Case arguments"
-msgstr ""
-"Case 引数"
+msgstr "Case 引数"
 
-#: ../../language/derive.md:236
+#: ../../language/derive.md:219
 msgid ""
 "`rename = \"...\"` renames this specific case, overriding existing "
 "container-wide rename directive if any."
-msgstr ""
-"`rename = \"...\"` はこの特定の case の名前を変更し、既存のコンテナ全体のリネーム指定があればそれを上書きします。"
+msgstr "`rename = \"...\"` はこの特定の case の名前を変更し、既存のコンテナ全体のリネーム指定があればそれを上書きします。"
 
-#: ../../language/derive.md:239
+#: ../../language/derive.md:222
 msgid ""
 "`fields(...)` controls the layout of the payload of this case. Note that "
 "renaming positional fields are not possible currently."
-msgstr ""
-"`fields(...)` はこの case のペイロードのレイアウトを制御します。なお、位置引数フィールドのリネームは現在できません。"
+msgstr "`fields(...)` はこの case のペイロードのレイアウトを制御します。なお、位置引数フィールドのリネームは現在できません。"
 
-#: ../../language/derive.md:244
+#: ../../language/derive.md:227
 msgid "Field arguments"
-msgstr ""
-"Field 引数"
+msgstr "Field 引数"
 
-#: ../../language/derive.md:246
+#: ../../language/derive.md:229
 msgid ""
 "`rename = \"...\"` renames this specific field, overriding existing "
 "container-wide rename directives if any."
-msgstr ""
-"`rename = \"...\"` はこの特定の field の名前を変更し、既存のコンテナ全体のリネーム指定があればそれを上書きします。"
+msgstr "`rename = \"...\"` はこの特定の field の名前を変更し、既存のコンテナ全体のリネーム指定があればそれを上書きします。"
 
+#~ msgid "Show"
+#~ msgstr "Show"
+
+#~ msgid ""
+#~ "`derive(Show)` will generate a pretty-"
+#~ "printing method for the type. The "
+#~ "derived format is similar to how "
+#~ "the type can be constructed in "
+#~ "code."
+#~ msgstr ""
+#~ "`derive(Show)` は、その型の pretty-printing "
+#~ "メソッドを生成します。生成される形式は、コード上でその型を構築する書き方に近いものです。"
+
+#~ msgid ""
+#~ "\n"
+#~ "struct MyStruct {\n"
+#~ "  x : Int\n"
+#~ "  y : Int\n"
+#~ "}\n"
+#~ "\n"
+#~ "impl Show for MyStruct with output(self, logger) {\n"
+#~ "  logger.write_string(\"{x: \\{self.x}, y: \\{self.y}}\")\n"
+#~ "}\n"
+#~ "\n"
+#~ "test \"derive show struct\" {\n"
+#~ "  let p = MyStruct::{ x: 1, y: 2 }\n"
+#~ "  assert_eq(Show::to_string(p), \"{x: 1, y: 2}\")\n"
+#~ "}\n"
+#~ msgstr ""
+#~ "struct MyStruct {\n"
+#~ "  x : Int\n"
+#~ "  y : Int\n"
+#~ "} derive(Show)\n"
+#~ "\n"
+#~ "test \"derive show struct\" {\n"
+#~ "  let p = MyStruct::{ x: 1, y: 2 }\n"
+#~ "  assert_eq(Show::to_string(p), \"{x: 1, y: 2}\")\n"
+#~ "}\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "enum MyEnum {\n"
+#~ "  Case1(Int)\n"
+#~ "  Case2(label~ : String)\n"
+#~ "  Case3\n"
+#~ "}\n"
+#~ "\n"
+#~ "impl Show for MyEnum with output(self, logger) {\n"
+#~ "  match self {\n"
+#~ "    Case1(value) => logger.write_string(\"Case1(\\{value})\")\n"
+#~ "    Case2(label~) => "
+#~ "logger.write_string(\"Case2(label=\\\"\\{label}\\\")\")\n"
+#~ "    Case3 => logger.write_string(\"Case3\")\n"
+#~ "  }\n"
+#~ "}\n"
+#~ "\n"
+#~ "test \"derive show enum\" {\n"
+#~ "  assert_eq(Show::to_string(MyEnum::Case1(42)), \"Case1(42)\")\n"
+#~ "  assert_eq(\n"
+#~ "    Show::to_string(MyEnum::Case2(label=\"hello\")),\n"
+#~ "    \"Case2(label=\\\"hello\\\")\",\n"
+#~ "  )\n"
+#~ "  assert_eq(Show::to_string(MyEnum::Case3), \"Case3\")\n"
+#~ "}\n"
+#~ msgstr ""
+#~ "enum MyEnum {\n"
+#~ "  Case1(Int)\n"
+#~ "  Case2(label~ : String)\n"
+#~ "  Case3\n"
+#~ "} derive(Show)\n"
+#~ "\n"
+#~ "test \"derive show enum\" {\n"
+#~ "  assert_eq(Show::to_string(MyEnum::Case1(42)), \"Case1(42)\")\n"
+#~ "  assert_eq(\n"
+#~ "    Show::to_string(MyEnum::Case2(label=\"hello\")),\n"
+#~ "    \"Case2(label=\\\"hello\\\")\",\n"
+#~ "  )\n"
+#~ "  assert_eq(Show::to_string(MyEnum::Case3), \"Case3\")\n"
+#~ "}\n"
 

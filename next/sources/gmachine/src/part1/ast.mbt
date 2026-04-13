@@ -1,7 +1,6 @@
 using @list {type List}
 
-// start expr_and_scdef definition
-
+/// start expr_and_scdef definition
 enum RawExpr[T] {
   Var(T)
   Num(Int)
@@ -22,8 +21,7 @@ fn[T] ScDef::new(name : String, args : List[T], body : RawExpr[T]) -> ScDef[T] {
   { name, args, body }
 }
 
-// start prelude_defs definition
-
+/// start prelude_defs definition
 let prelude_defs : List[ScDef[String]] = {
   let args : (FixedArray[String]) -> List[String] = x => @list.from_array(x)
   let id = ScDef::new("I", args(["x"]), Var("x")) // id x = x

@@ -1,6 +1,5 @@
 ///|
 /// start line definition
-///
 struct Line {
   number : Int // Line number
   text : String // Does not include newline
@@ -14,7 +13,6 @@ fn Line::new(number : Int, text : String) -> Line {
 
 ///|
 /// start lines definition
-///
 fn lines(str : String) -> Array[Line] {
   let lines = Array::new(capacity=50)
   let mut line_number = 0

@@ -1,17 +1,15 @@
-// Use the struct tuple to encapsulate an address type.
-
+/// Use the struct tuple to encapsulate an address type.
 struct Addr(Int) derive(Eq, Debug)
 
-// Describe graph nodes with an enumeration type.
-
+/// Describe graph nodes with an enumeration type.
 enum Node {
   NNum(Int)
-  // The application node
+  /// The application node
   NApp(Addr, Addr)
-  // To store the number of parameters and 
-  // the corresponding sequence of instructions for a super combinator
+  /// To store the number of parameters and 
+  /// the corresponding sequence of instructions for a super combinator
   NGlobal(String, Int, List[Instruction])
-  // The Indirection node，The key component of implementing lazy evaluation
+  /// The Indirection node，The key component of implementing lazy evaluation
   NInd(Addr)
   NConstr(Int, List[Addr])
 } derive(Eq, Debug)
@@ -23,8 +21,7 @@ struct GHeap {
   memory : Array[Node?]
 }
 
-// Allocate heap space for nodes.
-
+/// Allocate heap space for nodes.
 fn GHeap::alloc(self : GHeap, node : Node) -> Addr {
   let heap = self
   fn next(n : Int) -> Int {
@@ -101,8 +98,7 @@ fn GState::pop1(self : GState) -> Addr {
   }
 }
 
-// e1 e2 ..... -> (e1, e2) ......
-
+/// e1 e2 ..... -> (e1, e2) ......
 fn GState::pop2(self : GState) -> (Addr, Addr) {
   match self.stack {
     More(addr1, tail=More(addr2, tail=reststack)) => {
@@ -296,8 +292,7 @@ fn GState::lift_cmp2(self : GState, op : (Int, Int) -> Bool) -> Unit {
   }
 }
 
-// start split_pack definition
-
+/// start split_pack definition
 fn GState::pack(self : GState, t : Int, n : Int) -> Unit {
   let addrs = self.stack.take(n)
   self.stack = self.stack.drop(n)
@@ -316,8 +311,7 @@ fn GState::split(self : GState) -> Unit {
 }
 // end split_pack definition
 
-// start casejump definition
-
+/// start casejump definition
 fn GState::casejump(
   self : GState,
   table : List[(Int, List[Instruction])],
@@ -340,8 +334,7 @@ fn GState::casejump(
 }
 // end casejump definition
 
-// start gprint definition
-
+/// start gprint definition
 fn GState::gprint(self : GState) -> Unit {
   let addr = self.pop1()
   match self.heap[addr] {

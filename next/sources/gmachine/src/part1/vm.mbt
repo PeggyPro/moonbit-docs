@@ -1,10 +1,8 @@
-// start heap definition
-// Use the struct tuple to encapsulate an address type.
-
+/// start heap definition
+/// Use the struct tuple to encapsulate an address type.
 struct Addr(Int) derive(Eq, Debug)
 
-// Describe graph nodes with an enumeration type.
-
+/// Describe graph nodes with an enumeration type.
 enum Node {
   NNum(Int)
   // The application node
@@ -23,8 +21,7 @@ struct GHeap {
   memory : Array[Node?]
 }
 
-// Allocate heap space for nodes.
-
+/// Allocate heap space for nodes.
 fn GHeap::alloc(self : GHeap, node : Node) -> Addr {
   let heap = self
   fn next(n : Int) -> Int {
@@ -60,8 +57,7 @@ fn GHeap::op_set(self : GHeap, key : Addr, val : Node) -> Unit {
   self.memory[key.0] = Some(val)
 }
 
-// start state definition
-
+/// start state definition
 struct GState {
   mut stack : List[Addr]
   heap : GHeap
@@ -95,7 +91,6 @@ fn GState::pop1(self : GState) -> Addr {
 }
 
 // e1 e2 ..... -> (e1, e2) ......
-
 fn GState::pop2(self : GState) -> (Addr, Addr) {
   match self.stack {
     More(addr1, tail=More(addr2, tail=reststack)) => {
@@ -107,16 +102,14 @@ fn GState::pop2(self : GState) -> (Addr, Addr) {
 }
 // end state definition
 
-// start push_int definition
-
+/// start push_int definition
 fn GState::push_int(self : GState, num : Int) -> Unit {
   let addr = self.heap.alloc(NNum(num))
   self.put_stack(addr)
 }
 // end push_int definition
 
-// start push_global definition
-
+/// start push_global definition
 fn GState::push_global(self : GState, name : String) -> Unit {
   guard self.globals.get(name) is Some(addr) else {
     abort("push_global(): can't find supercombinator \{name}")
@@ -125,8 +118,7 @@ fn GState::push_global(self : GState, name : String) -> Unit {
 }
 // end push_global definition
 
-// start push_arg definition
-
+/// start push_arg definition
 fn GState::push_arg(self : GState, offset : Int) -> Unit {
   let appaddr = self.stack.unsafe_nth(offset + 1)
   let arg = match self.heap[appaddr] {
@@ -140,8 +132,7 @@ fn GState::push_arg(self : GState, offset : Int) -> Unit {
 }
 // end push_arg definition
 
-// start mk_apply definition
-
+/// start mk_apply definition
 fn GState::mk_apply(self : GState) -> Unit {
   let (a1, a2) = self.pop2()
   let appaddr = self.heap.alloc(NApp(a1, a2))
@@ -149,8 +140,7 @@ fn GState::mk_apply(self : GState) -> Unit {
 }
 // end mk_apply definition
 
-// start update definition
-
+/// start update definition
 fn GState::update(self : GState, n : Int) -> Unit {
   let addr = self.pop1()
   let dst = self.stack.unsafe_nth(n)
@@ -158,8 +148,7 @@ fn GState::update(self : GState, n : Int) -> Unit {
 }
 // end update definition
 
-// start unwind definition
-
+/// start unwind definition
 fn GState::unwind(self : GState) -> Unit {
   let addr = self.pop1()
   match self.heap[addr] {
@@ -184,8 +173,7 @@ fn GState::unwind(self : GState) -> Unit {
 }
 // end unwind definition
 
-// start build_ih definition
-
+/// start build_ih definition
 fn build_initial_heap(
   scdefs : List[(String, Int, List[Instruction])],
 ) -> (GHeap, @hashmap.HashMap[String, Addr]) {
@@ -205,8 +193,7 @@ fn build_initial_heap(
 }
 // end build_ih definition
 
-// start step definition
-
+/// start step definition
 fn GState::step(self : GState) -> Bool {
   match self.code {
     Empty => return false
@@ -228,8 +215,7 @@ fn GState::step(self : GState) -> Bool {
 }
 // end step definition
 
-// start reify definition
-
+/// start reify definition
 fn GState::reify(self : GState) -> Node {
   if self.step() {
     self.reify()
