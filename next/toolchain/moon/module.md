@@ -290,16 +290,6 @@ Available warnings:
   A all warnings
 ```
 
-## Alert List
-
-Disable user preset alerts.
-
-```json
-{
-  "alert-list": "-alert_1-alert_2"
-}
-```
-
 ## Scripts
 
 The `scripts` field is used to define custom scripts associated with the module.
