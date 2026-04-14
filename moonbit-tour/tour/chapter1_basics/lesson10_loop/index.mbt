@@ -11,7 +11,7 @@ fn main {
   let sum = for i = 1, acc = 0; i <= 10; i = i + 1 {
     let even = i % 2 == 0
     continue i + 1, acc + i
-  } else {
+  } nobreak {
     acc
   }
   println(sum)
