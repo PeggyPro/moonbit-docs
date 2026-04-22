@@ -261,7 +261,8 @@ You can use `@buffer.T` to construct bytes by writing various types of data. For
 
 ``````
 
-When the expected type is `Bytes`, the `b` prefix can be omitted. Array literals can also be overloaded to construct a `Bytes` sequence by specifying each byte in the sequence.
+Array literals can also be overloaded to construct a `Bytes` sequence by
+specifying each byte in the sequence.
 
 ```{literalinclude} /sources/language/src/builtin/top.mbt
 :language: moonbit
@@ -500,8 +501,8 @@ The overloaded literals can be composed. If array literal can be overloaded to `
 | Overloaded literal             | Default type | Can be overloaded to                                                                      | 
 | ------------------------------ | ------------ | ----------------------------------------------------------------------------------------- |
 | `10`, `0xFF`, `0o377`, `10_000` | `Int` | `UInt`, `Int64`, `UInt64`, `Int16`, `UInt16`, `Byte`, `Double`, `Float`, `BigInt` |
-| `"str"` | `String` | `Bytes` |
-| `'c'` | `Char` | `Int` , `Byte` |
+| `"str"` | `String` | — |
+| `'c'` | `Char` | `Int` |
 | `3.14` | `Double` | `Float` |
 | `[a, b, c]` (where the types of literals a, b, and c are E) | `Array[E]` | `FixedArray[E]`, `String`  (if E is of type Char), `Bytes` (if E is of type Byte) |
 

@@ -51,7 +51,7 @@ test {
 // end array pattern 1
 
 /// start array pattern 2
-const NO : Bytes = "no"
+const NO : Bytes = b"no"
 
 test {
   fn match_string(s : String) -> Bool {

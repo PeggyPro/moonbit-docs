@@ -632,12 +632,10 @@ msgstr ""
 
 #: ../../language/fundamentals.md:264
 msgid ""
-"When the expected type is `Bytes`, the `b` prefix can be omitted. Array "
-"literals can also be overloaded to construct a `Bytes` sequence by "
+"Array literals can also be overloaded to construct a `Bytes` sequence by "
 "specifying each byte in the sequence."
 msgstr ""
-"当期望类型是 `Bytes` 时，`b`前缀可以省略。此时也可以通过在`[]`中列出`Byte`, 来将数组字面量重载为`Bytes`的值 "
-"也可以被重载为`Bytes`的值。"
+"数组字面量也可以通过指定序列中的每个字节，重载为 `Bytes` 序列。"
 
 #: ../../language/fundamentals.md:266
 msgid ""
@@ -3881,7 +3879,7 @@ msgstr ""
 
 #: ../../language/fundamentals.md:1595
 msgid ""
-"const NO : Bytes = \"no\"\n"
+"const NO : Bytes = b\"no\"\n"
 "\n"
 "test {\n"
 "  fn match_string(s : String) -> Bool {\n"
@@ -4976,7 +4974,7 @@ msgstr "最后一个例子展示了如何使用展开运算符构造一个字节
 #: ../../language/fundamentals.md:2067
 msgid ""
 "test {\n"
-"  let b1 : Bytes = \"hello\"\n"
+"  let b1 : Bytes = b\"hello\"\n"
 "  let b2 : BytesView = b1[1:4]\n"
 "  let b : Bytes = [..b1, ..b2, 10]\n"
 "  inspect(\n"
@@ -5005,4 +5003,3 @@ msgid ""
 "  ...\n"
 "}\n"
 msgstr ""
-

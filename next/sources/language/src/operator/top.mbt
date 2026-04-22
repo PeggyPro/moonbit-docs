@@ -207,7 +207,7 @@ test {
 
 /// start spread 3
 test {
-  let b1 : Bytes = "hello"
+  let b1 : Bytes = b"hello"
   let b2 : BytesView = b1[1:4]
   let b : Bytes = [..b1, ..b2, 10]
   inspect(
