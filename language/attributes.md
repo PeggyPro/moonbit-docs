@@ -232,7 +232,7 @@ fn unsafe_get[A](arr : Array[A]) -> A {
 The internal attribute takes two arguments: `category` and `message`.
 `category` is a identifier that indicates the category of the alert, and `message` is a string that provides additional message for the alert.
 
-The alert warnings can be turn off by setting the `warn-list` in `moon.pkg.json`.
+The alert warnings can be turn off by setting the `warn-list` in `moon.pkg`.
 For more detail, see [alert warning](../toolchain/moon/package.md#alert-warning).
 
 ## Warnings Attribute
@@ -259,7 +259,7 @@ The prefixes have the following meanings:
 
 Currently this attribute only works with some specific warnings.
 
-To learn more about warning names, see [warning list](../toolchain/moon/package.md#warning-list).
+To learn more about warning names, see [warning list](../toolchain/moon/package.md#warnings-list).
 
 ## External Attribute
 

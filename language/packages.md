@@ -5,7 +5,7 @@ More often, it involves using other people's work: most noticeably is the [core]
 
 ## Packages and modules
 
-In MoonBit, the most important unit for code organization is a package, which consists of a number of source code files and a single package configuration file (`moon.pkg.json` legacy, or the new `moon.pkg` format).
+In MoonBit, the most important unit for code organization is a package, which consists of a number of source code files and a single package configuration file (`moon.pkg`, or the legacy `moon.pkg.json` format).
 A package can either be a `main` package, consisting a `main` function, or a package that serves as a library, identified by the [`is-main`](../toolchain/moon/package.md#is-main) field.
 
 A project, corresponding to a module, consists of multiple packages and a single `moon.mod.json` configuration file.
@@ -14,10 +14,10 @@ A module is identified by the [`name`](../toolchain/moon/module.md#name) field, 
 A package is identified by the relative path to the source root defined by the [`source`](../toolchain/moon/module.md#source-directory) field. The full identifier would be `user-name/project-name/path-to-pkg`.
 
 When using things from another package, the dependency between modules should first be declared inside the `moon.mod.json` by the [`deps`](../toolchain/moon/module.md#dependency-management) field.
-The dependency between packages should then be declared in the package file (`moon.pkg.json` or `moon.pkg`) by the [`import`](../toolchain/moon/package.md#import) field.
-This also applies to core packages: if you use `@json`, `@test`, or other core
-aliases, add the corresponding `moonbitlang/core/...` package to `import` to
-avoid `core_package_not_imported` warnings.
+The dependency between packages should then be declared in the package file (`moon.pkg`, or legacy `moon.pkg.json`) by the [`import`](../toolchain/moon/package.md#import) field.
+Most core packages follow the same rule: if you use `@json`, `@test`, or other
+ordinary core aliases, add the corresponding `moonbitlang/core/...` package to
+`import` to avoid `core_package_not_imported` warnings.
 
 <a id="default-alias"></a>
 
@@ -35,25 +35,44 @@ import {
 }
 ```
 
-```json
-{
-    "import": [
-        "moonbit-community/language/packages/pkgA",
-        {
-            "path": "moonbit-community/language/packages/pkgC",
-            "alias": "c"
-        },
-        "moonbitlang/core/builtin"
-    ]
-}
-```
-
 ```moonbit
 ///|
 pub fn add1(x : Int) -> Int {
   @moonbitlang/core/builtin.Add::add(0, @c.incr(@pkgA.incr(x)))
 }
 ```
+
+### Prelude and builtin names
+
+If `@pkg.` is omitted, MoonBit resolves an unqualified name in the current
+package and the prelude. A local definition with the same name therefore
+shadows the prelude definition.
+
+```moonbit
+fn println(msg : String) -> String {
+  "log: \{msg}"
+}
+
+///|
+fn shadowed_println() -> String {
+  println("hello")
+}
+
+///|
+fn builtin_answer() -> Int {
+  let answer : Int = 42
+  answer
+}
+```
+
+`prelude` is a special package: it is available by default, and names exposed
+through it participate in normal unqualified name resolution without an
+explicit `import`.
+
+Compiler builtins are a separate category. Types such as `Int` are built into
+the language itself, not imported from any package, so there is no
+`@builtin.Int`. The same distinction applies to other compiler-known names such
+as `String`, `Bool`, and `Unit`.
 
 ### Internal Packages
 
@@ -254,14 +273,12 @@ Virtual packages can be useful when swapping different implementations while kee
 
 You need to declare it to be a virtual package and define its interface in a MoonBit interface file.
 
-Within `moon.pkg.json`, you will need to add field [`virtual`](../toolchain/moon/package.md#declarations) :
+Within `moon.pkg`, you will need to add field [`virtual`](../toolchain/moon/package.md#declarations) :
 
-```json
-{
-  "virtual": {
-    "has-default": true
-  }
-}
+```text
+options(
+  "virtual": { "has-default": true },
+)
 ```
 
 The `has-default` indicates whether the virtual package has a default implementation.
@@ -290,10 +307,10 @@ pub fn log(s : String) -> Unit {
 
 A virtual package can also be implemented by a third party. By defining [`implements`](../toolchain/moon/package.md#implementations) as the target package's full name, the compiler can warn you about the missing implementations or the mismatched implementations.
 
-```json
-{
-  "implement": "moonbit-community/language/packages/virtual"
-}
+```text
+options(
+  implement: "moonbit-community/language/packages/virtual",
+)
 ```
 
 ```moonbit
@@ -313,14 +330,15 @@ If a virtual package has a default implementation and that is your choice, there
 
 Otherwise, you may define the [`overrides`](../toolchain/moon/package.md#overriding-implementations) field by providing an array of implementations that you would like to use.
 
-```json
-{
-  "overrides": ["moonbit-community/language/packages/implement"],
-  "import": [
-    "moonbit-community/language/packages/virtual"
-  ],
-  "is-main": true
+```text
+import {
+  "moonbit-community/language/packages/virtual",
 }
+
+options(
+  "is-main": true,
+  overrides: [ "moonbit-community/language/packages/implement" ],
+)
 ```
 
 You should reference the virtual package when using the entities.

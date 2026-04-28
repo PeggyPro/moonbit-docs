@@ -147,7 +147,7 @@ Other operators are overloaded via methods with annotations, for example `_[_]` 
 struct Coord {
   mut x : Int
   mut y : Int
-} derive(Show)
+}
 
 #alias("_[_]")
 fn Coord::get(coord : Self, key : String) -> Int {
@@ -169,10 +169,10 @@ fn Coord::set(coord : Self, key : String, val : Int) -> Unit {
 ```moonbit
 fn main {
   let c = { x: 1, y: 2 }
-  println(c)
+  println("{x: \{c.x}, y: \{c.y}}")
   println(c["y"])
   c["x"] = 23
-  println(c)
+  println("{x: \{c.x}, y: \{c.y}}")
   println(c["x"])
 }
 ```
@@ -279,9 +279,9 @@ pub impl MyShow for MyType with to_string(self) {
 
 struct MyContainer[_] {}
 
-// trait implementation with type parameters.
-// `[X : Show]` means the type parameter `X` must implement `Show`,
-// this will be covered later.
+/// trait implementation with type parameters.
+/// `[X : Show]` means the type parameter `X` must implement `Show`,
+/// this will be covered later.
 pub impl[X : MyShow] MyShow for MyContainer[X] with to_string(self) {
   ...
 }
@@ -338,6 +338,8 @@ impl Position for Point with pos(self) {
 impl Draw for Point with draw(self, x, y) {
   ()
 }
+
+impl Object for Point
 
 pub fn[O : Object] draw_object(obj : O) -> Unit {
   let (x, y) = obj.pos()
@@ -432,7 +434,6 @@ pub impl Show for MyCustomType with output(self, logger) {
 fn f() -> Unit {
   let x = MyCustomType::{  }
   let _ = x.to_string()
-
 }
 ```
 
@@ -506,7 +507,7 @@ fn[Obj : CanLog] &Logger::write_object(self : &Logger, obj : Obj) -> Unit {
   obj.log(self)
 }
 
-// use the new method to simplify code
+/// use the new method to simplify code
 pub impl[A : CanLog, B : CanLog] CanLog for (A, B) with log(self, logger) {
   let (a, b) = self
   logger
@@ -556,14 +557,14 @@ MoonBit can automatically derive implementations for some builtin traits:
 struct T {
   a : Int
   b : Int
-} derive(Eq, Compare, Show, Default)
+} derive(Eq, Compare, Debug, Default)
 
 test {
   let t1 = T::default()
   let t2 = T::{ a: 1, b: 1 }
-  inspect(t1, content="{a: 0, b: 0}")
-  inspect(t2, content="{a: 1, b: 1}")
-  assert_not_eq(t1, t2)
+  debug_inspect(t1, content="{ a: 0, b: 0 }")
+  debug_inspect(t2, content="{ a: 1, b: 1 }")
+  assert_false(t1 == t2)
   assert_true(t1 < t2)
 }
 ```

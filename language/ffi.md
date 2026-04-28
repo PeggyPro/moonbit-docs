@@ -80,7 +80,7 @@ To interact with the outside world, you can declare foreign functions.
 MoonBit does not support polymorphic foreign functions.
 
 #### IMPORTANT
-When declaring functions, you need to make sure that the signature corresponds to the actual foreign function. **When a function returns nothing (e.g. `void`), omit the return type annotation in the function declaration.**
+When declaring functions, you need to make sure that the signature corresponds to the actual foreign function. **Use `-> Unit` when the foreign function returns no value. This corresponds to `void` in C and to a Wasm function with no result.**
 
 ### Wasm & Wasm GC
 
@@ -126,33 +126,29 @@ extern "js" fn cos(d : Double) -> Double =
 You can declare a foreign function by importing a function given the function name:
 
 ```moonbit
-extern "C" fn put_char(ch : UInt) = "function_name"
+extern "C" fn put_char(ch : UInt) -> Unit = "function_name"
 ```
 
-If a package needs to dynamically link with foreign C library, add `cc-link-flags` to `moon.pkg.json`. It would be passed to C compiler directly.
+If a package needs to dynamically link with foreign C library, add `cc-link-flags` to `moon.pkg`. It would be passed to C compiler directly.
 
-```json
-{
-  // ...
+```moonbit
+options(
   "link": {
     "native": {
       "cc-link-flags": "-l<c library>"
     }
   },
-  // ...
-}
+)
 ```
 
-To define wrapper functions, you can add a C stub file to a package, and add the following to the `moon.pkg.json` of the package:
+To define wrapper functions, you can add a C stub file to a package, and add the following to the `moon.pkg` of the package:
 
-```json
-{
-  // ...
+```moonbit
+options(
   "native-stub": [ 
     // list of stub file names
   ],
-  // ...
-}
+)
 ```
 
 You would probably like to `#include "moonbit.h"`, which contains type definitions and handy utilities for MoonBit's C interface. The header is located in `~/.moon/include`, check its content for more details.
@@ -230,7 +226,7 @@ The `FixedArray[T]` for numbers may migrate to `TypedArray` in the future.
 | `FuncRef[T]`                       | Function pointer                       |
 
 #### NOTE
-If the return type of `T` in `FuncRef[T]` is `Unit`, then it points to a function that returns `void`.
+A foreign function returning `Unit` corresponds to a C function returning `void`. If the return type of `T` in `FuncRef[T]` is `Unit`, then it points to a function that returns `void`.
 
 Types not mentioned above do not have a stable ABI, so your code should not depend on their representations.
 
@@ -277,7 +273,7 @@ we can bind this C function and pass closure to it using the following trick:
 extern "C" fn register_callback_ffi(
   call_closure : FuncRef[(() -> Unit) -> Unit],
   closure : () -> Unit
-) = "register_callback"
+) -> Unit = "register_callback"
 
 fn register_callback(callback : () -> Unit) -> Unit {
   register_callback_ffi(
@@ -314,14 +310,14 @@ This feature is particular useful for binding flags of C libraries.
 
 For public functions that are neither methods nor polymorphic, they can be exported by configuring the `exports` field in [link configuration](../toolchain/moon/package.md#link-options).
 
-```json
-{
+```moonbit
+options(
   "link": {
     "<backend>": {
       "exports": [ "add", "fib:test" ]
     }
   }
-}
+)
 ```
 
 The previous example exports functions `add` and `fib`, where `fib` will be exported as `test`.

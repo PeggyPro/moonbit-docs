@@ -5,40 +5,6 @@ MoonBit supports deriving a number of builtin traits automatically from the type
 To derive a trait `T`, it is required that all fields used in the type implements `T`.
 For example, deriving `Show` for a struct `struct A { x: T1; y: T2 }` requires both `T1: Show` and `T2: Show`
 
-## Show
-
-`derive(Show)` will generate a pretty-printing method for the type.
-The derived format is similar to how the type can be constructed in code.
-
-```moonbit
-struct MyStruct {
-  x : Int
-  y : Int
-} derive(Show)
-
-test "derive show struct" {
-  let p = MyStruct::{ x: 1, y: 2 }
-  assert_eq(Show::to_string(p), "{x: 1, y: 2}")
-}
-```
-
-```moonbit
-enum MyEnum {
-  Case1(Int)
-  Case2(label~ : String)
-  Case3
-} derive(Show)
-
-test "derive show enum" {
-  assert_eq(Show::to_string(MyEnum::Case1(42)), "Case1(42)")
-  assert_eq(
-    Show::to_string(MyEnum::Case2(label="hello")),
-    "Case2(label=\"hello\")",
-  )
-  assert_eq(Show::to_string(MyEnum::Case3), "Case3")
-}
-```
-
 ## Eq and Compare
 
 `derive(Eq)` and `derive(Compare)` will generate the corresponding method for testing equality and comparison.
@@ -121,11 +87,11 @@ For structs, the default value is the struct with all fields set as their defaul
 struct DeriveDefault {
   x : Int
   y : String?
-} derive(Default, Eq, Show)
+} derive(Default, Eq)
 
 test "derive default struct" {
   let p = DeriveDefault::default()
-  assert_eq(p, DeriveDefault::{ x: 0, y: None })
+  assert_true(p == DeriveDefault::{ x: 0, y: None })
 }
 ```
 
@@ -136,10 +102,10 @@ enum DeriveDefaultEnum {
   Case1(Int)
   Case2(label~ : String)
   Case3
-} derive(Default, Eq, Show)
+} derive(Default, Eq)
 
 test "derive default enum" {
-  assert_eq(DeriveDefaultEnum::default(), DeriveDefaultEnum::Case3)
+  assert_true(DeriveDefaultEnum::default() == DeriveDefaultEnum::Case3)
 }
 ```
 
@@ -168,7 +134,7 @@ for example `HashMap`s and `HashSet`s.
 struct DeriveHash {
   x : Int
   y : String?
-} derive(Hash, Eq, Show)
+} derive(Hash, Eq)
 
 test "derive hash struct" {
   let hs = @hashset.new()
@@ -194,22 +160,22 @@ The implementation is mainly for debugging and storing the types in a human-read
 struct JsonTest1 {
   x : Int
   y : Int
-} derive(FromJson, ToJson, Eq, Show)
+} derive(FromJson, ToJson, Eq)
 
 enum JsonTest2 {
   A(x~ : Int)
   B(x~ : Int, y~ : Int)
-} derive(FromJson(style="legacy"), ToJson(style="legacy"), Eq, Show)
+} derive(FromJson(style="legacy"), ToJson(style="legacy"), Eq)
 
 test "json basic" {
   let input = JsonTest1::{ x: 123, y: 456 }
   let expected : Json = { "x": 123, "y": 456 }
   assert_eq(input.to_json(), expected)
-  assert_eq(@json.from_json(expected), input)
+  assert_true(@json.from_json(expected) == input)
   let input = JsonTest2::A(x=123)
   let expected : Json = { "$tag": "A", "x": 123 }
   assert_eq(input.to_json(), expected)
-  assert_eq(@json.from_json(expected), input)
+  assert_true(@json.from_json(expected) == input)
 }
 ```
 
@@ -235,23 +201,22 @@ struct JsonTest3 {
   FromJson(fields(x(rename="renamedX"))),
   ToJson(fields(x(rename="renamedX"))),
   Eq,
-  Show,
 )
 
 enum JsonTest4 {
   A(x~ : Int)
   B(x~ : Int, y~ : Int)
-} derive(FromJson, ToJson, Eq, Show)
+} derive(FromJson, ToJson, Eq)
 
 test "json args" {
   let input = JsonTest3::{ x: 123, y: 456 }
   let expected : Json = { "renamedX": 123, "y": 456 }
   assert_eq(input.to_json(), expected)
-  assert_eq(@json.from_json(expected), input)
+  assert_true(@json.from_json(expected) == input)
   let input = JsonTest4::A(x=123)
   let expected : Json = ["A", { "x": 123 }]
   assert_eq(input.to_json(), expected)
-  assert_eq(@json.from_json(expected), input)
+  assert_true(@json.from_json(expected) == input)
 }
 ```
 

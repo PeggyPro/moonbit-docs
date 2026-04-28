@@ -10,11 +10,12 @@ The API of `moonbitlang/async` is not considered stable, and may change in the f
 ## Getting started
 
 To use `moonbitlang/async` for asynchronous programming,
-you should first run `moon add moonbitlang/async` in your project
+you should first run `moon add moonbitlang/async@0.17.0` in your project
 to add `moonbitlang/async` as a dependency of your project.
 You may also want to set `"preferred-target": "native"` in `moon.mod.json`.
 Now, import `moonbitlang/async` and other packages in the `moonbitlang/async` library in `moon.pkg`,
 and the asynchronous programming API should be available in your packages.
+If you want a workflow-first example, see the [Native CLI Quickstart](../tutorial/cli-quickstart.md).
 
 The list of packages in `moonbitlang/async` and their detailed documentation
 can be found on [mooncakes.io](https://mooncakes.io/docs/moonbitlang/async),
@@ -108,9 +109,11 @@ Here's a simple example of using `with_task_group` to create multiple tasks and 
 async test "with_task_group" {
   let log = []
   @async.with_task_group(group => {
-    group.spawn_bg(() => for _ in 0..<3 {
-      log.push("task #1 tick")
-      @async.sleep(200) // sleep for 200ms
+    group.spawn_bg(() => {
+      for _ in 0..<3 {
+        log.push("task #1 tick")
+        @async.sleep(200) // sleep for 200ms
+      }
     })
     group.spawn_bg(() => {
       @async.sleep(100)
@@ -178,13 +181,15 @@ and allow at most three retry attempts:
 
 ```moonbit
 async fn make_request() -> String {
-  @async.retry(Immediate, max_retry=3, () => @async.with_timeout(1000, () => {
-    let (response, body) = @http.get("https://www.moonbitlang.com")
-    guard response.code is (200..<300) else {
-      fail("the HTTP request is not successful")
-    }
-    body.text()
-  }))
+  @async.retry(Immediate, max_retry=3, () => {
+    @async.with_timeout(1000, () => {
+      let (response, body) = @http.get("https://www.moonbitlang.com")
+      guard response.code is (200..<300) else {
+        fail("the HTTP request is not successful")
+      }
+      body.text()
+    })
+  })
 }
 ```
 

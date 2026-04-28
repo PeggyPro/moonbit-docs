@@ -110,13 +110,13 @@ enum RawExpr[T] {
   App(RawExpr[T], RawExpr[T])
   Let(Bool, List[(T, RawExpr[T])], RawExpr[T]) // isRec, Defs, Body
   Case(RawExpr[T], List[(Int, List[T], RawExpr[T])])
-} derive(Show)
+} derive(Debug)
 
 struct ScDef[T] {
   name : String
   args : List[T]
   body : RawExpr[T]
-} derive(Show)
+} derive(Debug)
 ```
 
 Additionally, some predefined coreF programs are required.
@@ -315,10 +315,10 @@ In this simple version of the G-Machine, the state includes:
 
 - Heap: This is where the expression graph and the sequences of instructions corresponding to super combinators are stored.
   ```moonbit
-  // Use the struct tuple to encapsulate an address type.
-  struct Addr(Int) derive(Eq, Show)
+  /// Use the struct tuple to encapsulate an address type.
+  struct Addr(Int) derive(Eq, Debug)
 
-  // Describe graph nodes with an enumeration type.
+  /// Describe graph nodes with an enumeration type.
   enum Node {
     NNum(Int)
     // The application node
@@ -328,7 +328,7 @@ In this simple version of the G-Machine, the state includes:
     NGlobal(String, Int, List[Instruction])
     // The Indirection node. The key component of implementing lazy evaluation
     NInd(Addr)
-  } derive(Eq, Show)
+  } derive(Eq, Debug)
 
   struct GHeap {
     // The heap uses an array, 
@@ -337,7 +337,7 @@ In this simple version of the G-Machine, the state includes:
     memory : Array[Node?]
   }
 
-  // Allocate heap space for nodes.
+  /// Allocate heap space for nodes.
   fn GHeap::alloc(self : GHeap, node : Node) -> Addr {
     let heap = self
     fn next(n : Int) -> Int {
@@ -352,7 +352,7 @@ In this simple version of the G-Machine, the state includes:
     }
 
     let mut i = heap.object_count
-    while not(free(i)) {
+    while !free(i) {
       i = next(i)
     }
     heap.memory[i] = Some(node)
@@ -425,6 +425,7 @@ All of these tasks have corresponding instruction implementations.
 The highly simplified G-Machine currently consists of 7 instructions.
 
 ```moonbit
+
 enum Instruction {
   Unwind
   PushGlobal(String)
@@ -433,7 +434,7 @@ enum Instruction {
   MkApp
   Update(Int)
   Pop(Int)
-} derive(Eq, Show)
+} derive(Eq, Debug)
 ```
 
 The `PushInt` instruction is the simplest. It allocates an `NNum` node on the heap and pushes its address onto the stack.
@@ -465,7 +466,7 @@ fn GState::push_arg(self : GState, offset : Int) -> Unit {
     NApp(_, arg) => arg
     otherwise =>
       abort(
-        "pusharg: stack offset \{offset} address \{appaddr} node \{otherwise}",
+        "pusharg: stack offset \{offset} address \{@debug.to_string(appaddr)} node \{@debug.to_string(otherwise)}",
       )
   }
   self.put_stack(arg)
@@ -607,16 +608,18 @@ Once the super combinators are compiled, they need to be placed on the heap (alo
 
 ```moonbit
 fn build_initial_heap(
-  scdefs : List[(String, Int, List[Instruction])]
+  scdefs : List[(String, Int, List[Instruction])],
 ) -> (GHeap, @hashmap.HashMap[String, Addr]) {
   let heap = { object_count: 0, memory: Array::make(10000, None) }
   let globals = @hashmap.new(capacity=50)
-  loop scdefs {
-    Empty => ()
-    More((name, arity, instrs), tail=rest) => {
-      let addr = heap.alloc(NGlobal(name, arity, instrs))
-      globals[name] = addr
-      continue rest
+  for scdefs = scdefs {
+    match scdefs {
+      Empty => break
+      More((name, arity, instrs), tail=rest) => {
+        let addr = heap.alloc(NGlobal(name, arity, instrs))
+        globals[name] = addr
+        continue rest
+      }
     }
   }
   return (heap, globals)
@@ -660,7 +663,7 @@ fn GState::reify(self : GState) -> Node {
         let res = self.heap[addr]
         return res
       }
-      _ => abort("wrong stack \{stack}")
+      _ => abort("wrong stack \{@debug.to_string(stack)}")
     }
   }
 }
@@ -674,7 +677,7 @@ fn run(codes : List[String]) -> Node {
     let tokens = tokenize(code)
     let code = try tokens.parse_sc() catch {
       ParseError(s) => abort(s)
-    } else {
+    } noraise {
       expr => expr
     }
     let code = code.compileSC()
