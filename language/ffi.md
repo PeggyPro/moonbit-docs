@@ -14,6 +14,13 @@ MoonBit currently have five backends:
 - C
 - LLVM (experimental)
 
+For the `native` target, debug and release builds may use different compiler
+backends. In v0.10.4, debug builds use the new native backend by default on
+macOS Apple Silicon, while release builds use the C backend with optimization.
+The new native backend is also available on x86-64 Linux. Set
+`MOONBIT_NEW_NATIVE=0` to force the C backend, or `MOONBIT_NEW_NATIVE=1` to opt
+in where the new backend is available but not the default.
+
 ### Wasm
 
 By Wasm we refer to WebAssembly with some post-MVP proposals including:
@@ -41,11 +48,11 @@ For Wasm backends, all functions interacting with outside world relies on the ho
 
 ### JavaScript
 
-JavaScript backend will generate a JavaScript file, which can be a CommonJS module, an ES module or an IIFE based on the [configuration](../toolchain/moon/package.md#js-backend-link-options).
+JavaScript backend will generate a JavaScript file, which can be a CommonJS module, an ES module or an IIFE based on the [configuration](https://docs.moonbitlang.com/en/latest/toolchain/moon/package.html#js-backend-link-options).
 
 ### C
 
-C backend will generate a C file. The MoonBit toolchain will also compile the project and generate an executable based on the [configuration](../toolchain/moon/package.md#native-backend-link-options).
+C backend will generate a C file. The MoonBit toolchain will also compile the project and generate an executable based on the [configuration](https://docs.moonbitlang.com/en/latest/toolchain/moon/package.html#native-backend-link-options).
 
 ### LLVM
 
@@ -126,7 +133,7 @@ extern "js" fn cos(d : Double) -> Double =
 You can declare a foreign function by importing a function given the function name:
 
 ```moonbit
-extern "C" fn put_char(ch : UInt) -> Unit = "function_name"
+extern "C" fn put_char(ch : UInt32) -> Unit = "function_name"
 ```
 
 If a package needs to dynamically link with foreign C library, add `cc-link-flags` to `moon.pkg`. It would be passed to C compiler directly.
@@ -162,8 +169,8 @@ The table below shows the underlying representation of some MoonBit types:
 | MoonBit type                       | ABI         |
 |------------------------------------|-------------|
 | `Bool`                             | `i32`       |
-| `Int`                              | `i32`       |
-| `UInt`                             | `i32`       |
+| `Int32`                            | `i32`       |
+| `UInt32`                           | `i32`       |
 | `Int64`                            | `i64`       |
 | `UInt64`                           | `i64`       |
 | `Float`                            | `f32`       |
@@ -177,8 +184,8 @@ The table below shows the underlying representation of some MoonBit types:
 | MoonBit type                       | ABI                                     |
 |------------------------------------|-----------------------------------------|
 | `Bool`                             | `i32`                                   |
-| `Int`                              | `i32`                                   |
-| `UInt`                             | `i32`                                   |
+| `Int32`                            | `i32`                                   |
+| `UInt32`                           | `i32`                                   |
 | `Int64`                            | `i64`                                   |
 | `UInt64`                           | `i64`                                   |
 | `Float`                            | `f32`                                   |
@@ -193,27 +200,30 @@ The table below shows the underlying representation of some MoonBit types:
 | MoonBit type                       | ABI          |
 |------------------------------------|--------------|
 | `Bool`                             | `boolean`    |
-| `Int`                              | `number`     |
-| `UInt`                             | `number`     |
+| `Int32`                            | `number`     |
+| `UInt32`                           | `number`     |
 | `Float`                            | `number`     |
 | `Double`                           | `number`     |
 | constant `enum`                    | `number`     |
 | external type (`#external type T`) | `any`        |
 | `String`                           | `string`     |
 | `FixedArray[Byte]`/`Bytes`         | `Uint8Array` |
-| `FixedArray[T]` / `Array[T]`       | `T[]`        |
+| `FixedArray[T]`                    | `T[]`        |
 | `FuncRef[T]`                       | `Function`   |
 
 #### NOTE
 The `FixedArray[T]` for numbers may migrate to `TypedArray` in the future.
+
+Using `Array[T]` in a JavaScript FFI signature is deprecated. Use
+`FixedArray[T]` instead.
 
 ### C
 
 | MoonBit type                       | ABI                                    |
 |------------------------------------|----------------------------------------|
 | `Bool`                             | `int32_t`                              |
-| `Int`                              | `int32_t`                              |
-| `UInt`                             | `uint32_t`                             |
+| `Int32`                            | `int32_t`                              |
+| `UInt32`                           | `uint32_t`                             |
 | `Int64`                            | `int64_t`                              |
 | `UInt64`                           | `uint64_t`                             |
 | `Float`                            | `float`                                |
@@ -236,7 +246,7 @@ Sometimes, we want to pass a MoonBit function to the foreign interface as callba
 
 > A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives a function access to its outer scope. In JavaScript, closures are created every time a function is created, at function creation time.
 
-In some cases, we would like to pass the callback function which doesn't capture any local free variables. For this purpose, MoonBit provides a special type `FuncRef[T]`, which represents closed function of type `T`. Values of type `FuncRef[T]` must be closed function of type `T`, otherwise [a type error](error_codes/E4151.md) would occur.
+In some cases, we would like to pass the callback function which doesn't capture any local free variables. For this purpose, MoonBit provides a special type `FuncRef[T]`, which represents closed function of type `T`. Values of type `FuncRef[T]` must be closed function of type `T`, otherwise [a type error](https://docs.moonbitlang.com/en/latest/language/error_codes/E4151.html) would occur.
 
 In other cases, a MoonBit function parameter would be represented as a function and an object containing the surrounding state.
 
@@ -308,7 +318,43 @@ This feature is particular useful for binding flags of C libraries.
 
 ## Export Functions
 
-For public functions that are neither methods nor polymorphic, they can be exported by configuring the `exports` field in [link configuration](../toolchain/moon/package.md#link-options).
+For a foreign-library package, `#export_name` gives a public function its symbol
+name in generated Wasm, JavaScript, or C output:
+
+```moonbit
+// moon.pkg
+pkgtype(kind: "foreign_library")
+```
+
+```moonbit
+#export_name("add")
+pub fn add_one(value : Int32) -> Int32 {
+  value + 1
+}
+```
+
+MoonBit currently requires the name to be unique within the package and to be a
+valid C symbol identifier, regardless of the selected backend.
+
+#### WARNING
+Known compiler issue: `#export_name` currently applies its C-symbol-identifier
+restriction to every backend. WebAssembly export names are UTF-8 strings and
+are not limited to C identifiers.
+
+The attribute is not available on generic functions, functions with optional
+arguments, methods, or declarations without a body.
+
+Prefer `#export_name` for new exports. It keeps the exported name next to the
+function and applies to every backend that supports foreign-library output.
+
+#### NOTE
+The native backend does not currently support exporting a `foreign_library`
+package as a linkable library artifact, including shared libraries such as a
+`.dll` or `.so`.
+
+Use the backend-specific `exports` field in
+[link configuration](https://docs.moonbitlang.com/en/latest/toolchain/moon/package.html#link-options) when the export
+set or names must differ by backend, or when the source cannot be annotated:
 
 ```moonbit
 options(
@@ -322,23 +368,24 @@ options(
 
 The previous example exports functions `add` and `fib`, where `fib` will be exported as `test`.
 
+Both `#export_name` and `exports` are scoped to the package that produces the
+artifact. Declarations and configuration in a dependency apply when that
+dependency is built as its own artifact, but they do not add symbols to a
+downstream package's artifact. To expose dependency functionality, define and
+export a wrapper in the exporting package.
+
 ### Wasm & Wasm GC
 
-#### NOTE
-It is only effective for the package that configures it, i.e. it doesn't affect the downstream packages.
+The `exports` field supports renaming as shown above.
 
 ### JavaScript
 
 #### NOTE
-It is only effective for the package that configures it, i.e. it doesn't affect the downstream packages.
-
 There's another `format` option to export as CommonJS module (`cjs`), ES Module (`esm`), or `iife`.
 
 ### C
 
 #### NOTE
-It is only effective for the package that configures it, i.e. it doesn't affect the downstream packages.
-
 Renaming the exported function is not supported for now
 
 ## Lifetime management
@@ -364,7 +411,7 @@ void *moonbit_make_external_object(
 `moonbit_make_external_object` will create a new MoonBit object of size `payload_size + sizeof(finalize)`,
 the layout of the object is as follows:
 
-```default
+```none
 | MoonBit object header | ... payload | finalize function |
                         ^
                         |
@@ -404,7 +451,7 @@ By default, MoonBit uses an owned calling convention for reference counting. Tha
 For example, here's a lifetime-correct binding to the standard `open` function for opening a file:
 
 ```moonbit
-extern "C" fn open(filename : Bytes, flags : Int) -> Int = "open_ffi"
+extern "C" fn open(filename : Bytes, flags : Int32) -> Int32 = "open_ffi"
 ```
 
 ```c
@@ -419,7 +466,7 @@ int open_ffi(moonbit_bytes_t filename, int flags) {
 
 The following types are always unboxed, so there is no need to manage their lifetime:
 
-- builtin number types, such as `Int` and `Double`
+- builtin number types, such as `Int32` and `Double`
 - constant `enum` (`enum` where all constructors have no payload)
 
 The following types are always boxed and reference counted:
@@ -453,7 +500,7 @@ Parameters of `#borrow` will be passed using borrow based calling convention, th
 
 ```moonbit
 #borrow(filename)
-extern "C" fn open(filename : Bytes, flags : Int) -> Int = "open"
+extern "C" fn open(filename : Bytes, flags : Int32) -> Int32 = "open"
 ```
 
 There is no need for a stub function anymore: we are binding to the original version of `open` here. With the `#borrow` attribute, this version is still lifetime-correct.

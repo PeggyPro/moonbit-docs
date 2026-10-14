@@ -45,13 +45,13 @@ In the previous code, we defined the segment tree using `enum`. However, none of
 
 ///|
 enum Data {
-  Data(sum~ : Int, len~ : Int)
+  Data(sum~ : Int32, len~ : Int32)
 }
 
 ///|
 enum LazyTag {
   Nil
-  Tag(Int)
+  Tag(Int32)
 }
 
 ///|
@@ -96,7 +96,7 @@ Now, we can implement the tree-building function:
 ```moonbit
 
 ///|
-fn build(data : ArrayView[Int]) -> Node {
+fn build(data : ArrayView[Int32]) -> Node {
   if data.length() == 1 {
     Node(data=Data(sum=data[0], len=1), tag=Nil, left=Nil, right=Nil)
   } else {
@@ -147,10 +147,10 @@ Then how do we implement range modifications?
 ///|
 fn Node::modify(
   self : Node,
-  l : Int,
-  r : Int,
-  modify_l : Int,
-  modify_r : Int,
+  l : Int32,
+  r : Int32,
+  modify_l : Int32,
+  modify_r : Int32,
   tag : LazyTag,
 ) -> Node {
   if modify_l > r || l > modify_r {
@@ -158,7 +158,7 @@ fn Node::modify(
   } else if modify_l <= l && modify_r >= r {
     self.apply(tag)
   } else {
-    guard self is Node(left~, right~, ..)
+    guard! self is Node(left~, right~, ..)
     let mid = (l + r) >> 1
     left.modify(l, mid, modify_l, modify_r, tag) +
     right.modify(mid + 1, r, modify_l, modify_r, tag)
@@ -209,17 +209,17 @@ let empty_node : Node = Node(
 ///|
 fn Node::query(
   self : Node,
-  l : Int,
-  r : Int,
-  query_l : Int,
-  query_r : Int,
+  l : Int32,
+  r : Int32,
+  query_l : Int32,
+  query_r : Int32,
 ) -> Node {
   if query_l > r || l > query_r {
     empty_node
   } else if query_l <= l && query_r >= r {
     self
   } else {
-    guard self is Node(tag~, left~, right~, ..)
+    guard! self is Node(tag~, left~, right~, ..)
     let mid = (l + r) >> 1
     left.apply(tag).query(l, mid, query_l, query_r) +
     right.apply(tag).query(mid + 1, r, query_l, query_r)
@@ -233,4 +233,4 @@ With this, we have a segment tree that supports range modifications and is much 
 
 In the next lesson, we’ll add multiplication support to the segment tree and explore some use cases for immutable segment trees. Stay tuned!
 
-Full code is available [here](/sources/segment-tree/src/part2/top.mbt).
+Full code is available [here](https://docs.moonbitlang.com/en/latest/example/segment-tree/sources/segment-tree/src/part2/top.mbt).

@@ -1,6 +1,6 @@
 # Myers diff 2
 
-This is the second post in the diff series. In the [previous one](myers-diff.md), we learned how to transform the process of computing diffs into a graph search problem and how to search for the shortest edit distance. In this article, we will learn how to extend the search process from the previous post to obtain the complete edit sequence.
+This is the second post in the diff series. In the [previous one](https://docs.moonbitlang.com/en/latest/example/myers-diff/myers-diff.html), we learned how to transform the process of computing diffs into a graph search problem and how to search for the shortest edit distance. In this article, we will learn how to extend the search process from the previous post to obtain the complete edit sequence.
 
 ## Recording the Search Process
 
@@ -11,13 +11,13 @@ The first step to obtaining the complete edit sequence is to save the entire edi
 fn shortest_edit(
   old~ : Array[Line],
   new~ : Array[Line],
-) -> Array[(BPArray[Int], Int)] {
+) -> Array[(BPArray[Int32], Int32)] {
   let n = old.length()
   let m = new.length()
   let max = n + m
   let v = BPArray::make(2 * max + 1, 0)
   let trace = []
-  fn push(v : BPArray[Int], d : Int) -> Unit {
+  fn push(v : BPArray[Int32], d : Int32) -> Unit {
     trace.push((v, d))
   }
   // v[1] = 0
@@ -70,11 +70,11 @@ Next, let's perform the backtracking.
 fn backtrack(
   new~ : Array[Line],
   old~ : Array[Line],
-  trace : Array[(BPArray[Int], Int)],
+  trace : Array[(BPArray[Int32], Int32)],
 ) -> Array[Edit] {
   let mut x = old.length()
   let mut y = new.length()
-  let edits = Array::new(capacity=trace.length())
+  let edits = Array(capacity=trace.length())
 ```
 
 The method of backtracking is essentially the same as forward search, just in reverse.
@@ -133,7 +133,7 @@ To print a neat diff, we need to left-align the text. Also, due to the order iss
 let line_width = 4
 
 ///|
-fn pad_right(s : String, width : Int) -> String {
+fn pad_right(s : String, width : Int32) -> String {
   String::make(width - s.length(), ' ') + s
 }
 
@@ -166,12 +166,12 @@ fn pprint_edit(edit : Edit) -> String {
 
 ///|
 fn pprint_diff(diff : Array[Edit]) -> String {
-  let buf = @buffer.new(size_hint=100)
+  let buf = StringBuilder(size_hint=100)
   for i = diff.length(); i > 0; i = i - 1 {
     buf.write_string(pprint_edit(diff[i - 1]))
     buf.write_char('\n')
   } nobreak {
-    buf.contents().to_unchecked_string()
+    buf.to_string()
   }
 }
 ```

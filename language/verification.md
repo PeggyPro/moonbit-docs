@@ -27,27 +27,25 @@ fits together. It shows:
 First, enable proofs for the package:
 
 ```moonbit
-options(
-  "proof-enabled": true,
-)
+proof_enabled = true
 ```
 
 Then define the logic-side specification in `.mbtp`:
 
 ```moonbit
-predicate in_bounds(xs : FixedArray[Int], i : Int) {
+predicate in_bounds(xs : FixedArray[Int32], i : Int32) {
   (0 <= i) && (i < xs.length())
 }
 
-predicate sorted(xs : FixedArray[Int]) {
-  ∀ i : Int, ∀ j : Int,
+predicate sorted(xs : FixedArray[Int32]) {
+  ∀ i : Int32, ∀ j : Int32,
     in_bounds(xs, i) && in_bounds(xs, j) && (i <= j) →
       xs[i] <= xs[j]
 }
 
-predicate binary_search_ok(xs : FixedArray[Int], key : Int, result : Option[Int]) {
+predicate binary_search_ok(xs : FixedArray[Int32], key : Int32, result : Option[Int32]) {
   match result {
-    None => ∀ i : Int, in_bounds(xs, i) → xs[i] != key
+    None => ∀ i : Int32, in_bounds(xs, i) → xs[i] != key
     Some(result) => in_bounds(xs, result) && xs[result] == key
   }
 }
@@ -57,20 +55,20 @@ Finally, implement the executable function in `.mbt`:
 
 ```moonbit
 pub fn binary_search(
-  xs : FixedArray[Int],
-  key : Int,
-) -> Int? where {
+  xs : FixedArray[Int32],
+  key : Int32,
+) -> Int32? where {
   proof_require: sorted(xs),
   proof_ensure: result => binary_search_ok(xs, key, result),
 } {
   for i = 0, j = xs.length(); i < j; {
     let h = i + (j - i) / 2
     if xs[h] < key {
-      proof_assert ∀ idx : Int,
+      proof_assert ∀ idx : Int32,
         (0 <= idx) && (idx < h + 1) → xs[idx] < key
       continue h + 1, j
     } else if key < xs[h] {
-      proof_assert ∀ idx : Int,
+      proof_assert ∀ idx : Int32,
         (h <= idx) && (idx < xs.length()) → key < xs[idx]
       continue i, h
     } else {
@@ -83,8 +81,8 @@ pub fn binary_search(
     proof_invariant: 0 <= i,
     proof_invariant: i <= j,
     proof_invariant: j <= xs.length(),
-    proof_invariant: ∀ idx : Int, (0 <= idx) && (idx < i) → xs[idx] < key,
-    proof_invariant: ∀ idx : Int, (j <= idx) && (idx < xs.length()) → key < xs[idx],
+    proof_invariant: ∀ idx : Int32, (0 <= idx) && (idx < i) → xs[idx] < key,
+    proof_invariant: ∀ idx : Int32, (j <= idx) && (idx < xs.length()) → key < xs[idx],
     proof_yield: res => binary_search_ok(xs, key, res),
     proof_reasoning: (
       #| The loop maintains a candidate window `[i, j)`.
@@ -113,8 +111,9 @@ This example already shows the main structure of verified MoonBit code:
 - `proof_reasoning` records the proof idea in structured prose
 
 The rest of this page explains these pieces in more detail and introduces
-additional features such as `#proof_pure`, `proof_decrease`,
-`proof_axiomatized`, model-based verification, and the trusted surface.
+additional features such as `#proof_pure`, `#proof_external`, `#proof_import`,
+`proof_decrease`, `proof_axiomatized`, model-based verification, and the
+trusted surface.
 
 ## Setup
 
@@ -241,7 +240,7 @@ predicates and postconditions, while still being visible on the program side.
 
 ```moonbit
 #proof_pure
-fn height(t : Tree) -> Int {
+fn height(t : Tree) -> Int32 {
   match t {
     Empty => 0
     Node(_, _, _, h) => h
@@ -252,7 +251,7 @@ fn height(t : Tree) -> Int {
 The same helper can then be used in a specification:
 
 ```moonbit
-predicate cached_height_ok(t : Tree, result : Int) {
+predicate cached_height_ok(t : Tree, result : Int32) {
   result == height(t)
 }
 ```
@@ -276,15 +275,69 @@ proof-facing computations that should behave like mathematical functions.
 
 At the moment, `#proof_pure` helpers are best treated as pure specification
 helpers rather than fully contracted verified functions. In particular, support
-for attaching ordinary verification contracts directly to `#proof_pure`
-definitions is still limited.
+is currently limited to regular top-level functions and ordinary methods.
+Verification contracts, direct recursion, and mutual recursion are not yet
+supported on `#proof_pure` definitions.
+
+### External Theories: `#proof_external` and `#proof_import`
+
+Proof-oriented libraries sometimes expose a MoonBit type whose logical model is
+provided by an existing Why3 theory. Two attributes form this bridge:
+
+- `#proof_external(module, symbol)` tells proof lowering to represent an
+  abstract MoonBit type with a type from a Why3 module.
+- `#proof_import(module)` declares a proof-only stub for an operation from a
+  Why3 module.
+
+For example, an opaque carrier can be represented by Why3's `set.Fset.fset` type
+during verification:
+
+```moonbit
+///|
+#proof_external("set.Fset", "fset")
+pub type ProofSet[T]
+```
+
+The proof side can then declare stubs for Why3 operations and prove a property
+using the imported finite-set theory. Stub parameter order must match the Why3
+symbol:
+
+```moonbit
+#proof_import("set.Fset")
+fn proof_set_mem(x : Int32, set : ProofSet[Int32]) -> Bool = "mem"
+
+#proof_import("set.Fset")
+fn proof_set_empty() -> ProofSet[Int32] = "empty"
+
+#proof_import("set.Fset")
+fn proof_set_add(x : Int32, set : ProofSet[Int32]) -> ProofSet[Int32] = "add"
+
+lemma proof_set_add_contains(x : Int32) where {
+  proof_ensure: proof_set_mem(
+    x,
+    proof_set_add(x, proof_set_empty()),
+  ),
+} {}
+```
+
+Here, `set.Fset` is a Why3 module path, and the string body `"mem"` names a
+symbol in that module. A string body is special proof-stub syntax accepted in a
+`.mbtp` file; it is not an executable MoonBit expression and is unrelated to
+MoonBit FFI. The final lemma is an actual proof obligation discharged from the
+imported Why3 theory; none of these declarations can be called by runtime
+MoonBit code.
+
+Both attributes affect verification lowering only. `#proof_external` does not
+implement the MoonBit type or connect it to a runtime ABI, and `#proof_import`
+does not provide an executable function body. The declared signatures and their
+mapping to Why3 symbols are a trusted integration boundary.
 
 ### `proof_decrease`
 
 `proof_decrease` supplies a termination measure for recursive definitions.
 
 ```moonbit
-pub fn countdown(n : Int) -> Int where {
+pub fn countdown(n : Int32) -> Int32 where {
   proof_decrease: n,
   proof_require: 0 <= n,
   proof_ensure: result => 0 <= result,
@@ -317,7 +370,7 @@ In practice, `proof_axiomatized` should be used sparingly:
 For example:
 
 ```moonbit
-pub fn assumed_nonnegative(x : Int) -> Int where {
+pub fn assumed_nonnegative(x : Int32) -> Int32 where {
   proof_axiomatized: true,
   proof_require: 0 <= x,
   proof_ensure: result => 0 <= result,
@@ -348,19 +401,19 @@ For example, predicates in `.mbtp` can define the logical vocabulary used by
 contracts:
 
 ```moonbit
-predicate in_bounds(xs : FixedArray[Int], i : Int) {
+predicate in_bounds(xs : FixedArray[Int32], i : Int32) {
   (0 <= i) && (i < xs.length())
 }
 
-predicate sorted(xs : FixedArray[Int]) {
-  ∀ i : Int, ∀ j : Int,
+predicate sorted(xs : FixedArray[Int32]) {
+  ∀ i : Int32, ∀ j : Int32,
     in_bounds(xs, i) && in_bounds(xs, j) && (i <= j) →
       xs[i] <= xs[j]
 }
 
-predicate binary_search_ok(xs : FixedArray[Int], key : Int, result : Option[Int]) {
+predicate binary_search_ok(xs : FixedArray[Int32], key : Int32, result : Option[Int32]) {
   match result {
-    None => ∀ i : Int, in_bounds(xs, i) → xs[i] != key
+    None => ∀ i : Int32, in_bounds(xs, i) → xs[i] != key
     Some(result) => in_bounds(xs, result) && xs[result] == key
   }
 }
@@ -431,7 +484,7 @@ For data structures and stateful systems, the most useful pattern is often:
 An AVL tree is a representative example of this style:
 
 ```moonbit
-fn Tree::model(self : Tree) -> Fset[Int] {
+fn Tree::model(self : Tree) -> Fset[Int32] {
   match self {
     Empty => Fset::empty()
     Node(l, x, r, _) => l.model().union(r.model()).add(x)
@@ -444,8 +497,8 @@ predicate avl_inv(t : Tree) {
     Node(l, x, r, h) =>
       avl_inv(l) &&
       avl_inv(r) &&
-      (∀ y : Int, l.model().mem(y) → y < x) &&
-      (∀ y : Int, r.model().mem(y) → x < y) &&
+      (∀ y : Int32, l.model().mem(y) → y < x) &&
+      (∀ y : Int32, r.model().mem(y) → x < y) &&
       h == 1 + max2(height(l), height(r)) &&
       -1 <= height(l) - height(r) &&
       height(l) - height(r) <= 1
@@ -534,6 +587,8 @@ The main trusted assumptions today are:
 
 - verification reasons about mathematical integers rather than machine integers
 - any item marked `proof_axiomatized` is assumed rather than proved
+- declarations using `#proof_external` or `#proof_import` correctly describe
+  the intended Why3 types and operations
 
 For integers, this means proof obligations are checked in an unbounded integer
 model. As a result:

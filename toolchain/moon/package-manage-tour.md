@@ -16,7 +16,7 @@ guide. If you have previously registered an account, you can use `moon login` to
 
 When you see the following message, it means you have successfully logged in:
 
-```default
+```none
 API token saved to ~/.moon/credentials.json
 ```
 
@@ -31,7 +31,7 @@ Created username/myapp at .
 
 It will generate template files in the path:
 
-```default
+```none
 ├── AGENTS.md                    # Collaboration guide for agents
 ├── LICENSE                      # Open-source license 
 ├── README.mbt.md                # README file with type checking support for moonbit 
@@ -40,7 +40,7 @@ It will generate template files in the path:
 │   └── main                     
 │       ├── main.mbt             # MoonBit source file 
 │       └── moon.pkg             # Package configuration for username/myapp/cmd/main package
-├── moon.mod.json                # Module configuration for username/myapp module
+├── moon.mod                     # Module configuration for username/myapp module
 ├── moon.pkg                     # Package configuration for username/myapp package
 ├── myapp.mbt                    # MoonBit source file
 ├── myapp_test.mbt               # Black-box test
@@ -55,7 +55,7 @@ the `.mbt` files in the same directory.
 Modules and packages are identified by a special path (not the file path in the file system).
 For example:
 
-```default
+```none
 username/myapp/cmd/main
 ─────────────────┬─────
 ────────┬─────   │
@@ -69,8 +69,8 @@ The template contains test files, documentation, and collaboration metadata by d
 You can safely remove any template files you do not need.
 The following is also a valid MoonBit project:
 
-```default
-├── moon.mod.json
+```none
+├── moon.mod
 ├── moon.pkg
 └── source.mbt
 ```
@@ -78,8 +78,8 @@ The following is also a valid MoonBit project:
 ## Add dependencies
 
 You can browse all available modules on [mooncakes.io](https://mooncakes.io).
-Use `moon add` to add the dependencies you need, or manually edit the `deps`
-field in `moon.mod.json`.
+Use `moon add` to add the dependencies you need, or manually edit the `import`
+declaration in `moon.mod`.
 
 For example, to add the latest version of the [moonbit-community/starter](https://mooncakes.io/docs/moonbit-community/starter) module:
 
@@ -88,7 +88,7 @@ $ moon add moonbit-community/starter
 ```
 
 #### NOTE
-Moon also supports local dependencies. See [Dependency Management](module.md#dependency-management) for more details.
+Moon also supports local dependencies. See [Dependency Management](https://docs.moonbitlang.com/en/latest/toolchain/moon/module.html#dependency-management) for more details.
 
 ## Import packages from module
 
@@ -102,9 +102,7 @@ import {
   "moonbit-community/starter/rabbit"
 }
 
-options(
-  "is-main": true
-)
+pkgtype(kind: "executable")
 ```
 
 #### NOTE
@@ -155,7 +153,7 @@ moon implements the [minimal version selection](https://research.swtch.com/vgo-m
 
 ### Readme & metadata
 
-Metadata in `moon.mod.json` and `README.md` will be shown in mooncakes.io.
+Metadata in `moon.mod` and `README.md` will be shown in mooncakes.io.
 
 Metadata consist of the following sections:
 

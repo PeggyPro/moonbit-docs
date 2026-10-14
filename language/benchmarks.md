@@ -11,7 +11,7 @@ The measurements and statistical analysis will be conducted and passed to `moon`
 where they will be displayed in the console output.
 
 ```moonbit
-fn fib(n : Int) -> Int {
+fn fib(n : Int32) -> Int32 {
   if n < 2 {
     return n
   }
@@ -25,7 +25,7 @@ test (b : @bench.T) {
 
 The output is as follows:
 
-```default
+```none
 time (mean ± σ)         range (min … max) 
   21.67 µs ±   0.54 µs    21.28 µs …  23.14 µs  in 10 ×   4619 runs
 ```
@@ -51,7 +51,7 @@ In this case, you may want to bench them in a batch within a block for easy comp
 The `name` parameter of the `@bench.T::bench` method can be used to identify the benchmark.
 
 ```moonbit
-fn fast_fib(n : Int) -> Int {
+fn fast_fib(n : Int32) -> Int32 {
   if n < 2 {
     return n
   } else {
@@ -74,7 +74,7 @@ test (b : @bench.T) {
 
 Now you can evaluate which one is faster by looking at the output:
 
-```default
+```none
 name      time (mean ± σ)         range (min … max) 
 naive_fib   21.01 µs ±   0.21 µs    20.76 µs …  21.32 µs  in 10 ×   4632 runs
 fast_fib     0.02 µs ±   0.00 µs     0.02 µs …   0.02 µs  in 10 × 100000 runs
@@ -95,7 +95,7 @@ fn collect_bench() -> Unit {
     saved = fib(20)
   })
   println(saved)
-  println(summary.to_json().stringify(escape_slash=true, indent=4))
+  println(@json.to_json(summary).stringify(escape_slash=true, indent=4))
 }
 ```
 

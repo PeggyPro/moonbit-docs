@@ -15,14 +15,14 @@ import {
 
 ///|
 async fn main {
-  let xs = @ls.from_array(["1", "2", "3"])
+  let xs = @ls.List(["1", "2", "3"])
   debug(xs)
 }
 ```
 
 Then run this script directly:
 
-```default
+```none
 $ moon run script.mbtx
 ```
 
@@ -33,8 +33,8 @@ configuration. There is one difference: import paths can optionally include a ve
 ```mbt
 ///|
 import {
-  "moonbitlang/async@0.17.0/fs",
-  "moonbitlang/async@0.17.0",
+  "moonbitlang/async@0.20.2/fs",
+  "moonbitlang/async@0.20.2",
 }
 
 ///|
@@ -48,17 +48,61 @@ All imported packages from the same module must use the same version.
 If the import path is not explicitly versioned, it uses the latest version
 in the local registry index.
 
+A script may add `*` after an import to bring all definitions from that package
+into its scope. The import may also set a custom package alias with `@alias`:
+
+```moonbit
+///|
+import {
+  "moonbitlang/core/queue" @q *
+}
+
+///|
+fn main {
+  let queue = Queue([1, 2, 3])
+  println(queue.length())
+  let qualified = @q.Queue([4, 5])
+  println(qualified.length())
+}
+```
+
+The package alias remains available, so the example can use both `Queue` and
+`@q.Queue`. Without an explicit `@alias`, the package's default alias is used.
+Import-all syntax is limited to `.mbtx` scripts; regular packages should use
+package aliases or `using` declarations. Prefer explicit imports when name
+conflicts would make a script difficult to read.
+
+## Test a `.mbtx` script
+
+Pass a script path to `moon test` to test that script by itself:
+
+```bash
+moon test script.mbtx
+```
+
+The script must define `fn main`, but the generated test entrypoint does not
+run it. An explicit `.mbtx` path selects only that script, even when it is
+inside a project; conversely, package-wide test runs do not include `.mbtx`
+scripts.
+
 ## Run a `.mbtx` script from stdin
 
 Moon supports running a `.mbtx` script from stdin:
 
-```default
+```none
 $ cat script.mbtx | moon run -
+```
+
+For short scripts, pass the `.mbtx` source directly with `-c`:
+
+```none
+$ moon run -c "<script>"
+$ moon run -c 'fn main { println("hello") }'
 ```
 
 You can also use a heredoc, a feature provided by the shell:
 
-```default
+```none
 $ moon run - <<EOF
 fn main {
   println("hello")

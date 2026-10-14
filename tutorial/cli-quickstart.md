@@ -16,22 +16,21 @@ Start with a normal MoonBit module:
 ```bash
 moon new download_cli
 cd download_cli
-moon add moonbitlang/async@0.17.0
+moon add moonbitlang/async@0.20.2
 ```
 
 `argparse` is already part of the standard library, so this quickstart only adds `moonbitlang/async`.
 
-Set the preferred target to native in `moon.mod.json` so `moon run` and `moon build` default to the backend that `moonbitlang/async` supports best:
+Set the preferred target to native in `moon.mod` so `moon run` and `moon build`
+default to the backend that `moonbitlang/async` supports best:
 
-```json
-{
-  "name": "username/download_cli",
-  "version": "0.1.0",
-  "deps": {
-    "moonbitlang/async": "0.17.0"
-  },
-  "preferred-target": "native"
+```moonbit
+name = "username/download_cli"
+version = "0.1.0"
+import {
+  "moonbitlang/async@0.20.2",
 }
+preferred_target = "native"
 ```
 
 The final layout will look like this:
@@ -45,7 +44,7 @@ download_cli
 ├── cli_test.mbt
 ├── config.mbt
 ├── download.mbt
-├── moon.mod.json
+├── moon.mod
 └── moon.pkg
 ```
 
@@ -60,19 +59,22 @@ pub struct Config {
 } derive(Eq)
 
 ///|
+pub extend Config with Eq::{not_equal, equal}
+
+///|
 pub fn command() -> @argparse.Command {
-  @argparse.Command::new(
+  @argparse.Command(
     "moon-fetch",
     about="Download a URL to stdout or a file",
     options=[
-      @argparse.OptionArg::new(
+      @argparse.OptionArg(
         "output",
         short='o',
         about="Write the response body to this file",
       ),
     ],
     positionals=[
-      @argparse.PositionArg::new(
+      @argparse.PositionArg(
         "url",
         about="HTTP or HTTPS URL to download",
         num_args=@argparse.ValueRange::single(),
@@ -105,6 +107,10 @@ import {
   "moonbitlang/async/http",
   "moonbitlang/async/stdio",
 }
+
+import {
+  "moonbitlang/core/test",
+} for "test"
 ```
 
 ## Put async IO behind one function
@@ -143,9 +149,7 @@ import {
   "moonbitlang/async",
 }
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")
 ```
 
 ```moonbit
@@ -183,14 +187,16 @@ The parser and config shaping logic stay easy to test because they do not perfor
 ```moonbit
 ///|
 test "parse config for stdout" {
-  let config = parse_config(["https://example.com/feed.xml"])
+  let config = @cli-quickstart-doc.parse_config(["https://example.com/feed.xml"])
   assert_eq(config.url, "https://example.com/feed.xml")
-  assert_eq(config.output, None)
+  @test.assert_eq(config.output, None)
 }
 
 ///|
 test "parse config for file output" {
-  let config = parse_config(["https://example.com/feed.xml", "-o", "feed.xml"])
+  let config = @cli-quickstart-doc.parse_config([
+    "https://example.com/feed.xml", "-o", "feed.xml",
+  ])
   assert_eq(config.url, "https://example.com/feed.xml")
   guard config.output is Some(path) else { fail("expected an output path") }
   assert_eq(path, "feed.xml")

@@ -2,7 +2,8 @@
 
 MoonBit adopts a coroutine based approach to async programming which is similar to [Kotlin](https://kotlinlang.org/docs/coroutines-overview.html).
 Asynchronous programming in MoonBit consists of two parts: compiler support for `async` functions, and the official async runtime `moonbitlang/async`.
-Currently, `moonbitlang/async` supports native backend best, has limit support for JavaScript backend, and does not support WebAssembly backend yet.
+Currently, `moonbitlang/async` supports the native backend best, has limited
+support for the JavaScript backend, and provides experimental Wasm1 support.
 The API of `moonbitlang/async` is not considered stable, and may change in the future.
 
 <!-- We highly appreciate any feedback or experiment with current design. -->
@@ -10,12 +11,12 @@ The API of `moonbitlang/async` is not considered stable, and may change in the f
 ## Getting started
 
 To use `moonbitlang/async` for asynchronous programming,
-you should first run `moon add moonbitlang/async@0.17.0` in your project
+you should first run `moon add moonbitlang/async@0.20.2` in your project
 to add `moonbitlang/async` as a dependency of your project.
-You may also want to set `"preferred-target": "native"` in `moon.mod.json`.
+You may also want to set `preferred_target = "native"` in `moon.mod`.
 Now, import `moonbitlang/async` and other packages in the `moonbitlang/async` library in `moon.pkg`,
 and the asynchronous programming API should be available in your packages.
-If you want a workflow-first example, see the [Native CLI Quickstart](../tutorial/cli-quickstart.md).
+If you want a workflow-first example, see the [Native CLI Quickstart](https://docs.moonbitlang.com/en/latest/tutorial/cli-quickstart.html).
 
 The list of packages in `moonbitlang/async` and their detailed documentation
 can be found on [mooncakes.io](https://mooncakes.io/docs/moonbitlang/async),
@@ -25,7 +26,7 @@ This article will introduce some of the basic concept of `moonbitlang/async` and
 ## Async function
 
 Async functions are declared with the `async` keyword.
-They implicitly [`raise`](error-handling.md#throwing-errors) errors
+They implicitly [`raise`](https://docs.moonbitlang.com/en/latest/language/error-handling.html#throwing-errors) errors
 and need to declare `noraise` explicitly if otherwise.
 
 ```moonbit
@@ -53,6 +54,19 @@ You can use `async fn main` to declare an asynchronous program entry,
 or use `async test` to write test for asynchronous code.
 Asynchronous tests are automatically run in parallel by default.
 Notice that you must import `moonbitlang/async` in your package to use `async fn main` and `async test`.
+
+Async functions are cancellable by default. Add `nocancel` to promise that a
+function does not introduce cancellation. A `nocancel` async function may call
+synchronous functions and other `nocancel` async functions, but it cannot call
+a cancellable async function. This effect is independent of ordinary errors:
+`noraise` rules out ordinary errors, while `noraise + nocancel` rules out both
+ordinary errors and cancellation.
+
+```moonbit
+async fn record_completion() -> Unit noraise + nocancel {
+  println("completed")
+}
+```
 
 ## Structured concurrency and task group
 
@@ -135,7 +149,7 @@ It can be used to simulate many async control flow operation.
 For example, here's a function that run an async function with a timeout:
 
 ```moonbit
-async fn with_timeout(timeout : Int, f : async () -> Unit) -> Unit {
+async fn with_timeout(timeout : Int32, f : async () -> Unit) -> Unit {
   @async.with_task_group(group => {
     group.spawn_bg(no_wait=true, () => {
       @async.sleep(timeout)
@@ -166,11 +180,10 @@ In `moonbitlang/async`, every asynchronous operation is cancellable by default, 
 So when you compose these basic asynchronous operations into bigger program,
 no matter how complex your program is, it is automatically cancellable.
 
-When a piece of asynchronous code is cancelled,
-the cancellation signal is represented as an error raised at the point where the code previously blocked.
-So there is no need to handle cancellation specially:
-the cancellation signal will automically propagate through the program,
-triggering cleanup operations in `defer` and error handlers.
+When a piece of asynchronous code is cancelled, the cancellation signal is
+raised at the point where the code previously blocked. Ordinary `catch`
+handlers do not intercept this signal. It propagates automatically through the
+program, while cleanup registered with `defer` or `errdefer` still runs.
 
 The ability to cancel arbitrary async code makes async programs highly modular in MoonBit.
 The `moonbitlang/async` package provides many useful combinators that perform
@@ -226,4 +239,12 @@ it also has basic support for JavaScript backend:
   including waiting for an external JavaScript promise and exporting a MoonBit `async` function as a JavaScript promise.
   This allows interaction with native asynchronous operations of the JavaScript host.
 
-See [the mooncakes.io page for `moonbitlang/async/js_async`](https://mooncakes.io/docs/moonbitlang/async/js_async) fore more details.
+See [the mooncakes.io page for `moonbitlang/async/js_async`](https://mooncakes.io/docs/moonbitlang/async/js_async) for more details.
+
+## Experimental Wasm1 support
+
+Version 0.20.2 adds experimental Wasm1 support with the same API signatures and
+behavior as the native backend. Programs built with this support currently need
+the latest `moonrun` and are not yet compatible with other WebAssembly
+runtimes. The Wasm1 backend does not yet support `@websocket`, `@fs.Watcher`, or
+`@fs.realpath`.

@@ -101,7 +101,7 @@ ageInt := int(age)
 Newtypes are defined as tuple struct in MoonBit:
 
 ```moonbit
-struct Age(Int)
+struct Age(Int32)
 
 let age = Age(25)
 let age_int = age.0
@@ -115,10 +115,11 @@ Type aliases can be created using the `type ... = ...` syntax in Go:
 type Description = string
 ```
 
-In MoonBit, the `typealias` keyword is used instead:
+MoonBit uses the same `type Alias = ExistingType` form, with the alias name
+first:
 
 ```moonbit
-typealias String as Description
+type Description = String
 ```
 
 ## Structures
@@ -151,7 +152,7 @@ using the `struct` keyword:
 ```moonbit
 struct Person {
   name : String
-  age : Int
+  age : Int32
 }
 ```
 
@@ -200,7 +201,7 @@ enum IntList {
   /// `Cons` represents a non-empty list and has two payloads:
   /// 1. The first element of the list;
   /// 2. The remaining parts of the list.
-  Cons(Int, IntList)
+  Cons(Int32, IntList)
 }
 ```
 
@@ -273,7 +274,7 @@ let sum = for i = 1, acc = 0; i <= 6; i = i + 1 {
   if i % 2 == 0 {
     continue i + 1, acc + i
   }
-} else {
+} nobreak {
   acc
 }
 ```
@@ -283,7 +284,7 @@ There are a few distinct features of the `for` loop in MoonBit, however:
 - The update clause is not in-place, but rather are used to assign new values to the loop variables.
 - `continue` can (optionally) be used to start the next iteration with new input values.
   In that case, the update clause is skipped.
-- The `else` clause is used to return the final value of the loop when it normally exits. If the loop
+- The `nobreak` clause is used to return the final value of the loop when it normally exits. If the loop
   is exited early with the `break` keyword, the value from the `break` clause is returned instead.
 
 The `while` loop is equivalent to the `for` loop with a condition clause only, and it can also return
@@ -295,7 +296,7 @@ let result = while condition {
   if should_break {
     break "early exit value"
   }
-} else {
+} nobreak {
   "normal completion value"
 }
 ```
@@ -351,7 +352,7 @@ In MoonBit, function definitions use the `fn` keyword and a
 slightly different syntax:
 
 ```moonbit
-fn add(a : Int, b : Int) -> Int {
+fn add(a : Int32, b : Int32) -> Int32 {
   a + b
 }
 ```
@@ -425,31 +426,31 @@ depends on its type: a value of an \*\*immutable type\*\* is passed by value, wh
 of a \*\*mutable type\*\* is passed by reference. -->
 
 Notable **primitive types** in MoonBit include
-[`Unit`](../../language/fundamentals.md#unit)
-, [`Boolean`](../../language/fundamentals.md#boolean)
-, integers ([`Int`](../../language/fundamentals.md#number), [`Int64`](../../language/fundamentals.md#number), [`UInt`](../../language/fundamentals.md#number), etc.)
-, floating-point numbers ([`Double`](../../language/fundamentals.md#number), [`Float`](../../language/fundamentals.md#number), etc.)
-, [`String`](../../language/fundamentals.md#string)
-, [`Char`](../../language/fundamentals.md#char)
-, [`Byte`](../../language/fundamentals.md#byte-s).
+[`Unit`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#unit)
+, [`Boolean`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#boolean)
+, integers ([`Int32`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number), [`Int64`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number), [`UInt32`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number), etc.)
+, floating-point numbers ([`Double`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number), [`Float`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#number), etc.)
+, [`String`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#string)
+, [`Char`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#char)
+, [`Byte`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#byte-s).
 
 Notable **immutable collection types** in MoonBit include
-[tuples](../../language/fundamentals.md#tuple),
-immutable collections such as `@immut/hashset.T[A]`,
+[tuples](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#tuple),
+immutable collections such as `@immut/hashset.HashSet[A]`,
 and custom types with no `mut` fields.
 
 On the other hand, notable **mutable collection types** include
-mutable collections such as [`Array[T]`](../../language/fundamentals.md#array)
-, [`FixedArray[T]`](../../language/fundamentals.md#array)
-, and [`Map[K, V]`](../../language/fundamentals.md#map),
+mutable collections such as [`Array[T]`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#array)
+, [`FixedArray[T]`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#array)
+, and [`Map[K, V]`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#map),
 as well as custom types with at least one `mut` field.
 
 For example, we can rewrite some of the above Go examples in MoonBit:
 
 ```moonbit
 struct Point {
-  mut x : Int
-  mut y : Int
+  mut x : Int32
+  mut y : Int32
 }
 
 fn modify_point_ref(p : Point) -> Unit {
@@ -462,21 +463,21 @@ fn main {
   println("\{point.x}")   // Prints 100
 }
 
-fn increment_array(nums : Array[Int]) -> Unit {
+fn increment_array(nums : Array[Int32]) -> Unit {
   for i = 0; i < nums.length(); i = i + 1 {
     nums[i] += 1 // Modifies the original array
   }
 }
 
-fn modify_map(m : Map[String, Int]) -> Unit {
+fn modify_map(m : Map[String, Int32]) -> Unit {
   m["key"] = 42 // Modifies the original map
 }
 ```
 
-#### The [`Ref[T]`](../../language/fundamentals.md#ref) Helper Type
+#### The [`Ref[T]`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#ref) Helper Type
 
 When you need explicit mutable references to value types,
-MoonBit provides the [`Ref[T]`](../../language/fundamentals.md#ref) type
+MoonBit provides the [`Ref[T]`](https://docs.moonbitlang.com/en/latest/language/fundamentals.html#ref) type
 which is roughly defined as follows:
 
 ```moonbit
@@ -489,7 +490,7 @@ With the help of `Ref[T]`, you can create mutable references to a value
 just like you would with pointers in Go:
 
 ```moonbit
-fn increment_counter(counter : Ref[Int]) -> Unit {
+fn increment_counter(counter : Ref[Int32]) -> Unit {
   counter.val = counter.val + 1
 }
 
@@ -524,11 +525,11 @@ fn[T : Show] double_string(t : T) -> String {
 
 ### Named Parameters
 
-MoonBit functions also support named arguments with an optional
-default value using the `label? : Type` syntax:
+MoonBit functions also support named arguments using `label~ : Type`.
+To provide a default value, use `label~ : Type = default_expr`:
 
 ```moonbit
-fn named_args(named~ : Int, optional? : Int = 42) -> Int {
+fn named_args(named~ : Int32, optional~ : Int32 = 42) -> Int32 {
   named + optional
 }
 
@@ -560,7 +561,7 @@ In MoonBit, to return an optional value, you will simply need to return `T?`
 (shorthand for `Option[T]`):
 
 ```moonbit
-fn maybe_divide(a : Int, b : Int) -> Int? {
+fn maybe_divide(a : Int32, b : Int32) -> Int32? {
   if b == 0 {
     None
   } else {
@@ -602,7 +603,7 @@ position, where `E` is an error type declared with `suberror`:
 ```moonbit
 suberror ValueError { ValueError(String) }
 
-fn divide(a : Int, b : Int) -> Int raise ValueError {
+fn divide(a : Int32, b : Int32) -> Int32 raise ValueError {
   if b == 0 {
     raise ValueError("division by zero")
   }
@@ -619,13 +620,18 @@ fn use_divide_propagate() -> Unit raise ValueError {
   println(q) // Use the quotient
 }
 
-// Option 2: Use `try?` to convert the error to a `Result[T, E]` type.
+// Option 2: Use `try { .. } catch { .. }` to convert the error to a
+// `Result[T, E]` type.
 fn use_divide_try() -> Unit raise ValueError {
   // The type annotation is optional
   let mq : Result[
-    Int,
+    Int32,
     ValueError,
-  ] = try? divide(10, 2)
+  ] = try {
+    Ok(divide(10, 2))
+  } catch {
+    e => Err(e)
+  }
   match mq { // Refer to the section on pattern matching for more details
     Err(e) => raise e
     Ok(q) => println(q) // Use the quotient
@@ -666,7 +672,7 @@ MoonBit, on the other hand, offers comprehensive pattern matching with the `matc
 You can match against literal values such as booleans, integers, strings, etc.:
 
 ```moonbit
-fn fibonacci(n : Int) -> Int {
+fn fibonacci(n : Int32) -> Int32 {
   match n {
     0 => 0
     // `|` combines multiple patterns
@@ -681,9 +687,9 @@ In addition, it is possible to perform destructuring of structures and tuples:
 
 ```moonbit
 struct Point3D {
-  x : Int
-  y : Int
-  z : Int
+  x : Int32
+  y : Int32
+  z : Int32
 }
 
 fn use_point3d(p : Point3D) -> Unit {
@@ -700,7 +706,7 @@ fn use_point3d(p : Point3D) -> Unit {
 Finally, array patterns allow you to easily destructure arrays, bytes, strings, and views:
 
 ```moonbit
-fn categorize_array(array : Array[Int]) -> String {
+fn categorize_array(array : Array[Int32]) -> String {
   match array {
     [] => "empty"
     [x] => "only=\{x}"
@@ -902,11 +908,11 @@ MoonBit traits can explicitly extend other traits, allowing you to build on exis
 
 ```moonbit
 pub(open) trait Position {
-  pos(Self) -> (Int, Int)
+  pos(Self) -> (Int32, Int32)
 }
 
 pub(open) trait Draw {
-  draw(Self, Int, Int) -> Unit
+  draw(Self, Int32, Int32) -> Unit
 }
 
 pub(open) trait Object: Position + Draw {
@@ -995,14 +1001,15 @@ that they will be treated as a whole by the toolchain.
 For definitions within source files of another directory, however,
 you would need to import them before they can be used.
 
-In MoonBit, on the other hand, the default project structure provided by
-`moon new` is more organized, as shown below:
+In MoonBit, a project can use a binary-and-library structure such as the one
+below. Starting from `moon new`, move the packages under `src` when you want
+this layout and set the module's source directory accordingly:
 
 ```txt
 my-project
 ├── LICENSE
 ├── README.md
-├── moon.mod.json
+├── moon.mod
 └── src
     ├── lib
     │   ├── hello.mbt
@@ -1014,13 +1021,11 @@ my-project
 ```
 
 This demonstrates a typical "binary-and-library" project structure in MoonBit,
-located in the `src` directory. This is declared in `moon.mod.json` like so
+located in the `src` directory. This is declared in `moon.mod` like so
 (with irrelevant parts omitted):
 
-```json
-{
-  "source": "src"
-}
+```moonbit
+source = "src"
 ```
 
 This is the module configuration file that also registers the project's
@@ -1036,9 +1041,7 @@ import {
   "username/hello/lib",
 }
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")
 ```
 
 Similarly to Go, MoonBit treats all `.mbt` files under a same package directory
@@ -1071,10 +1074,10 @@ import (
 )
 ```
 
-MoonBit uses a different approach with `moon.mod.json` for module configuration and
+MoonBit uses a different approach with `moon.mod` for module configuration and
 `moon.pkg` for package configuration.
 
-First, declare dependencies in the `"deps"` section of your `moon.mod.json`.
+First, declare module dependencies with an `import` declaration in `moon.mod`.
 This is usually done with the `moon add <package>` command.
 
 For example, to use `moonbitlang/x`, you would run:
@@ -1083,13 +1086,12 @@ For example, to use `moonbitlang/x`, you would run:
 $ moon add moonbitlang/x
 ```
 
-... which would result in a `moon.mod.json` file like so (with irrelevant parts omitted):
+... which adds an entry like the following to `moon.mod` (the resolved version
+may differ):
 
-```json
-{
-  "deps": {
-    "moonbitlang/x": "*"
-  }
+```moonbit
+import {
+  "moonbitlang/x@0.4.6",
 }
 ```
 
@@ -1182,7 +1184,7 @@ code generation backend being used:
 
 ## Getting Started
 
-1. Check out our [installation guide](../tour.md#installation).
+1. Check out our [installation guide](https://docs.moonbitlang.com/en/latest/tutorial/tour.html#installation).
 2. Create your first MoonBit project:
    ```console
    $ moon new hello-world
@@ -1203,7 +1205,7 @@ Thus, MoonBit will be an interesting option for your project if you embrace:
 
 ## Next Steps
 
-- Explore the [Language Fundamentals](../../language/fundamentals.md)
-- Learn about [Error Handling](../../language/error-handling.md)
-- Understand [Methods and Traits](../../language/methods.md)
-- Check out [FFI capabilities](../../language/ffi.md) for interop
+- Explore the [Language Fundamentals](https://docs.moonbitlang.com/en/latest/language/fundamentals.html)
+- Learn about [Error Handling](https://docs.moonbitlang.com/en/latest/language/error-handling.html)
+- Understand [Methods and Traits](https://docs.moonbitlang.com/en/latest/language/methods.html)
+- Check out [FFI capabilities](https://docs.moonbitlang.com/en/latest/language/ffi.html) for interop

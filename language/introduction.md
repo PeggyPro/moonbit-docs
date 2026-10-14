@@ -12,12 +12,12 @@ A MoonBit program consists of top-level definitions including:
 MoonBit distinguishes between statements and expressions. In a function body, only the last clause should be an expression, which serves as a return value. For example:
 
 ```moonbit
-fn foo() -> Int {
+fn foo() -> Int32 {
   let x = 1
   x + 1
 }
 
-fn bar() -> Int {
+fn bar() -> Int32 {
   let x = 1
   //! x + 1
   x + 2
@@ -82,12 +82,13 @@ The following are the keywords and should not be used:
 
 ```json
 [
-  "as", "else", "extern", "fn", "fnalias", "if", "let", "const", "match", "using",
-  "mut", "type", "typealias", "struct", "enum", "trait", "traitalias", "derive",
-  "while", "break", "continue", "import", "return", "throw", "raise", "try", "catch",
-  "pub", "priv", "readonly", "true", "false", "_", "test", "loop", "for", "in", "impl",
-  "with", "guard", "async", "is", "suberror", "and", "letrec", "enumview", "noraise",
-  "defer",
+  "as", "else", "extern", "fn", "if", "let", "const", "match", "using",
+  "mut", "type", "struct", "enum", "extenum", "trait",
+  "derive", "while", "break", "continue", "import", "return",
+  "throw", "raise", "try", "catch", "pub", "priv", "proof_assert", "proof_let",
+  "readonly", "true", "false", "_", "test", "loop", "for", "in", "impl", "with",
+  "guard", "async", "is", "suberror", "and", "letrec", "enumview", "noraise", "nocancel",
+  "defer", "lexmatch", "lexscan", "where", "declare", "nobreak",
 ]
 ```
 
@@ -98,14 +99,14 @@ They might be turned into keywords in the future.
 
 ```json
 [
-  "module", "move", "ref", "static", "super", "unsafe", "use", "where", "await",
+  "module", "move", "ref", "static", "super", "unsafe", "use", "await",
   "dyn", "abstract", "do", "final", "macro", "override", "typeof", "virtual", "yield",
   "local", "method", "alias", "assert", "package", "recur", "using", "enumview",
   "isnot", "define", "downcast", "inherit", "member", "namespace", "static", "upcast",
   "use", "void", "lazy", "include", "mixin", "protected", "sealed", "constructor",
   "atomic", "volatile", "anyframe", "anytype", "asm", "await", "comptime", "errdefer",
   "export", "opaque", "orelse", "resume", "threadlocal", "unreachable", "dynclass",
-  "dynobj", "dynrec", "var", "finally", "noasync",
+  "dynobj", "dynrec", "var", "finally", "noasync", "assume", "extend",
 ]
 ```
 
@@ -145,12 +146,10 @@ The previous two code snippets will print the following at runtime:
 2
 ```
 
-Only packages that are `main` packages can define such `main` function. Check out [build system tutorial](../toolchain/moon/tutorial.md) for detail. In current projects, this is configured in `moon.pkg`:
+Only packages that are `main` packages can define such `main` function. Check out [build system tutorial](https://docs.moonbitlang.com/en/latest/toolchain/moon/tutorial.html) for detail. In current projects, this is configured in `moon.pkg`:
 
 ```text
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")
 ```
 
 ### `test`
@@ -161,7 +160,7 @@ There's also a top-level structure called `test` block. A `test` block defines i
 test "test_name" {
   assert_eq(1 + 1, 2)
   assert_eq(2 + 2, 4)
-  inspect([1, 2, 3], content="[1, 2, 3]")
+  debug_inspect([1, 2, 3], content="[1, 2, 3]")
 }
 ```
 

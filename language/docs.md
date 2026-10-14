@@ -39,10 +39,10 @@ Wrap the snippet in `test { .. }` when you want a test block:
 /// Example:
 /// ```mbt check
 /// test {
-///   inspect(incr(41), content="42")
+///   inspect(@misc.incr(41), content="42")
 /// }
 /// ```
-pub fn incr(x : Int) -> Int {
+pub fn incr(x : Int32) -> Int32 {
   x + 1
 }
 ```
@@ -55,14 +55,14 @@ mark it with a language id other than `mbt check` on the markdown code block:
 /// ```c
 /// x++
 /// ```
-pub fn c_incr(x : Ref[Int]) -> Int {
+pub fn c_incr(x : Ref[Int32]) -> Int32 {
   let old = x.val
   x.val += 1
   old
 }
 ```
 
-Currently, document tests are always [blackbox tests](tests.md#blackbox-tests-and-whitebox-tests).
+Currently, document tests are always [blackbox tests](https://docs.moonbitlang.com/en/latest/language/tests.html#blackbox-tests-and-whitebox-tests).
 So private definitions cannot have document test.
 
 ## Literate `.mbt.md` Files
@@ -95,7 +95,7 @@ For example:
 ```markdown
 ```mbt nocheck
 ///|
-fn helper() -> Int {
+fn helper() -> Int32 {
   42
 }
 ```
@@ -129,8 +129,8 @@ moonbit:
 ---
 
 ```mbt check
-fn answer() -> Int {
-  let cell : @ref.Ref[Int] = { val: 41 }
+fn answer() -> Int32 {
+  let cell = @ref.Ref::{ val: 41 }
   cell.val + 1
 }
 
